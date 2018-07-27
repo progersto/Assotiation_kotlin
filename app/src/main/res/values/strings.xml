@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Assotiation</string>
+    <string name="splash">N Game</string>
+
+    <string name="text_selection_name">Укажите имена всех игроков</string>
+    <string name="text_selection_difficulty_level">Выберите сложность игры</string>
+    <string name="text_add_player">+ Добавить игрока</string>
+    <string name="text_next">Далее</string>
+    <string name="text_play">Играть</string>
+    <string name="name_player">Имя игрока</string>
+    <string name="easy_words">Простые слова</string>
+    <string name="normal_words">Обычные слова</string>
+    <string name="hard_words">Сложные слова</string>
+    <string name="example_easy_words">Кот, Шкаф, Дерево</string>
+    <string name="example_normal_words">Анонс, Секатор, Торжество</string>
+    <string name="example_hard_words">Концепция, Мышиная возня, Аллерген</string>
+</resources>
