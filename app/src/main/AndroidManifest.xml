@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activities.SplashActivity"
+        <activity android:name=".splash.SplashActivity"
             android:theme="@style/Splash">
 
             <intent-filter>
@@ -25,7 +25,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".initgame.InitGameActivity"
             android:windowSoftInputMode="adjustPan">
         </activity>
     </application>

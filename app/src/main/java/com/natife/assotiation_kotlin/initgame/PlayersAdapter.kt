@@ -1,4 +1,4 @@
-package com.natife.assotiation_kotlin.adapters
+package com.natife.assotiation_kotlin.initgame
 
 import android.content.Context
 import android.support.constraint.ConstraintLayout

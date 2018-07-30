@@ -1,12 +1,10 @@
-package com.natife.assotiation_kotlin.activities
+package com.natife.assotiation_kotlin.splash
 
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
-
-import com.natife.assotiation_kotlin.MainActivity
 import com.natife.assotiation_kotlin.R
-
+import com.natife.assotiation_kotlin.initgame.InitGameActivity.Companion.start
 
 class SplashActivity : AppCompatActivity() {
 
@@ -15,9 +13,9 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler().postDelayed({
-            MainActivity.start(this@SplashActivity)
+            start(this@SplashActivity)
             finish()
-        }, 200)
+        }, 500)
     }
 
 
