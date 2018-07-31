@@ -1,12 +1,11 @@
 package com.natife.assotiation_kotlin.initgame
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Window
 import com.natife.assotiation_kotlin.R
-import java.security.AccessController.getContext
-
 
 class InitGamePresenter(
 //Компоненты MVP приложения
@@ -42,8 +41,15 @@ class InitGamePresenter(
             //start to play...
 
         } else {
-            mView.changeScreen(true)
-            flagStartGame = true
+            if (listName.contains("")){
+                android.support.v7.app.AlertDialog.Builder(mView.contextActivity())
+                        .setMessage(R.string.set_name)
+                        .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
+                        .show()
+            }else {
+                mView.changeScreen(true)
+                flagStartGame = true
+            }
         }
     }
 

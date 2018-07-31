@@ -94,7 +94,7 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
                     startActivityForResult(intent, VOICE_RECOGNIZER)
                 } catch (a: ActivityNotFoundException) {
                     Toast.makeText(this@InitGameActivity,
-                            resources.getString(R.string.error_voice_not_support), Toast.LENGTH_SHORT).show()
+                            R.string.error_voice_not_support, Toast.LENGTH_SHORT).show()
                 }
             }
         }
