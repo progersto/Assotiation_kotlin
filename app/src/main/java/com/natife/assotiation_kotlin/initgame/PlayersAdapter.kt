@@ -1,6 +1,7 @@
 package com.natife.assotiation_kotlin.initgame
 
 import android.content.Context
+import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
@@ -10,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -18,7 +20,7 @@ import com.natife.assotiation_kotlin.R
 
 import java.util.ArrayList
 
-class PlayersAdapter(private val context: Context) : RecyclerView.Adapter<PlayersAdapter.ViewHolder>() {
+class PlayersAdapter(private val context: Context, private val voiceIconListener: OnItemVoiceIconListener) : RecyclerView.Adapter<PlayersAdapter.ViewHolder>() {
     private val inflater: LayoutInflater
     private var list: MutableList<String> = ArrayList()
     private var listColor: List<Int> = ArrayList()
@@ -59,7 +61,7 @@ class PlayersAdapter(private val context: Context) : RecyclerView.Adapter<Player
     inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         internal var constraint_item_player: ConstraintLayout
         internal var imageColor: ImageView
-        internal var editTextPlayerName: TextView
+        internal var editTextPlayerName: EditText
         internal var imageVoice: RelativeLayout
 
         init {
@@ -75,11 +77,13 @@ class PlayersAdapter(private val context: Context) : RecyclerView.Adapter<Player
         Log.d("ddd", "onBindViewHolder list = $list")
 
         holder.editTextPlayerName.hint = context.resources.getString(R.string.name_player) + " " + (position + 1)
-        holder.editTextPlayerName.text = list[position]
+        holder.editTextPlayerName.setText(list[position])
 
         holder.imageColor.setColorFilter(ContextCompat.getColor(context, listColor[position]))
 
-        val listener = View.OnClickListener { }
+        val listener = View.OnClickListener {
+            voiceIconListener.onItemVoiceIconClick(holder.adapterPosition, holder.editTextPlayerName)
+        }
         holder.imageVoice.setOnClickListener(listener)
     }//onBindViewHolder
 
@@ -103,9 +107,5 @@ class PlayersAdapter(private val context: Context) : RecyclerView.Adapter<Player
         notifyItemRemoved(position)//updates after removing Item at position
         notifyDataSetChanged()
     }//deleteFromListAdapter
-
-    companion object {
-        private val PENDING_REMOVAL_TIMEOUT = 3000 // 3sec
-    }
 
 }//class AdapterProductList

@@ -17,4 +17,5 @@
 
     <string name="version_game">Версия игры 1.0</string>
     <string name="contact">Разработчик <a href="https://natife.com">Natife.com</a></string>
+    <string name="error_voice_not_support">Ой! Ваше устройство не поддерживает голосовой набор текста</string>
 </resources>

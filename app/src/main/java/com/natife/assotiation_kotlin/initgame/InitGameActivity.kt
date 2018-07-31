@@ -1,18 +1,19 @@
 package com.natife.assotiation_kotlin.initgame
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import com.natife.assotiation_kotlin.R
+import java.util.*
 
 class InitGameActivity : AppCompatActivity(), InitGameContract.View {
 
@@ -26,6 +27,9 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
     private var viewRadioButton: View? = null
     private var textSelection: TextView? = null
     private var mPresenter: InitGameContract.Presenter? = null
+    private lateinit var onItemVoiceIconListener: OnItemVoiceIconListener
+    private lateinit var nameForVoiceTemp: EditText
+    private val VOICE_RECOGNIZER: Int = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +41,7 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         initView()
 
         recyclerPlayers.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        adapterPlayers = PlayersAdapter(this@InitGameActivity)
+        adapterPlayers = PlayersAdapter(this@InitGameActivity, onItemVoiceIconListener)
         recyclerPlayers.adapter = adapterPlayers
 
         val callback = object : ItemTouchHelper.SimpleCallback(
@@ -49,7 +53,7 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, i: Int) {
                 val swipedPosition = viewHolder.adapterPosition
 
-                if(adapterPlayers.itemCount > 3) {
+                if (adapterPlayers.itemCount > 3) {
                     adapterPlayers.deleteFromListAdapter(swipedPosition)
                 }
             }
@@ -80,6 +84,20 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         btnNext!!.setOnClickListener { mPresenter!!.btnNextClicked() }
         back!!.setOnClickListener { mPresenter!!.btnBackClicked() }
         settings!!.setOnClickListener { mPresenter!!.btnSettingsClicked() }
+        onItemVoiceIconListener = object : OnItemVoiceIconListener {
+            override fun onItemVoiceIconClick(position: Int, editText: EditText) {
+                // call the voice dialing activity
+                nameForVoiceTemp = editText
+                val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, Locale.getDefault())
+                try {
+                    startActivityForResult(intent, VOICE_RECOGNIZER)
+                } catch (a: ActivityNotFoundException) {
+                    Toast.makeText(this@InitGameActivity,
+                            resources.getString(R.string.error_voice_not_support), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }//initView
 
 
@@ -106,6 +124,20 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
 
         fun start(activity: Activity) {
             activity.startActivity(Intent(activity, InitGameActivity::class.java))
+        }
+    }
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            VOICE_RECOGNIZER -> {
+                // result of voice dialing
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    val yourResult = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)[0]
+                    nameForVoiceTemp.setText(yourResult)
+                }
+            }
         }
     }
 }
