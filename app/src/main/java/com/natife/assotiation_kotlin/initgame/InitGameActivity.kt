@@ -2,37 +2,29 @@ package com.natife.assotiation_kotlin.initgame
 
 import android.app.Activity
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.natife.assotiation_kotlin.R
 
-
 class InitGameActivity : AppCompatActivity(), InitGameContract.View {
-    override fun resourceForListName(): Resources {
-        return resources
-    }
 
-
-    private var recyclerPlayers: RecyclerView? = null
+    private lateinit var recyclerPlayers: RecyclerView
     private var back: ImageView? = null
     private var settings: ImageView? = null
     private var btnAddPlayer: RelativeLayout? = null
     private var btnNext: RelativeLayout? = null
     private var textBtnNext: TextView? = null
-    private var adapterPlayers: PlayersAdapter? = null
+    private lateinit var adapterPlayers: PlayersAdapter
     private var viewRadioButton: View? = null
     private var textSelection: TextView? = null
     private var mPresenter: InitGameContract.Presenter? = null
-
-//    override fun resourceForListName: Resources
-//        get() = this.resources
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +35,31 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
 
         initView()
 
-        recyclerPlayers!!.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        recyclerPlayers.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        adapterPlayers = PlayersAdapter(this@InitGameActivity)
+        recyclerPlayers.adapter = adapterPlayers
+
+        val callback = object : ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder1: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, i: Int) {
+                val swipedPosition = viewHolder.adapterPosition
+
+                if(adapterPlayers.itemCount > 3) {
+                    adapterPlayers.deleteFromListAdapter(swipedPosition)
+                }
+            }
+
+            override fun getSwipeDirs(recyclerView: RecyclerView, holder: RecyclerView.ViewHolder): Int {
+                return if (adapterPlayers.itemCount > 3) super.getSwipeDirs(recyclerView, holder) else 0
+            }
+        }
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(recyclerPlayers)
+
         mPresenter!!.initPlayerList()
     }//onCreate
 
@@ -64,10 +80,10 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
     }//initView
 
 
-    override fun showListPlayers(listName: List<String>, listColor: List<Int>) {
-        adapterPlayers = PlayersAdapter(this@InitGameActivity, listName, listColor)
-        recyclerPlayers!!.adapter = adapterPlayers
+    override fun showListPlayers(listName: MutableList<String>, listColor: MutableList<Int>) {
+        adapterPlayers!!.setData(listName, listColor)
     }
+
 
     override fun changeScreen(flagChange: Boolean) {
         recyclerPlayers!!.visibility = if (flagChange) View.GONE else View.VISIBLE

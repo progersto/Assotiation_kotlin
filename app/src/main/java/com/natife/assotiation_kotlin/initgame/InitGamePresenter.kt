@@ -1,9 +1,12 @@
 package com.natife.assotiation_kotlin.initgame
 
-class InitGamePresenter//передаем экземпляр View
-(//Компоненты MVP приложения
+
+class InitGamePresenter(
+//Компоненты MVP приложения
+
         private val mView: InitGameContract.View) : InitGameContract.Presenter {
     private val mRepository: InitGameContract.Repository
+
     private var listName = mutableListOf<String>()
     private var listColor = mutableListOf<Int>()
     private var flagStartGame = false
@@ -14,14 +17,14 @@ class InitGamePresenter//передаем экземпляр View
 
 
     override fun initPlayerList() {
-        listName = mRepository.createListNamePlayers(mView.resourceForListName())
+        listName = mRepository.createListNamePlayers()
         listColor = mRepository.createListColor()
         mView.showListPlayers(listName, listColor)
     }
 
     override fun btnAddPlayerClicked() {
         if (listName.size <= 5) {
-            listName = mRepository.addNamePlayerInList(mView.resourceForListName())
+            listName = mRepository.addNamePlayerInList()
             mView.showListPlayers(listName, listColor)
         }
     }

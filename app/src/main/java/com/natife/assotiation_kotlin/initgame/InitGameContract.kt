@@ -1,14 +1,9 @@
 package com.natife.assotiation_kotlin.initgame
 
-import android.content.res.Resources
-
 interface InitGameContract {
 
     interface View {
-
-        fun resourceForListName(): Resources
-
-        fun showListPlayers(listName: List<String>, listColor: List<Int>)
+        fun showListPlayers(listName: MutableList<String>, listColor: MutableList<Int>)
 
         fun changeScreen(flagChange: Boolean)
     }
@@ -28,11 +23,10 @@ interface InitGameContract {
     }
 
     interface Repository {
-        fun createListNamePlayers(resources: Resources): MutableList<String>
+        fun createListNamePlayers(): MutableList<String>
 
         fun createListColor(): MutableList<Int>
 
-        fun addNamePlayerInList(resources: Resources): MutableList<String>
+        fun addNamePlayerInList(): MutableList<String>
     }
-
 }
