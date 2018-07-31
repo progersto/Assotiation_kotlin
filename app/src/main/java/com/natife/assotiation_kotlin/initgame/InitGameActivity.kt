@@ -1,6 +1,7 @@
 package com.natife.assotiation_kotlin.initgame
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -74,25 +75,31 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         textBtnNext = findViewById(R.id.textBtnNext)
         viewRadioButton = findViewById(R.id.viewRadioButton)
 
+
         btnAddPlayer!!.setOnClickListener { mPresenter!!.btnAddPlayerClicked() }
         btnNext!!.setOnClickListener { mPresenter!!.btnNextClicked() }
         back!!.setOnClickListener { mPresenter!!.btnBackClicked() }
+        settings!!.setOnClickListener { mPresenter!!.btnSettingsClicked() }
     }//initView
 
 
     override fun showListPlayers(listName: MutableList<String>, listColor: MutableList<Int>) {
-        adapterPlayers!!.setData(listName, listColor)
+        adapterPlayers.setData(listName, listColor)
     }
 
 
     override fun changeScreen(flagChange: Boolean) {
-        recyclerPlayers!!.visibility = if (flagChange) View.GONE else View.VISIBLE
+        recyclerPlayers.visibility = if (flagChange) View.GONE else View.VISIBLE
         viewRadioButton!!.visibility = if (flagChange) View.VISIBLE else View.GONE
         back!!.visibility = if (flagChange) View.VISIBLE else View.GONE
-        settings!!.visibility = if (flagChange) View.VISIBLE else View.GONE
+        settings!!.setImageResource(if (flagChange) R.drawable.ic_settings_black_24dp else R.drawable.ic_error_outline_black_24dp)
         btnAddPlayer!!.visibility = if (flagChange) View.GONE else View.VISIBLE
         textBtnNext!!.setText(if (flagChange) R.string.text_play else R.string.text_next)
         textSelection!!.setText(if (flagChange) R.string.text_selection_difficulty_level else R.string.text_selection_name)
+    }
+
+    override fun contextActivity(): Context {
+        return this
     }
 
     companion object {

@@ -14,4 +14,7 @@
     <string name="example_easy_words">Кот, Шкаф, Дерево</string>
     <string name="example_normal_words">Анонс, Секатор, Торжество</string>
     <string name="example_hard_words">Концепция, Мышиная возня, Аллерген</string>
+
+    <string name="version_game">Версия игры 1.0</string>
+    <string name="contact">Разработчик <a href="https://natife.com">Natife.com</a></string>
 </resources>

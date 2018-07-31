@@ -1,11 +1,15 @@
 package com.natife.assotiation_kotlin.initgame
 
+import android.content.Context
+
 interface InitGameContract {
 
     interface View {
         fun showListPlayers(listName: MutableList<String>, listColor: MutableList<Int>)
 
         fun changeScreen(flagChange: Boolean)
+
+        fun contextActivity(): Context
     }
 
     interface Presenter {

@@ -1,5 +1,12 @@
 package com.natife.assotiation_kotlin.initgame
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.Window
+import com.natife.assotiation_kotlin.R
+import java.security.AccessController.getContext
+
 
 class InitGamePresenter(
 //Компоненты MVP приложения
@@ -46,7 +53,11 @@ class InitGamePresenter(
     }
 
     override fun btnSettingsClicked() {
-
+        val dialog = Dialog(mView.contextActivity())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.inform_dialog)
+        dialog.show()
     }
 
     override fun onDestroy() {
