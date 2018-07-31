@@ -17,7 +17,7 @@ interface InitGameContract {
 
         fun btnAddPlayerClicked()
 
-        fun btnNextClicked()
+        fun btnNextClicked(difficultLevel: Int)
 
         fun btnBackClicked()
 
@@ -32,5 +32,7 @@ interface InitGameContract {
         fun createListColor(): MutableList<Int>
 
         fun addNamePlayerInList(): MutableList<String>
+
+        fun createListWords(difficultLevel: Int): MutableList<String>
     }
 }

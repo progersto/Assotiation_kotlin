@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.Window
 import com.natife.assotiation_kotlin.R
 
@@ -16,6 +17,8 @@ class InitGamePresenter(
     private var listName = mutableListOf<String>()
     private var listColor = mutableListOf<Int>()
     private var flagStartGame = false
+    private var listWords = mutableListOf<String>()
+
 
     init {
         this.mRepository = InitGameRepository()
@@ -35,9 +38,11 @@ class InitGamePresenter(
         }
     }
 
-    override fun btnNextClicked() {
+    override fun btnNextClicked(difficultLevel: Int) {
         if (flagStartGame) {
             flagStartGame = false
+            listWords = mRepository.createListWords(difficultLevel)
+            Log.d("ddd", "listWords = $listWords")
             //start to play...
 
         } else {

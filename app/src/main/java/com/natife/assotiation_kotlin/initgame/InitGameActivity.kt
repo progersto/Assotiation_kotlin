@@ -13,6 +13,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.widget.*
 import com.natife.assotiation_kotlin.R
+import com.natife.assotiation_kotlin.R.id.*
 import java.util.*
 
 class InitGameActivity : AppCompatActivity(), InitGameContract.View {
@@ -30,6 +31,12 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
     private lateinit var onItemVoiceIconListener: OnItemVoiceIconListener
     private lateinit var nameForVoiceTemp: EditText
     private val VOICE_RECOGNIZER: Int = 1000
+    private var radio_easy: RadioButton? = null
+    private var radio_normal: RadioButton? = null
+    private var radio_hard: RadioButton? = null
+    private val LEVEL_EASE = 1
+    private val LEVEL_NORMAL = 2
+    private val LEVEL_HARD = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,10 +85,12 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         btnNext = findViewById(R.id.buttonNext)
         textBtnNext = findViewById(R.id.textBtnNext)
         viewRadioButton = findViewById(R.id.viewRadioButton)
-
+        radio_easy = findViewById(R.id.radio_easy)
+        radio_normal = findViewById(R.id.radio_normal)
+        radio_hard = findViewById(R.id.radio_hard)
 
         btnAddPlayer!!.setOnClickListener { mPresenter!!.btnAddPlayerClicked() }
-        btnNext!!.setOnClickListener { mPresenter!!.btnNextClicked() }
+        btnNext!!.setOnClickListener { mPresenter!!.btnNextClicked(checkDifficultLevel()) }
         back!!.setOnClickListener { mPresenter!!.btnBackClicked() }
         settings!!.setOnClickListener { mPresenter!!.btnSettingsClicked() }
         onItemVoiceIconListener = object : OnItemVoiceIconListener {
@@ -100,6 +109,13 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         }
     }//initView
 
+    private fun checkDifficultLevel(): Int {
+        var levelDifficult = LEVEL_EASE
+        if (radio_easy!!.isChecked()) levelDifficult = LEVEL_EASE
+        if (radio_normal!!.isChecked()) levelDifficult = LEVEL_NORMAL
+        if (radio_hard!!.isChecked()) levelDifficult = LEVEL_HARD
+        return levelDifficult
+    }
 
     override fun showListPlayers(listName: MutableList<String>, listColor: MutableList<Int>) {
         adapterPlayers.setData(listName, listColor)
