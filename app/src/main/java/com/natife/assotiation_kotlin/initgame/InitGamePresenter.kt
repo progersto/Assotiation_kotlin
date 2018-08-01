@@ -41,7 +41,7 @@ class InitGamePresenter(
     override fun btnNextClicked(difficultLevel: Int) {
         if (flagStartGame) {
             flagStartGame = false
-            listWords = mRepository.createListWords(difficultLevel)
+            listWords = mRepository.createListWords(difficultLevel, mView.contextActivity())
             Log.d("ddd", "listWords = $listWords")
             //start to play...
 

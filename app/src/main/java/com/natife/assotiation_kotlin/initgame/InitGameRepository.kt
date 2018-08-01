@@ -1,7 +1,8 @@
 package com.natife.assotiation_kotlin.initgame
 
-import android.util.Log
+import android.content.Context
 import com.natife.assotiation_kotlin.R
+import com.natife.assotiation_kotlin.utils.ListGenerator
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -27,13 +28,9 @@ class InitGameRepository : InitGameContract.Repository {
                 R.color.colorPlayer3, R.color.colorPlayer4, R.color.colorPlayer5, R.color.colorPlayer6)
     }
 
-    override fun createListWords(difficultLevel: Int): MutableList<String> {
-        Log.d("ddd", "ddd")
-        val list = java.util.ArrayList<String>()
-        list.add("d")
-        // создаем список слов из файла в assets...
 
-        return list
+    override fun createListWords(difficultLevel: Int, context: Context): MutableList<String> {
+        return ListGenerator.createListSelectedLevel( context,difficultLevel)
     }
 
 }
