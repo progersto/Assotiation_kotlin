@@ -35,5 +35,13 @@
         <item name="android:src">@drawable/circle</item>
     </style>
 
+    <style name="PlusTheme">
+        <item name="android:background">@drawable/plus</item>
+    </style>
+
+    <style name="MinusTheme">
+        <item name="android:background">@drawable/minus</item>
+    </style>
+
 
 </resources>

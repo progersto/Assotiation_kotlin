@@ -20,4 +20,11 @@
     <string name="error_voice_not_support">Ой! Ваше устройство не поддерживает голосовой набор текста</string>
     <string name="ok">Ок</string>
     <string name="set_name">Укажите имена!</string>
+
+    <string name="set_rules_game">Настройки правил игры</string>
+    <string name="time_move">Время хода (сек)</string>
+    <string name="time_game">Время игры (мин)</string>
+    <string name="number_of_circles">Количество кругов</string>
+    <string name="save_game">Сохранить</string>
+
 </resources>

@@ -1,10 +1,10 @@
 package com.natife.assotiation_kotlin.initgame
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.Log
+import android.view.View
 import android.view.Window
 import com.natife.assotiation_kotlin.R
 
@@ -67,7 +67,17 @@ class InitGamePresenter(
         val dialog = Dialog(mView.contextActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setContentView(R.layout.inform_dialog)
+        if (flagStartGame){
+            dialog.setContentView(R.layout.dialog_settings_game)
+        }else{
+            dialog.setContentView(R.layout.dialog_inform)
+        }
+        dialog.findViewById<View>(R.id.number_of_circles_minus).setOnClickListener{}
+        dialog.findViewById<View>(R.id.number_of_circles_plus).setOnClickListener{}
+        dialog.findViewById<View>(R.id.time_game_minus).setOnClickListener{}
+        dialog.findViewById<View>(R.id.time_game_plus).setOnClickListener{}
+        dialog.findViewById<View>(R.id.time_move_plus).setOnClickListener{}
+        dialog.findViewById<View>(R.id.time_move_minus).setOnClickListener{}
         dialog.show()
     }
 

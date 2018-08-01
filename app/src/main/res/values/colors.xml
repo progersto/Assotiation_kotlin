@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorTextSelextion">#fff</color>
+    <color name="colorPressed">#70ffffff</color>
     <color name="colorButton">#0C4FBD</color>
     <color name="colorHint">#b3b2b2</color>
 
