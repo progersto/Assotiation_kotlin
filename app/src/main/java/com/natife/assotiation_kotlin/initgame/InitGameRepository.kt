@@ -24,8 +24,8 @@ class InitGameRepository : InitGameContract.Repository {
     }
 
     override fun createListColor(): MutableList<Int> {
-        return Arrays.asList(R.color.colorPlayer1, R.color.colorPlayer2,
-                R.color.colorPlayer3, R.color.colorPlayer4, R.color.colorPlayer5, R.color.colorPlayer6)
+        return java.util.ArrayList(Arrays.asList(R.color.colorPlayer1, R.color.colorPlayer2,
+                R.color.colorPlayer3, R.color.colorPlayer4, R.color.colorPlayer5, R.color.colorPlayer6))
     }
 
 

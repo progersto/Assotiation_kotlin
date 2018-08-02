@@ -17,7 +17,6 @@ import android.view.View
 import android.view.Window
 import android.widget.*
 import com.natife.assotiation_kotlin.R
-import com.natife.assotiation_kotlin.R.id.*
 import java.util.*
 
 class InitGameActivity : AppCompatActivity(), InitGameContract.View {
@@ -44,7 +43,7 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_initgame)
 
         //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс InitGameContract.View
         mPresenter = InitGamePresenter(this)

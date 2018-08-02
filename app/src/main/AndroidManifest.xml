@@ -9,10 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".splash.SplashActivity"
+        <activity
+            android:name=".splash.SplashActivity"
             android:theme="@style/Splash">
-
             <intent-filter>
                 <action
                     android:name="android.intent.action.MAIN"
@@ -23,11 +22,10 @@
                     android:screenOrientation="portrait" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".initgame.InitGameActivity"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".choose_how_play.ChooseHowPlayActivity"/>
     </application>
 
 </manifest>

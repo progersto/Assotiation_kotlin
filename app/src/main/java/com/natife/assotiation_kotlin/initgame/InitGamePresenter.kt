@@ -1,17 +1,13 @@
 package com.natife.assotiation_kotlin.initgame
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.content.Intent
 import android.util.Log
-import android.view.View
-import android.view.Window
 import com.natife.assotiation_kotlin.R
+import com.natife.assotiation_kotlin.choose_how_play.ChooseHowPlayActivity
+import java.util.ArrayList
 
-class InitGamePresenter(
-//Компоненты MVP приложения
+class InitGamePresenter(private val mView: InitGameContract.View) : InitGameContract.Presenter {
 
-        private val mView: InitGameContract.View) : InitGameContract.Presenter {
     private val mRepository: InitGameContract.Repository
 
     private var listName = mutableListOf<String>()
@@ -43,7 +39,13 @@ class InitGamePresenter(
             flagStartGame = false
             listWords = mRepository.createListWords(difficultLevel, mView.contextActivity())
             Log.d("ddd", "listWords = $listWords")
+
             //start to play...
+            val intent = Intent(mView.contextActivity(), ChooseHowPlayActivity::class.java)
+            intent.putStringArrayListExtra("listWords", listWords as ArrayList<String>?)
+            intent.putIntegerArrayListExtra("listColor", listColor as ArrayList<Int>?)
+            intent.putStringArrayListExtra("listName", listName as ArrayList<String>?)
+            mView.contextActivity().startActivity(intent)
 
         } else {
             if (listName.contains("")) {
