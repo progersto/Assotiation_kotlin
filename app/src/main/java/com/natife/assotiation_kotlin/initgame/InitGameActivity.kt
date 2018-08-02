@@ -1,9 +1,12 @@
 package com.natife.assotiation_kotlin.initgame
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.support.v7.app.AppCompatActivity
@@ -11,6 +14,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import android.view.Window
 import android.widget.*
 import com.natife.assotiation_kotlin.R
 import com.natife.assotiation_kotlin.R.id.*
@@ -136,12 +140,26 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         return this
     }
 
+    override fun showSettingsDialog(flagStartGame: Boolean) {
+        if (flagStartGame) {
+            val dialogSettings = DialogSettings()
+            dialogSettings.show(supportFragmentManager, "dialogSettings")
+        } else {
+            val dialog = Dialog(this)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.setContentView(R.layout.dialog_inform)
+            dialog.show()
+        }
+    }
+
     companion object {
 
         fun start(activity: Activity) {
             activity.startActivity(Intent(activity, InitGameActivity::class.java))
         }
     }
+
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

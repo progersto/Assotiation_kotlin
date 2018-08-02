@@ -10,6 +10,8 @@ interface InitGameContract {
         fun changeScreen(flagChange: Boolean)
 
         fun contextActivity(): Context
+
+        fun showSettingsDialog(flagStartGame: Boolean)
     }
 
     interface Presenter {

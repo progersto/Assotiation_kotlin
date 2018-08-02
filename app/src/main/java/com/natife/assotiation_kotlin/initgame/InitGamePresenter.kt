@@ -46,12 +46,12 @@ class InitGamePresenter(
             //start to play...
 
         } else {
-            if (listName.contains("")){
+            if (listName.contains("")) {
                 android.support.v7.app.AlertDialog.Builder(mView.contextActivity())
                         .setMessage(R.string.set_name)
                         .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
                         .show()
-            }else {
+            } else {
                 mView.changeScreen(true)
                 flagStartGame = true
             }
@@ -64,21 +64,7 @@ class InitGamePresenter(
     }
 
     override fun btnSettingsClicked() {
-        val dialog = Dialog(mView.contextActivity())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        if (flagStartGame){
-            dialog.setContentView(R.layout.dialog_settings_game)
-        }else{
-            dialog.setContentView(R.layout.dialog_inform)
-        }
-        dialog.findViewById<View>(R.id.number_of_circles_minus).setOnClickListener{}
-        dialog.findViewById<View>(R.id.number_of_circles_plus).setOnClickListener{}
-        dialog.findViewById<View>(R.id.time_game_minus).setOnClickListener{}
-        dialog.findViewById<View>(R.id.time_game_plus).setOnClickListener{}
-        dialog.findViewById<View>(R.id.time_move_plus).setOnClickListener{}
-        dialog.findViewById<View>(R.id.time_move_minus).setOnClickListener{}
-        dialog.show()
+        mView.showSettingsDialog(flagStartGame)
     }
 
     override fun onDestroy() {
