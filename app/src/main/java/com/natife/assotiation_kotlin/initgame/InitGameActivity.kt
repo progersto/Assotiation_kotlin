@@ -114,9 +114,9 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
 
     private fun checkDifficultLevel(): Int {
         var levelDifficult = LEVEL_EASE
-        if (radio_easy!!.isChecked()) levelDifficult = LEVEL_EASE
-        if (radio_normal!!.isChecked()) levelDifficult = LEVEL_NORMAL
-        if (radio_hard!!.isChecked()) levelDifficult = LEVEL_HARD
+        if (radio_easy!!.isChecked) levelDifficult = LEVEL_EASE
+        if (radio_normal!!.isChecked) levelDifficult = LEVEL_NORMAL
+        if (radio_hard!!.isChecked) levelDifficult = LEVEL_HARD
         return levelDifficult
     }
 

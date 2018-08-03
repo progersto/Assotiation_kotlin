@@ -11,7 +11,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.natife.assotiation_kotlin.R
 
-class ChooseHowPlayActivity() : AppCompatActivity(), ChooseHowPlayContract.View {
+class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
     private var mPresenter: ChooseHowPlayContract.Presenter? = null
     private var listName: MutableList<String>? = null
@@ -20,19 +20,19 @@ class ChooseHowPlayActivity() : AppCompatActivity(), ChooseHowPlayContract.View 
     private var whoseTurn: TextView? = null
     private var results: ImageView? = null
     private var textSelection: TextView? = null
-    private var frame_word1: FrameLayout? = null
-    private var frame_word2: FrameLayout? = null
+    private var frameWord1: FrameLayout? = null
+    private var frameWord2: FrameLayout? = null
     private var word1: TextView? = null
     private var word2: TextView? = null
-    private var layout_show: FrameLayout? = null
-    private var layout_tell: FrameLayout? = null
-    private var layout_draw: FrameLayout? = null
+    private var layoutShow: FrameLayout? = null
+    private var layoutTell: FrameLayout? = null
+    private var layoutDraw: FrameLayout? = null
     private var iconShow: ImageView? = null
     private var iconTell: ImageView? = null
     private var iconDraw: ImageView? = null
-    private var text_draw: TextView? = null
-    private var text_show: TextView? = null
-    private var text_tell: TextView? = null
+    private var textDraw: TextView? = null
+    private var textShow: TextView? = null
+    private var textTell: TextView? = null
     private var buttonGo: RelativeLayout? = null
     private var colorPlayer = 0
 
@@ -48,92 +48,92 @@ class ChooseHowPlayActivity() : AppCompatActivity(), ChooseHowPlayContract.View 
         listColor = intent.getIntegerArrayListExtra("listColor") as MutableList<Int>
         listWords = intent.getStringArrayListExtra("listWords") as MutableList<String>
 
-        initViews();
+        initViews()
 
         mPresenter!!.findDataForFillFields(listName!!, listColor!!, listWords!!)
     }
 
     private fun initViews() {
-        whoseTurn = findViewById<TextView>(R.id.whose_turn)
-        results = findViewById<ImageView>(R.id.results)
-        textSelection = findViewById<TextView>(R.id.textSelection)
-        frame_word1 = findViewById<FrameLayout>(R.id.frame_word1)
-        frame_word2 = findViewById<FrameLayout>(R.id.frame_word2)
-        word1 = findViewById<TextView>(R.id.word1)
-        word2 = findViewById<TextView>(R.id.word2)
-        layout_show = findViewById<FrameLayout>(R.id.layout_show)
-        layout_tell = findViewById<FrameLayout>(R.id.layout_tell)
-        layout_draw = findViewById<FrameLayout>(R.id.layout_draw)
-        iconShow = findViewById<ImageView>(R.id.iconShow)
-        iconTell = findViewById<ImageView>(R.id.iconTell)
-        iconDraw = findViewById<ImageView>(R.id.icon_draw)
-        text_draw = findViewById<TextView>(R.id.text_draw)
-        text_show = findViewById<TextView>(R.id.text_show)
-        text_tell = findViewById<TextView>(R.id.text_tell)
-        buttonGo = findViewById<RelativeLayout>(R.id.buttonGo)
+        whoseTurn = findViewById(R.id.whose_turn)
+        results = findViewById(R.id.results)
+        textSelection = findViewById(R.id.textSelection)
+        frameWord1 = findViewById(R.id.frame_word1)
+        frameWord2 = findViewById(R.id.frame_word2)
+        word1 = findViewById(R.id.word1)
+        word2 = findViewById(R.id.word2)
+        layoutShow = findViewById(R.id.layout_show)
+        layoutTell = findViewById(R.id.layout_tell)
+        layoutDraw = findViewById(R.id.layout_draw)
+        iconShow = findViewById(R.id.iconShow)
+        iconTell = findViewById(R.id.iconTell)
+        iconDraw = findViewById(R.id.icon_draw)
+        textDraw = findViewById(R.id.text_draw)
+        textShow = findViewById(R.id.text_show)
+        textTell = findViewById(R.id.text_tell)
+        buttonGo = findViewById(R.id.buttonGo)
         word1!!.setOnClickListener {
-            mPresenter!!.word1Pressed(word1!!.getText().toString())
-            word1!!.setTextColor(resources.getColor(colorPlayer))
-            word2!!.setTextColor(resources.getColor(R.color.colorTextSelextion))
-            frame_word1!!.setForeground(resources.getDrawable(R.drawable.selected_action_and_word))
-            frame_word2!!.setForeground(resources.getDrawable(R.drawable.recycler_backgroind))
-            val gd = frame_word1!!.getForeground() as GradientDrawable
-            gd.setStroke(1, resources.getColor(colorPlayer))
+            mPresenter!!.word1Pressed(word1!!.text.toString())
+            word1!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
+            word2!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            frameWord1!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
+            frameWord2!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            val gd = frameWord1!!.foreground as GradientDrawable
+            gd.setStroke(1, ContextCompat.getColor(this, colorPlayer))
         }
         word2!!.setOnClickListener {
-            mPresenter!!.word1Pressed(word1!!.getText().toString())
-            word2!!.setTextColor(resources.getColor(colorPlayer))
-            word1!!.setTextColor(resources.getColor(R.color.colorTextSelextion))
-            frame_word2!!.setForeground(resources.getDrawable(R.drawable.selected_action_and_word))
-            frame_word1!!.setForeground(resources.getDrawable(R.drawable.recycler_backgroind))
-            val gd = frame_word2!!.getForeground() as GradientDrawable
-            gd.setStroke(1, resources.getColor(colorPlayer))
+            mPresenter!!.word1Pressed(word1!!.text.toString())
+            word2!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
+            word1!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            frameWord2!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
+            frameWord1!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            val gd = frameWord2!!.foreground as GradientDrawable
+            gd.setStroke(1, ContextCompat.getColor(this, colorPlayer))
         }
-        layout_show!!.setOnClickListener {
+        layoutShow!!.setOnClickListener {
             mPresenter!!.layoutShow_Pressed()
-            text_show!!.setTextColor(resources.getColor(colorPlayer))
-            text_tell!!.setTextColor(resources.getColor(R.color.colorTextSelextion))
-            text_draw!!.setTextColor(resources.getColor(R.color.colorTextSelextion))
+            textShow!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
+            textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
             iconDraw!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelextion))
             iconTell!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelextion))
             iconShow!!.setColorFilter(ContextCompat.getColor(this, colorPlayer))
-            layout_show!!.setForeground(resources.getDrawable(R.drawable.selected_action_and_word))
-            layout_tell!!.setForeground(resources.getDrawable(R.drawable.recycler_backgroind))
-            layout_draw!!.setForeground(resources.getDrawable(R.drawable.recycler_backgroind))
-            val gd = layout_show!!.getForeground() as GradientDrawable
-            gd.setStroke(1, resources.getColor(colorPlayer))
+            layoutShow!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
+            layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            layoutDraw!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            val gd = layoutShow!!.foreground as GradientDrawable
+            gd.setStroke(1, ContextCompat.getColor(this, colorPlayer))
         }
-        layout_tell!!.setOnClickListener {
+        layoutTell!!.setOnClickListener {
             mPresenter!!.layoutTell_Pressed()
-            text_show!!.setTextColor(resources.getColor(R.color.colorTextSelextion))
-            text_tell!!.setTextColor(resources.getColor(colorPlayer))
-            text_draw!!.setTextColor(resources.getColor(R.color.colorTextSelextion))
+            textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            textTell!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
+            textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
             iconDraw!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelextion))
             iconTell!!.setColorFilter(ContextCompat.getColor(this, colorPlayer))
             iconShow!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelextion))
-            layout_show!!.setForeground(resources.getDrawable(R.drawable.recycler_backgroind))
-            layout_tell!!.setForeground(resources.getDrawable(R.drawable.selected_action_and_word))
-            layout_draw!!.setForeground(resources.getDrawable(R.drawable.recycler_backgroind))
-            val gd = layout_tell!!.getForeground() as GradientDrawable
-            gd.setStroke(1, resources.getColor(colorPlayer))
+            layoutShow!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
+            layoutDraw!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            val gd = layoutTell!!.foreground as GradientDrawable
+            gd.setStroke(1, ContextCompat.getColor(this, colorPlayer))
         }
-        layout_draw!!.setOnClickListener {
+        layoutDraw!!.setOnClickListener {
             mPresenter!!.layoutDraw_Pressed()
             //color text
-            text_show!!.setTextColor(resources.getColor(R.color.colorTextSelextion))
-            text_tell!!.setTextColor(resources.getColor(R.color.colorTextSelextion))
-            text_draw!!.setTextColor(resources.getColor(colorPlayer))
+            textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            textDraw!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
             //color icon
             iconDraw!!.setColorFilter(ContextCompat.getColor(this, colorPlayer))
             iconTell!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelextion))
             iconShow!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelextion))
             //background
-            layout_show!!.setForeground(resources.getDrawable(R.drawable.recycler_backgroind))
-            layout_tell!!.setForeground(resources.getDrawable(R.drawable.recycler_backgroind))
-            layout_draw!!.setForeground(resources.getDrawable(R.drawable.selected_action_and_word))
+            layoutShow!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            layoutDraw!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
             //change color frame
-            val gd = layout_draw!!.getForeground() as GradientDrawable
-            gd.setStroke(1, resources.getColor(colorPlayer))
+            val gd = layoutDraw!!.foreground as GradientDrawable
+            gd.setStroke(1, ContextCompat.getColor(this, colorPlayer))
         }
         buttonGo!!.setOnClickListener { mPresenter!!.buttonGo() }
     }
@@ -148,7 +148,7 @@ class ChooseHowPlayActivity() : AppCompatActivity(), ChooseHowPlayContract.View 
 
     override fun showData(name: String, color: Int, wordOne: String, wordTwo: String) {
         whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.turn), name)
-        whoseTurn!!.setTextColor(resources.getColor(color))
+        whoseTurn!!.setTextColor(ContextCompat.getColor(this, color))
         word1!!.text = wordOne
         word2!!.text = wordTwo
 

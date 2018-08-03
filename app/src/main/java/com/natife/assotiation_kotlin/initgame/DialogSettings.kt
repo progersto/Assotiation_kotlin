@@ -32,18 +32,18 @@ class DialogSettings : DialogFragment() {
         numberCirclesTV = v.findViewById(R.id.text_number_of_circles)
 
         //get info from preferences
-        timeMove = restoreTimeMove(v.getContext())
-        timeGame = restoreTimeGame(v.getContext())
-        numberCircles = restoreNumberCircles(v.getContext())
+        timeMove = restoreTimeMove(v.context)
+        timeGame = restoreTimeGame(v.context)
+        numberCircles = restoreNumberCircles(v.context)
 
         //for first init
         if (timeMove == 0 || timeGame == 0 || numberCircles == 0) {
             timeMove = Integer.parseInt(timeMoveTV!!.text.toString())
             timeGame = Integer.parseInt(timeGameTV!!.text.toString())
             numberCircles = Integer.parseInt(numberCirclesTV!!.text.toString())
-            saveTimeMove(v.getContext(), timeMove)
-            saveTimeGame(v.getContext(), timeGame)
-            saveNumberCircles(v.getContext(), numberCircles)
+            saveTimeMove(v.context, timeMove)
+            saveTimeGame(v.context, timeGame)
+            saveNumberCircles(v.context, numberCircles)
         } else {
             timeMoveTV!!.text = timeMove.toString()
             timeGameTV!!.text = timeGame.toString()
@@ -87,9 +87,9 @@ class DialogSettings : DialogFragment() {
             }
         }
         v.findViewById<View>(R.id.buttonSave).setOnClickListener {
-            saveTimeMove(v.getContext(), timeMove)
-            saveTimeGame(v.getContext(), timeGame)
-            saveNumberCircles(v.getContext(), numberCircles)
+            saveTimeMove(v.context, timeMove)
+            saveTimeGame(v.context, timeGame)
+            saveNumberCircles(v.context, numberCircles)
             dismiss()
         }
 
