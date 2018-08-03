@@ -10,7 +10,7 @@
 
 
     <TextView
-        android:id="@+id/logo"
+        android:id="@+id/whose_turn"
         android:layout_width="wrap_content"
         android:layout_height="29dp"
         android:layout_marginEnd="8dp"
@@ -18,7 +18,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/turn"
         android:textColor="@color/colorTextSelextion"
-        android:textSize="21sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,47 +44,60 @@
         android:gravity="center"
         android:text="@string/select_word_and_action"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        app:layout_constraintTop_toBottomOf="@+id/whose_turn" />
 
-    <TextView
-        android:id="@+id/word1"
-        style="@style/RecyclerTheme"
+    <FrameLayout
+        android:id="@+id/frame_word1"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="50dp"
-        android:gravity="center_vertical"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp"
-        android:text="@string/turn"
-        android:textColor="@color/colorTextSelextion"
-        android:textSize="18sp"
+        android:foreground="@drawable/recycler_backgroind"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textSelection" />
+        app:layout_constraintTop_toBottomOf="@+id/textSelection">
 
-    <TextView
-        android:id="@+id/word2"
-        style="@style/RecyclerTheme"
+        <TextView
+            android:id="@+id/word1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:text="@string/turn"
+            android:textColor="@color/colorTextSelextion"
+            android:textSize="18sp" />
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/frame_word2"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp"
-        android:text="@string/turn"
-        android:textColor="@color/colorTextSelextion"
-        android:textSize="18sp"
+        android:foreground="@drawable/recycler_backgroind"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/word1" />
+        app:layout_constraintTop_toBottomOf="@+id/frame_word1">
 
+        <TextView
+            android:id="@+id/word2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:text="@string/turn"
+            android:textColor="@color/colorTextSelextion"
+            android:textSize="18sp" />
+    </FrameLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout6"
@@ -96,13 +109,13 @@
         android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/word2">
+        app:layout_constraintTop_toBottomOf="@+id/frame_word2">
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/layout_show"
-            style="@style/RecyclerTheme"
             android:layout_width="0dp"
             android:layout_height="150dp"
+            android:foreground="@drawable/recycler_backgroind"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/layout_tell"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -110,7 +123,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/mask"
+                android:id="@+id/iconShow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
@@ -124,31 +137,31 @@
                 android:id="@+id/text_show"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/mask"
+                android:layout_alignBottom="@+id/iconShow"
+                android:layout_gravity="bottom"
                 android:layout_margin="8dp"
                 android:gravity="center"
                 android:text="@string/show"
                 android:textColor="@color/colorTextSelextion" />
 
-        </RelativeLayout>
+        </FrameLayout>
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/layout_tell"
-            style="@style/RecyclerTheme"
             android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
+            android:foreground="@drawable/recycler_backgroind"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/layout_draw"
             app:layout_constraintStart_toEndOf="@+id/layout_show"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/mask1"
+                android:id="@+id/iconTell"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:paddingBottom="10dp"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
@@ -159,27 +172,28 @@
                 android:id="@+id/text_tell"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/mask1"
+                android:layout_alignBottom="@+id/iconTell"
+                android:layout_gravity="bottom"
                 android:layout_margin="8dp"
                 android:gravity="center"
                 android:text="@string/tell"
                 android:textColor="@color/colorTextSelextion" />
 
 
-        </RelativeLayout>
+        </FrameLayout>
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/layout_draw"
-            style="@style/RecyclerTheme"
             android:layout_width="0dp"
             android:layout_height="150dp"
+            android:foreground="@drawable/recycler_backgroind"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/layout_tell"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/mask3"
+                android:id="@+id/icon_draw"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
@@ -193,18 +207,19 @@
                 android:id="@+id/text_draw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/mask3"
+                android:layout_alignBottom="@+id/icon_draw"
+                android:layout_gravity="bottom"
                 android:layout_margin="8dp"
                 android:gravity="center"
                 android:text="@string/draw"
                 android:textColor="@color/colorTextSelextion" />
-        </RelativeLayout>
+        </FrameLayout>
 
     </android.support.constraint.ConstraintLayout>
 
 
     <RelativeLayout
-        android:id="@+id/buttonNext"
+        android:id="@+id/buttonGo"
         style="@style/ButtonThemeWithColor"
         android:layout_width="200dp"
         android:layout_height="40dp"
@@ -215,7 +230,6 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout6">
 
         <TextView
-            android:id="@+id/textBtnNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:alpha="0.5"

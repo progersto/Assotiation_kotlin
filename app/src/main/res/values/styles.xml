@@ -44,9 +44,4 @@
     </style>
 
 
-    <style name="selectActionAndWord">
-        <item name="android:background">@drawable/action_and_word</item>
-    </style>
-
-
 </resources>
