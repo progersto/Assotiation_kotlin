@@ -18,7 +18,7 @@ class ListGenerator {
 
         fun createListSelectedLevel(context: Context, difficultLevel: Int): MutableList<String> {
             val am = context.assets
-            var `is`: InputStream? = null
+            var `is`: InputStream?
             var stringInGson = ""
             try {
                 `is` = am.open("words.txt")

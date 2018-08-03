@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -22,6 +23,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private var textSelection: TextView? = null
     private var frameWord1: FrameLayout? = null
     private var frameWord2: FrameLayout? = null
+    private var frameShowWords: FrameLayout? = null
     private var word1: TextView? = null
     private var word2: TextView? = null
     private var layoutShow: FrameLayout? = null
@@ -64,6 +66,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         layoutShow = findViewById(R.id.layout_show)
         layoutTell = findViewById(R.id.layout_tell)
         layoutDraw = findViewById(R.id.layout_draw)
+        frameShowWords = findViewById(R.id.frame_show_words)
         iconShow = findViewById(R.id.iconShow)
         iconTell = findViewById(R.id.iconTell)
         iconDraw = findViewById(R.id.icon_draw)
@@ -71,6 +74,11 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         textShow = findViewById(R.id.text_show)
         textTell = findViewById(R.id.text_tell)
         buttonGo = findViewById(R.id.buttonGo)
+        frameShowWords!!.setOnClickListener {
+            frameShowWords!!.visibility = (View.GONE)
+            frameWord1!!.visibility = (View.VISIBLE)
+            frameWord2!!.visibility = View.VISIBLE
+        }
         word1!!.setOnClickListener {
             mPresenter!!.word1Pressed(word1!!.text.toString())
             word1!!.setTextColor(ContextCompat.getColor(this, colorPlayer))

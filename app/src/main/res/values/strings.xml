@@ -29,6 +29,7 @@
 
     <string name="turn">Ходит</string>
     <string name="select_word_and_action">Выберите СЛОВО и ДЕЙСТВИЕ</string>
+    <string name="show_words">Показать слова</string>
     <string name="show">Показать</string>
     <string name="tell">Рассказать</string>
     <string name="draw">Нарисовать</string>
