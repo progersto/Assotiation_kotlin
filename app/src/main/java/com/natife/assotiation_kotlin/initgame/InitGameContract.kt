@@ -15,7 +15,7 @@ interface InitGameContract {
     }
 
     interface Presenter {
-        fun initPlayerList()
+        fun initPlayerList(listName: MutableList<String>?)
 
         fun btnAddPlayerClicked()
 
@@ -29,7 +29,7 @@ interface InitGameContract {
     }
 
     interface Repository {
-        fun createListNamePlayers(): MutableList<String>
+        fun createListNamePlayers(listWithName:MutableList<String>?): MutableList<String>
 
         fun createListColor(): MutableList<Int>
 

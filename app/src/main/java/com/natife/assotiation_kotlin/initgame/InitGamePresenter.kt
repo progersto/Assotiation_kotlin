@@ -21,10 +21,10 @@ class InitGamePresenter(private val mView: InitGameContract.View) : InitGameCont
     }
 
 
-    override fun initPlayerList() {
-        listName = mRepository.createListNamePlayers()
+    override fun initPlayerList(listName: MutableList<String>?) {
+        this.listName = mRepository.createListNamePlayers(listName)
         listColor = mRepository.createListColor()
-        mView.showListPlayers(listName, listColor)
+        mView.showListPlayers(this.listName, listColor)
     }
 
     override fun btnAddPlayerClicked() {

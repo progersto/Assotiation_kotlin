@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.natife.assotiation_kotlin.R
+import java.util.ArrayList
 
 class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
@@ -74,6 +75,8 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         textShow = findViewById(R.id.text_show)
         textTell = findViewById(R.id.text_tell)
         buttonGo = findViewById(R.id.buttonGo)
+
+        results!!.setOnClickListener {mPresenter!!.resultPressed() }
         frameShowWords!!.setOnClickListener {
             frameShowWords!!.visibility = (View.GONE)
             frameWord1!!.visibility = (View.VISIBLE)
@@ -151,14 +154,18 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     }
 
     override fun showResultDialog() {
-
+        val dialogResult = DialogResult()
+        val args = Bundle()
+        args.putStringArrayList("listName", listName as ArrayList<String>)
+        dialogResult.setArguments(args)
+        dialogResult.show(supportFragmentManager, "dialogResult")
     }
 
-    override fun showData(name: String, color: Int, wordOne: String, wordTwo: String) {
+    override fun showData(name: String, color: Int, word1: String, word2: String) {
         whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.turn), name)
         whoseTurn!!.setTextColor(ContextCompat.getColor(this, color))
-        word1!!.text = wordOne
-        word2!!.text = wordTwo
+        this.word1!!.text = word1
+        this.word2!!.text = word2
 
         colorPlayer = color
     }

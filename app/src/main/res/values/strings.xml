@@ -35,6 +35,9 @@
     <string name="draw">Нарисовать</string>
     <string name="go">Поехали!</string>
 
-
+    <string name="table_result">Таблица результатов</string>
+    <string name="guessed">отгадано</string>
+    <string name="words">слов</string>
+    <string name="start_over">Начать заново</string>
 
 </resources>

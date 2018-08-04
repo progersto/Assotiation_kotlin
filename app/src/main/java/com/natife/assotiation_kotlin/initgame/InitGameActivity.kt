@@ -75,7 +75,8 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(recyclerPlayers)
 
-        mPresenter!!.initPlayerList()
+        val listName = intent.getStringArrayListExtra("listName")
+        (mPresenter as InitGamePresenter).initPlayerList(listName)
     }//onCreate
 
 

@@ -9,7 +9,7 @@ interface ChooseHowPlayContract {
 
         fun showResultDialog()
 
-    fun showData(name: String, color: Int, wordOne: String, wordTwo: String)
+        fun showData(name: String, color: Int, word1: String, word2: String)
     }
 
     interface Presenter {
@@ -24,6 +24,8 @@ interface ChooseHowPlayContract {
 
         fun layoutDraw_Pressed()
 
+        fun resultPressed()
+
         fun buttonGo()
 
         fun findDataForFillFields(listName: MutableList<String>, listColor: MutableList<Int>, listWords: MutableList<String>)
@@ -34,5 +36,6 @@ interface ChooseHowPlayContract {
         fun createListNamePlayers(): MutableList<String>
 
         fun createListColor(): MutableList<Int>
+
     }
 }

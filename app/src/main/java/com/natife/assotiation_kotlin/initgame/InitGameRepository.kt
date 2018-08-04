@@ -15,10 +15,14 @@ class InitGameRepository : InitGameContract.Repository {
         return listName
     }
 
-    override fun createListNamePlayers(): MutableList<String> {
-        listName = ArrayList()
-        for (i in 0..2) {
-            listName.add("")
+    override fun createListNamePlayers(listWithName: MutableList<String>?): MutableList<String> {
+        listName = java.util.ArrayList()
+        if (listWithName == null) {
+            for (i in 0..2) {
+                listName.add("")
+            }
+        } else {
+            listName.addAll(listWithName)
         }
         return listName
     }
@@ -30,7 +34,7 @@ class InitGameRepository : InitGameContract.Repository {
 
 
     override fun createListWords(difficultLevel: Int, context: Context): MutableList<String> {
-        return ListGenerator.createListSelectedLevel( context,difficultLevel)
+        return ListGenerator.createListSelectedLevel(context, difficultLevel)
     }
 
 }

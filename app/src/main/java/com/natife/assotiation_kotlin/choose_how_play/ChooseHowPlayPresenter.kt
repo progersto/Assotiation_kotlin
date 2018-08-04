@@ -3,6 +3,7 @@ package com.natife.assotiation_kotlin.choose_how_play
 import java.util.*
 
 class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : ChooseHowPlayContract.Presenter {
+
     private val mRepository: ChooseHowPlayContract.Repository
     private var listName = mutableListOf<String>()
     private var listColor = mutableListOf<Int>()
@@ -67,7 +68,9 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
         return position
     }// getRandom
 
-
+    override fun resultPressed() {
+        mView.showResultDialog()
+    }
 
 
 }
