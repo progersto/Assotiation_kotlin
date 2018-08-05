@@ -28,7 +28,7 @@
         android:hint="@string/name_player"
         android:singleLine="true"
         android:maxLength="30"
-        android:textColor="@color/colorTextSelextion"
+        android:textColor="@color/colorTextSelection"
         android:textColorHint="@color/colorHint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageVoice"

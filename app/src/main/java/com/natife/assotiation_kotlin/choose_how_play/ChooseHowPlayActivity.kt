@@ -85,16 +85,16 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         word1!!.setOnClickListener {
             mPresenter!!.word1Pressed(word1!!.text.toString())
             word1!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
-            word2!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            word2!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
             frameWord1!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
             frameWord2!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = frameWord1!!.foreground as GradientDrawable
             gd.setStroke(1, ContextCompat.getColor(this, colorPlayer))
         }
         word2!!.setOnClickListener {
-            mPresenter!!.word1Pressed(word1!!.text.toString())
+            mPresenter!!.word1Pressed(word2!!.text.toString())
             word2!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
-            word1!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            word1!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
             frameWord2!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
             frameWord1!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = frameWord2!!.foreground as GradientDrawable
@@ -103,10 +103,10 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         layoutShow!!.setOnClickListener {
             mPresenter!!.layoutShow_Pressed()
             textShow!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
-            textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
-            textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
-            iconDraw!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelextion))
-            iconTell!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            iconDraw!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+            iconTell!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
             iconShow!!.setColorFilter(ContextCompat.getColor(this, colorPlayer))
             layoutShow!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
             layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
@@ -116,12 +116,12 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
         layoutTell!!.setOnClickListener {
             mPresenter!!.layoutTell_Pressed()
-            textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
             textTell!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
-            textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
-            iconDraw!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            iconDraw!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
             iconTell!!.setColorFilter(ContextCompat.getColor(this, colorPlayer))
-            iconShow!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            iconShow!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
             layoutShow!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
             layoutDraw!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
@@ -131,13 +131,13 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         layoutDraw!!.setOnClickListener {
             mPresenter!!.layoutDraw_Pressed()
             //color text
-            textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
-            textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
             textDraw!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
             //color icon
             iconDraw!!.setColorFilter(ContextCompat.getColor(this, colorPlayer))
-            iconTell!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelextion))
-            iconShow!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelextion))
+            iconTell!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+            iconShow!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
             //background
             layoutShow!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
@@ -157,7 +157,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         val dialogResult = DialogResult()
         val args = Bundle()
         args.putStringArrayList("listName", listName as ArrayList<String>)
-        dialogResult.setArguments(args)
+        dialogResult.arguments = args
         dialogResult.show(supportFragmentManager, "dialogResult")
     }
 

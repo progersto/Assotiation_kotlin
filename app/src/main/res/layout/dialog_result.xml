@@ -13,7 +13,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/table_result"
-        android:textColor="@color/colorTextSelextion"
+        android:textColor="@color/colorTextSelection"
         android:textSize="19sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/start_over"
-            android:textColor="@color/colorTextSelextion"
+            android:textColor="@color/colorTextSelection"
             android:textSize="16sp" />
 
     </RelativeLayout>

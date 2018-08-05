@@ -24,8 +24,9 @@
         </activity>
         <activity
             android:name=".initgame.InitGameActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".choose_how_play.ChooseHowPlayActivity"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".choose_how_play.ChooseHowPlayActivity" />
+        <activity android:name=".game.GameActivity"/>
     </application>
 
 </manifest>

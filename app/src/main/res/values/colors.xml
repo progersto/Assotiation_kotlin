@@ -3,10 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorTextSelextion">#fff</color>
+    <color name="colorTextSelection">#ffffff</color>
     <color name="colorPressed">#70ffffff</color>
+    <color name="colorPressed2">#00ffffff</color>
     <color name="colorButton">#0C4FBD</color>
+    <color name="colorInfo">#508cef</color>
     <color name="colorHint">#b3b2b2</color>
+    <color name="colorTimer1">#ffffff</color>
+    <color name="colorTimer2">#80000000</color>
 
     <color name="colorPlayer1">#F8DD1C</color>
     <color name="colorPlayer2">#00D3FF</color>

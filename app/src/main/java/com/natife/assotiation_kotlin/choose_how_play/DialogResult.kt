@@ -26,7 +26,6 @@ class DialogResult : DialogFragment() {
     internal var timeGame: Int = 0
     internal var numberCircles: Int = 0
     private var listName: List<String>? = null
-//    private var buttonAgain: RelativeLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

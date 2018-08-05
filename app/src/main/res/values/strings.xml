@@ -40,4 +40,15 @@
     <string name="words">слов</string>
     <string name="start_over">Начать заново</string>
 
+    <string name="they_guessed">Отгадали</string>
+    <string name="they_not_guessed">Не отгадали</string>
+    <string name="remind_word">Напомнить слово</string>
+    <string name="who_guessed">Кто отгадал?</string>
+    <string name="describes">Рассказывает</string>
+    <string name="draws">Рисует</string>
+    <string name="shows">Показывает</string>
+    <string name="clear">Очистить</string>
+    <string name="action">Действия</string>
+    <string name="brush_settings">Настройки кисти</string>
+
 </resources>
