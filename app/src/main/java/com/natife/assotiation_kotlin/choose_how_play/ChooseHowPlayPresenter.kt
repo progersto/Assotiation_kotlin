@@ -1,6 +1,7 @@
 package com.natife.assotiation_kotlin.choose_how_play
 
 import android.content.Intent
+import android.os.Parcelable
 import com.natife.assotiation_kotlin.game.GameActivity
 import com.natife.assotiation_kotlin.initgame.Player
 import java.util.*
@@ -16,6 +17,7 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
     private var name: String? = null
     private var colorPlayer = 0
     private var word: String? = null
+    private var positionPlayer: Int = 0
 
 
     init {
@@ -46,8 +48,8 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
 
     override fun buttonGo() {
         intent!!.putStringArrayListExtra("listWords", listWords as ArrayList<String>)
-        intent!!.putExtra("colorPlayer", colorPlayer)
-        intent!!.putExtra("name", name)
+        intent!!.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
+        intent!!.putExtra("positionPlayer", positionPlayer)
         intent!!.putExtra("word", word)
         mView.contextActivity().startActivity(intent)
     }
@@ -55,7 +57,7 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
     override fun findDataForFillFields(playerList: MutableList<Player>, listWords: MutableList<String>) {
         this.playerList = playerList
         this.listWords = listWords
-        val positionPlayer = getRandom(playerList.size)
+        positionPlayer = getRandom(playerList.size)
         positionWord1 = getRandom(listWords.size)
         positionWord2 = getRandom(listWords.size)
         var word1 = listWords[positionWord1]

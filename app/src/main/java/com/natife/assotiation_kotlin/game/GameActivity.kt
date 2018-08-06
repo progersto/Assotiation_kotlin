@@ -6,19 +6,19 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.*
 import com.natife.assotiation_kotlin.R
 import com.natife.assotiation_kotlin.game.UtilForDraw.PaintView
-import java.util.*
-import java.util.concurrent.TimeUnit
+import com.natife.assotiation_kotlin.initgame.Player
+import android.graphics.drawable.GradientDrawable
+import android.widget.TextView
+import android.widget.RelativeLayout
+import android.view.LayoutInflater
 
 class GameActivity : AppCompatActivity(), GameContract.View {
-    private val mPresenter: GameContract.Presenter? = null
-    private var name: String? = null
-    private var colorPlayer: Int = 0
+    private var mPresenter: GameContract.Presenter? = null
     private var listWords: List<String>? = null
     private var howExplain: String? = null
     private var textTimerDraw: TextView? = null
@@ -39,18 +39,26 @@ class GameActivity : AppCompatActivity(), GameContract.View {
     private var buttonPointBrush: RelativeLayout? = null
     private var flagShowBtn: Boolean = false
     private var layoutForDraw: RelativeLayout? = null
+    private var positionPlayer: Int = 0
+    private var playerList: MutableList<Player>? = null
+    private var timerBig: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
         howExplain = intent.getStringExtra("how_explain")
-        name = intent.getStringExtra("name")
-        colorPlayer = intent.getIntExtra("colorPlayer", 0)
+        positionPlayer = intent.getIntExtra("positionPlayer", 0)
+        playerList = intent.getParcelableArrayListExtra("playerList")
         listWords = intent.getStringArrayListExtra("listWords")
         word = intent.getStringExtra("word")
         initView()
+
+        //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс GameContract.View
+        mPresenter = GamePresenter(this)
     }
+
+
 
     override fun onResume() {
         super.onResume()
@@ -59,18 +67,18 @@ class GameActivity : AppCompatActivity(), GameContract.View {
 
     private fun showView(howExplain: String) {
 
-        whoseTurn!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
+        whoseTurn!!.setTextColor(ContextCompat.getColor(this, playerList!![positionPlayer].color))
         when (howExplain) {
             "tell" -> {
-                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.describes), name)
+                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.describes),  playerList!![positionPlayer].name)
                 selectedTellOrShow()
             }
             "show" -> {
-                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.shows), name)
+                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.shows),  playerList!![positionPlayer].name)
                 selectedTellOrShow()
             }
             "draw" -> {
-                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.draws), name)
+                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.draws),  playerList!![positionPlayer].name)
                 selectedDraw()
             }
         }
@@ -82,7 +90,8 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         layoutBtnFromTellAndShow!!.visibility = View.GONE
         textTimerDraw!!.visibility = View.VISIBLE
         drawClear!!.visibility = View.VISIBLE
-        initTimer(textTimerDraw)
+        timerBig = false
+        mPresenter!!.initTimer(false)
 
         paintView = findViewById<View>(R.id.paintView) as PaintView?
         val metrics = DisplayMetrics()
@@ -97,36 +106,15 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         flagShowBtn = true
         timer!!.visibility = View.VISIBLE
         layoutBtnFromTellAndShow!!.visibility = View.VISIBLE
-        initTimer(textTimer)
-    }
-
-    private fun initTimer(textTimer: TextView?) {
-        mCountDownTimer = object : CountDownTimer((61 * 1000).toLong(), 1000) {
-
-            override fun onTick(millisUntilFinished: Long) {
-                Log.v("Log_tag", "Tick of Progress$millisUntilFinished")
-
-                val iii = 60 - millisUntilFinished.toInt() / 1000
-                circularProgressbar!!.progress = iii
-
-                val minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished))
-                val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
-
-                textTimer!!.text = String.format(Locale.getDefault(), "%01d:%02d", minutes, seconds)
-            }
-
-            override fun onFinish() {
-
-            }
-        }
-        mCountDownTimer!!.start()
+        timerBig = true
+        mPresenter!!.initTimer(true)
     }
 
     private fun initView() {
         textTimerDraw = findViewById(R.id.text_timer_draw)
         whoseTurn = findViewById(R.id.whose_turn)
         drawClear = findViewById(R.id.draw_clear)
-        drawClear!!.setOnClickListener { view -> paintView!!.clear() }
+        drawClear!!.setOnClickListener { _ -> paintView!!.clear() }
         timer = findViewById(R.id.timer)
         circularProgressbar = findViewById(R.id.circularProgressbar)
         textTimer = findViewById(R.id.text_timer)
@@ -138,14 +126,37 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         buttonAction = findViewById(R.id.buttonAction)
         layoutForDraw = findViewById(R.id.layout_for_draw)
         buttonPointBrush = findViewById(R.id.buttonPointBrush)
-        buttonAction!!.setOnClickListener { view -> layoutBtnFromTellAndShow!!.visibility = View.VISIBLE }
-        remindWord!!.setOnClickListener { view ->
+        buttonAction!!.setOnClickListener { _ -> layoutBtnFromTellAndShow!!.visibility = View.VISIBLE }
+        remindWord!!.setOnClickListener { _ ->
             val toast = Toast.makeText(this, word, Toast.LENGTH_SHORT)
             toast.setGravity(Gravity.CENTER, 0, 0)
             toast.show()
             if (!flagShowBtn) {
                 layoutBtnFromTellAndShow!!.visibility = View.GONE
             }
+        }
+        theyGuessed!!.setOnClickListener {
+            mPresenter!!.stopCountDownTimer()
+            timer!!.visibility = View.GONE
+            layoutBtnFromTellAndShow!!.visibility = View.GONE
+            layoutBtnPlayer!!.visibility = View.VISIBLE
+            for (i in 0 until playerList!!.size) {
+                if (positionPlayer != i) {
+                    val newItem = LayoutInflater.from(this).inflate(R.layout.item_player_button, null)//добавляемый item
+                    val btn = newItem.findViewById<RelativeLayout>(R.id.btnPlayer)
+                    val textBtnPlayer = newItem.findViewById<TextView>(R.id.textBtnPlayer)
+                    val name = playerList!![i].name!!.substring(0, 1).toUpperCase() + playerList!![i].name!!.substring(1)
+                    textBtnPlayer.text = name
+                    val gd = btn.background as GradientDrawable
+                    gd.setColor(ContextCompat.getColor(this, playerList!![i].color))
+                    btn.setOnClickListener { _ -> mPresenter!!.playerWin(playerList!!, i) }
+                    layoutBtnPlayer!!.addView(newItem)
+                }
+            }
+        }
+        theyNotGuessed!!.setOnClickListener {
+            mPresenter!!.stopCountDownTimer()
+            mPresenter!!.notWin()
         }
 
     }
@@ -154,8 +165,21 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         return this
     }
 
-    override fun showResultDialog() {
+    override fun startGame() {}
 
+    override fun finishCurrentGame() {
+        this.finish()
+    }
+
+    override fun setCircularProgressbar(progress: Int) {
+        circularProgressbar!!.progress = progress
+    }
+
+    override fun setTextTimer(time: String) {
+        if (timerBig) {
+            textTimer!!.text = time
+        } else
+            textTimerDraw!!.text = time
     }
 }
 

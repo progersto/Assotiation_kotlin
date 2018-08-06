@@ -9,8 +9,8 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.*
 import com.natife.assotiation_kotlin.R
-import com.natife.assotiation_kotlin.initgame.Player
 import java.util.ArrayList
+import com.natife.assotiation_kotlin.initgame.Player
 
 class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
@@ -77,7 +77,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         textTell = findViewById(R.id.text_tell)
         buttonGo = findViewById(R.id.buttonGo)
 
-        results!!.setOnClickListener {mPresenter!!.resultPressed() }
+        results!!.setOnClickListener { mPresenter!!.resultPressed() }
         frameShowWords!!.setOnClickListener {
             frameShowWords!!.visibility = (View.GONE)
             frameWord1!!.visibility = (View.VISIBLE)
@@ -155,6 +155,8 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         buttonGo!!.setOnClickListener {
             if (flagWord && flagAction) {
                 mPresenter!!.buttonGo()
+                flagWord = false
+                flagAction = false
             } else if (!flagWord && flagAction || !flagWord && !flagAction) {
                 Toast.makeText(this, "Выберите слово", Toast.LENGTH_SHORT).show()
             } else
@@ -181,6 +183,28 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         this.word2!!.text = word2
 
         colorPlayer = color
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        val ddd = playerList
+        frameShowWords!!.visibility = View.VISIBLE
+        frameWord1!!.visibility = View.GONE
+        frameWord2!!.visibility = View.GONE
+        word2!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+        word1!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+        frameWord2!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+        frameWord1!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+        layoutShow!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+        layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+        layoutDraw!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+        iconDraw!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+        iconTell!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+        iconShow!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+        textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+        textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+        textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+        mPresenter!!.findDataForFillFields(playerList!!, listWords!!)
     }
 
 }
