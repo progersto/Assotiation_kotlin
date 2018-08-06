@@ -7,34 +7,33 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class InitGameRepository : InitGameContract.Repository {
+    private val colorList = java.util.ArrayList(Arrays.asList(R.color.colorPlayer1, R.color.colorPlayer2,
+            R.color.colorPlayer3, R.color.colorPlayer4, R.color.colorPlayer5, R.color.colorPlayer6))
+    private var playerList = mutableListOf<Player>()
 
-    private var listName = mutableListOf<String>()
-
-    override fun addNamePlayerInList(): MutableList<String> {
-        listName.add("")
-        return listName
-    }
-
-    override fun createListNamePlayers(listWithName: MutableList<String>?): MutableList<String> {
-        listName = java.util.ArrayList()
-        if (listWithName == null) {
-            for (i in 0..2) {
-                listName.add("")
-            }
-        } else {
-            listName.addAll(listWithName)
-        }
-        return listName
-    }
-
-    override fun createListColor(): MutableList<Int> {
-        return java.util.ArrayList(Arrays.asList(R.color.colorPlayer1, R.color.colorPlayer2,
-                R.color.colorPlayer3, R.color.colorPlayer4, R.color.colorPlayer5, R.color.colorPlayer6))
+    override fun addNameInPlayerList(): MutableList<Player> {
+        playerList.add(Player("", colorList.get(playerList.size + 1), 0, 0))
+        return playerList
     }
 
 
     override fun createListWords(difficultLevel: Int, context: Context): MutableList<String> {
         return ListGenerator.createListSelectedLevel(context, difficultLevel)
+    }
+
+
+    override fun createListPlayer(listWithName: MutableList<Player>?): MutableList<Player> {
+        playerList = java.util.ArrayList()
+        if (listWithName == null) {
+            for (i in 0..2) {
+                playerList.add(Player("", colorList[i], 0, 0))
+            }
+        } else {
+            for (i in listWithName.indices) {
+                playerList.add(Player(listWithName[i].name!!, colorList[i], 0, 0))
+            }
+        }
+        return playerList
     }
 
 }

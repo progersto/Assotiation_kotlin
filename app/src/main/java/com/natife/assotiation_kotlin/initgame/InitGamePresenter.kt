@@ -1,6 +1,7 @@
 package com.natife.assotiation_kotlin.initgame
 
 import android.content.Intent
+import android.os.Parcelable
 import android.util.Log
 import com.natife.assotiation_kotlin.R
 import com.natife.assotiation_kotlin.choose_how_play.ChooseHowPlayActivity
@@ -9,9 +10,7 @@ import java.util.ArrayList
 class InitGamePresenter(private val mView: InitGameContract.View) : InitGameContract.Presenter {
 
     private val mRepository: InitGameContract.Repository
-
-    private var listName = mutableListOf<String>()
-    private var listColor = mutableListOf<Int>()
+    private var playerList = mutableListOf<Player>()
     private var flagStartGame = false
     private var listWords = mutableListOf<String>()
 
@@ -21,16 +20,15 @@ class InitGamePresenter(private val mView: InitGameContract.View) : InitGameCont
     }
 
 
-    override fun initPlayerList(listName: MutableList<String>?) {
-        this.listName = mRepository.createListNamePlayers(listName)
-        listColor = mRepository.createListColor()
-        mView.showListPlayers(this.listName, listColor)
+    override fun initPlayerList(listWithName: MutableList<Player>?) {
+        this.playerList = mRepository.createListPlayer(listWithName)
+        mView.showListPlayers(this.playerList)
     }
 
     override fun btnAddPlayerClicked() {
-        if (listName.size <= 5) {
-            listName = mRepository.addNamePlayerInList()
-            mView.showListPlayers(listName, listColor)
+        if (playerList.size <= 5) {
+            playerList = mRepository.addNameInPlayerList()
+            mView.showListPlayers(playerList)
         }
     }
 
@@ -42,21 +40,22 @@ class InitGamePresenter(private val mView: InitGameContract.View) : InitGameCont
 
             //start to play...
             val intent = Intent(mView.contextActivity(), ChooseHowPlayActivity::class.java)
-            intent.putStringArrayListExtra("listWords", listWords as ArrayList<String>?)
-            intent.putIntegerArrayListExtra("listColor", listColor as ArrayList<Int>?)
-            intent.putStringArrayListExtra("listName", listName as ArrayList<String>?)
+            intent.putStringArrayListExtra("listWords", listWords as ArrayList<String>)
+            intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
             mView.contextActivity().startActivity(intent)
 
         } else {
-            if (listName.contains("")) {
-                android.support.v7.app.AlertDialog.Builder(mView.contextActivity())
-                        .setMessage(R.string.set_name)
-                        .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
-                        .show()
-            } else {
-                mView.changeScreen(true)
-                flagStartGame = true
+            for (i in playerList.indices) {
+                if (playerList[i].name.equals("")) {
+                    android.support.v7.app.AlertDialog.Builder(mView.contextActivity())
+                            .setMessage(R.string.set_name)
+                            .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
+                            .show()
+                    return
+                }
             }
+            mView.changeScreen(true)
+            flagStartGame = true
         }
     }
 

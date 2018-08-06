@@ -4,13 +4,12 @@ import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.content.ContextCompat
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import com.natife.assotiation_kotlin.R
+import com.natife.assotiation_kotlin.initgame.Player
 import java.util.ArrayList
 
 class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
@@ -19,6 +18,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private var listName: MutableList<String>? = null
     private var listColor: MutableList<Int>? = null
     private var listWords: MutableList<String>? = null
+    private var playerList: MutableList<Player>? = null
     private var whoseTurn: TextView? = null
     private var results: ImageView? = null
     private var textSelection: TextView? = null
@@ -38,6 +38,8 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private var textTell: TextView? = null
     private var buttonGo: RelativeLayout? = null
     private var colorPlayer = 0
+    private var flagWord = false
+    private var flagAction = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +49,12 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс Contract.View
         mPresenter = ChooseHowPlayPresenter(this)
 
-        listName = intent.getStringArrayListExtra("listName") as MutableList<String>
-        listColor = intent.getIntegerArrayListExtra("listColor") as MutableList<Int>
         listWords = intent.getStringArrayListExtra("listWords") as MutableList<String>
+        playerList = intent.getParcelableArrayListExtra<Player>("playerList")
 
         initViews()
 
-        mPresenter!!.findDataForFillFields(listName!!, listColor!!, listWords!!)
+        mPresenter!!.findDataForFillFields(playerList!!, listWords!!)
     }
 
     private fun initViews() {
@@ -83,24 +84,27 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             frameWord2!!.visibility = View.VISIBLE
         }
         word1!!.setOnClickListener {
+            flagWord = true
             mPresenter!!.word1Pressed(word1!!.text.toString())
             word1!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
             word2!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
             frameWord1!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
             frameWord2!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = frameWord1!!.foreground as GradientDrawable
-            gd.setStroke(1, ContextCompat.getColor(this, colorPlayer))
+            gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
         }
         word2!!.setOnClickListener {
+            flagWord = true
             mPresenter!!.word1Pressed(word2!!.text.toString())
             word2!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
             word1!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
             frameWord2!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
             frameWord1!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = frameWord2!!.foreground as GradientDrawable
-            gd.setStroke(1, ContextCompat.getColor(this, colorPlayer))
+            gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
         }
         layoutShow!!.setOnClickListener {
+            flagAction = true
             mPresenter!!.layoutShow_Pressed()
             textShow!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
             textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
@@ -112,9 +116,10 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             layoutDraw!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = layoutShow!!.foreground as GradientDrawable
-            gd.setStroke(1, ContextCompat.getColor(this, colorPlayer))
+            gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
         }
         layoutTell!!.setOnClickListener {
+            flagAction = true
             mPresenter!!.layoutTell_Pressed()
             textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
             textTell!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
@@ -126,9 +131,10 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
             layoutDraw!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = layoutTell!!.foreground as GradientDrawable
-            gd.setStroke(1, ContextCompat.getColor(this, colorPlayer))
+            gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
         }
         layoutDraw!!.setOnClickListener {
+            flagAction = true
             mPresenter!!.layoutDraw_Pressed()
             //color text
             textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
@@ -144,9 +150,16 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             layoutDraw!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
             //change color frame
             val gd = layoutDraw!!.foreground as GradientDrawable
-            gd.setStroke(1, ContextCompat.getColor(this, colorPlayer))
+            gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
         }
-        buttonGo!!.setOnClickListener { mPresenter!!.buttonGo() }
+        buttonGo!!.setOnClickListener {
+            if (flagWord && flagAction) {
+                mPresenter!!.buttonGo()
+            } else if (!flagWord && flagAction || !flagWord && !flagAction) {
+                Toast.makeText(this, "Выберите слово", Toast.LENGTH_SHORT).show()
+            } else
+                Toast.makeText(this, "Выберите действие", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun contextActivity(): Context {
@@ -156,7 +169,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     override fun showResultDialog() {
         val dialogResult = DialogResult()
         val args = Bundle()
-        args.putStringArrayList("listName", listName as ArrayList<String>)
+        args.putParcelableArrayList("playerList", playerList as ArrayList<out Parcelable>)
         dialogResult.arguments = args
         dialogResult.show(supportFragmentManager, "dialogResult")
     }

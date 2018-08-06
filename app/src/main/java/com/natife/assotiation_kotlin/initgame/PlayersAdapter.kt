@@ -22,8 +22,8 @@ import java.util.ArrayList
 
 class PlayersAdapter(private val context: Context, private val voiceIconListener: OnItemVoiceIconListener) : RecyclerView.Adapter<PlayersAdapter.ViewHolder>() {
     private val inflater: LayoutInflater
-    private var list: MutableList<String> = ArrayList()
-    private var listColor: List<Int> = ArrayList()
+    private var playerList: MutableList<Player> = ArrayList()
+
 
 
     init {
@@ -31,7 +31,7 @@ class PlayersAdapter(private val context: Context, private val voiceIconListener
     }//AdapterProductList
 
     override fun getItemCount(): Int {
-        return list.size
+        return playerList.size
     }//getItemCount
 
     override fun getItemId(position: Int): Long {
@@ -46,8 +46,8 @@ class PlayersAdapter(private val context: Context, private val voiceIconListener
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                list[holder.adapterPosition] = charSequence.toString()
-                Log.d("ddd", "onTextChanged list = $list")
+                playerList[holder.adapterPosition].name = charSequence.toString()
+                Log.d("ddd", "onTextChanged list = $playerList")
             }
 
             override fun afterTextChanged(editable: Editable) {}
@@ -74,12 +74,12 @@ class PlayersAdapter(private val context: Context, private val voiceIconListener
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("ddd", "onBindViewHolder list = $list")
+        Log.d("ddd", "onBindViewHolder list = $playerList")
 
         holder.editTextPlayerName.hint = context.resources.getString(R.string.name_player) + " " + (position + 1)
-        holder.editTextPlayerName.setText(list[position])
+        holder.editTextPlayerName.setText(playerList[position].name)
 
-        holder.imageColor.setColorFilter(ContextCompat.getColor(context, listColor[position]))
+        holder.imageColor.setColorFilter(ContextCompat.getColor(context, playerList.get(position).color))
 
         val listener = View.OnClickListener {
             voiceIconListener.onItemVoiceIconClick(holder.adapterPosition, holder.editTextPlayerName)
@@ -91,19 +91,17 @@ class PlayersAdapter(private val context: Context, private val voiceIconListener
 
     }
 
-    fun setData(list: MutableList<String>, listColor: List<Int>) {
-        Log.d("ddd", "setData this.list = " + this.list)
-        Log.d("ddd", "setData list = $list")
-        this.list = list
-        this.listColor = listColor
+    fun setData(playerList: MutableList<Player>) {
+        Log.d("ddd", "setData this.list = " + this.playerList)
+        this.playerList = playerList
         notifyDataSetChanged()
     }
 
 
     fun deleteFromListAdapter(position: Int) {
-        list.removeAt(position)
+        playerList.removeAt(position)
 
-        Log.d("ddd", "deleteFromListAdapter list = $list")
+        Log.d("ddd", "deleteFromListAdapter list = $playerList")
         notifyItemRemoved(position)//updates after removing Item at position
         notifyDataSetChanged()
     }//deleteFromListAdapter

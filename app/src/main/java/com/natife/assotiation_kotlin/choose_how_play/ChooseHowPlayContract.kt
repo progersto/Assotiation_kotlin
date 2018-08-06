@@ -1,6 +1,7 @@
 package com.natife.assotiation_kotlin.choose_how_play
 
 import android.content.Context
+import com.natife.assotiation_kotlin.initgame.Player
 
 interface ChooseHowPlayContract {
     interface View {
@@ -28,7 +29,7 @@ interface ChooseHowPlayContract {
 
         fun buttonGo()
 
-        fun findDataForFillFields(listName: MutableList<String>, listColor: MutableList<Int>, listWords: MutableList<String>)
+        fun findDataForFillFields(playerList: MutableList<Player>, listWords: MutableList<String>)
     }
 
     interface Repository {

@@ -75,8 +75,8 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(recyclerPlayers)
 
-        val listName = intent.getStringArrayListExtra("listName")
-        (mPresenter as InitGamePresenter).initPlayerList(listName)
+        val playerList = intent.getParcelableArrayListExtra<Player>("playerList")
+        (mPresenter as InitGamePresenter).initPlayerList(playerList)
     }//onCreate
 
 
@@ -121,8 +121,8 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         return levelDifficult
     }
 
-    override fun showListPlayers(listName: MutableList<String>, listColor: MutableList<Int>) {
-        adapterPlayers.setData(listName, listColor)
+    override fun showListPlayers(playerList: MutableList<Player>) {
+        adapterPlayers.setData(playerList)
     }
 
 

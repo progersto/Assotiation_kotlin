@@ -4,7 +4,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.DialogFragment
+import android.text.TextUtils.substring
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.natife.assotiation_kotlin.R
 import com.natife.assotiation_kotlin.initgame.InitGameActivity
+import com.natife.assotiation_kotlin.initgame.Player
 import java.util.ArrayList
 
 class DialogResult : DialogFragment() {
@@ -25,7 +28,7 @@ class DialogResult : DialogFragment() {
     internal var timeMove: Int = 0
     internal var timeGame: Int = 0
     internal var numberCircles: Int = 0
-    private var listName: List<String>? = null
+    private var playerList: List<Player>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,20 +44,20 @@ class DialogResult : DialogFragment() {
             activity!!.finishAffinity()
             dismiss()
             val intent = Intent(context, InitGameActivity::class.java)
-            intent.putStringArrayListExtra("listName", listName as ArrayList<String>?)
+            intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
             startActivity(intent)
         }
 
-        listName = arguments!!.getStringArrayList("listName")
+        playerList = arguments!!.getParcelableArrayList("playerList")
 
         val layoutResult: LinearLayout = v.findViewById(R.id.layoutResult)//контейнер для вставки item
-        for (i in listName!!.indices) {
+        for (i in playerList!!.indices) {
             val newItem: View = inflater.inflate(R.layout.item_result, null)//добавляемый item
             val image: ImageView = newItem.findViewById(R.id.image_result)
             val nameResult: TextView = newItem.findViewById(R.id.name_result)//inserted name
             val totalPointsResult: TextView = newItem.findViewById(R.id.total_points)
             val guessedWordsResult: TextView = newItem.findViewById(R.id.guessed_words)
-            val name = listName!![i].substring(0, 1).toUpperCase() + listName!![i].substring(1)
+            val name = playerList!![i].name!!.substring(0, 1).toUpperCase() + playerList!![i].name!!.substring(1)
             nameResult.text = name
             layoutResult.addView(newItem)
         }

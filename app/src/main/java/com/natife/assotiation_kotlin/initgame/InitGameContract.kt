@@ -5,7 +5,7 @@ import android.content.Context
 interface InitGameContract {
 
     interface View {
-        fun showListPlayers(listName: MutableList<String>, listColor: MutableList<Int>)
+        fun showListPlayers(listPlayer: MutableList<Player>)
 
         fun changeScreen(flagChange: Boolean)
 
@@ -15,7 +15,7 @@ interface InitGameContract {
     }
 
     interface Presenter {
-        fun initPlayerList(listName: MutableList<String>?)
+        fun initPlayerList(listWithName: MutableList<Player>?)
 
         fun btnAddPlayerClicked()
 
@@ -29,11 +29,9 @@ interface InitGameContract {
     }
 
     interface Repository {
-        fun createListNamePlayers(listWithName:MutableList<String>?): MutableList<String>
+        fun createListPlayer(listWithName: MutableList<Player>?): MutableList<Player>
 
-        fun createListColor(): MutableList<Int>
-
-        fun addNamePlayerInList(): MutableList<String>
+        fun addNameInPlayerList(): MutableList<Player>
 
         fun createListWords(difficultLevel: Int, context: Context): MutableList<String>
     }

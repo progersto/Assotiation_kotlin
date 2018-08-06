@@ -2,13 +2,13 @@ package com.natife.assotiation_kotlin.choose_how_play
 
 import android.content.Intent
 import com.natife.assotiation_kotlin.game.GameActivity
+import com.natife.assotiation_kotlin.initgame.Player
 import java.util.*
 
 class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : ChooseHowPlayContract.Presenter {
 
     private val mRepository: ChooseHowPlayContract.Repository
-    private var listName = mutableListOf<String>()
-    private var listColor = mutableListOf<Int>()
+    private var playerList = mutableListOf<Player>()
     private var listWords = mutableListOf<String>()
     private var positionWord1 = -1
     private var positionWord2 = -1
@@ -52,20 +52,19 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
         mView.contextActivity().startActivity(intent)
     }
 
-    override fun findDataForFillFields(listName: MutableList<String>, listColor: MutableList<Int>, listWords: MutableList<String>) {
-        this.listName = listName
-        this.listColor = listColor
+    override fun findDataForFillFields(playerList: MutableList<Player>, listWords: MutableList<String>) {
+        this.playerList = playerList
         this.listWords = listWords
-        val positionPlayer = getRandom(listName.size)
+        val positionPlayer = getRandom(playerList.size)
         positionWord1 = getRandom(listWords.size)
         positionWord2 = getRandom(listWords.size)
         var word1 = listWords[positionWord1]
         var word2 = listWords[positionWord2]
-        name = listName[positionPlayer]
+        name = playerList.get(positionPlayer).name
         name = name!!.substring(0, 1).toUpperCase() + name!!.substring(1)
         word1 = word1.substring(0, 1).toUpperCase() + word1.substring(1)
         word2 = word2.substring(0, 1).toUpperCase() + word2.substring(1)
-        colorPlayer = listColor[positionPlayer]
+        colorPlayer = playerList.get(positionPlayer).color
         mView.showData(name!!, colorPlayer, word1, word2)
         intent = Intent(mView.contextActivity(), GameActivity::class.java)
     }
