@@ -27,7 +27,7 @@ interface ChooseHowPlayContract {
 
         fun resultPressed()
 
-        fun buttonGo()
+        fun buttonGoPressed()
 
         fun findDataForFillFields(playerList: MutableList<Player>, listWords: MutableList<String>)
 

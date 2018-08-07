@@ -1,7 +1,9 @@
 package com.natife.assotiation_kotlin.game
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
@@ -164,10 +166,12 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         toast.show()
     }
 
+
     private fun btnTheyNotGuessed() {
         mPresenter.stopCountDownTimer()
         mPresenter.notWin()
     }
+
 
     private fun btnTheyGuessed() {
         mPresenter.stopCountDownTimer()
@@ -199,19 +203,25 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         }
     }
 
+
     override fun contextActivity(): Context {
         return this
     }
 
-    override fun startGame() {}
 
     override fun finishCurrentGame() {
+        val intent = Intent()
+//        intent.putExtra("name", etName.getText().toString());
+        setResult(Activity.RESULT_OK, intent)
+        finish()
         this.finish()
     }
+
 
     override fun setCircularProgressbar(progress: Int) {
         circularProgressbar!!.progress = progress
     }
+
 
     override fun setTextTimer(time: String) {
         if (timerBig) {
@@ -219,6 +229,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         } else
             textTimerDraw!!.text = time
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

@@ -9,7 +9,6 @@ interface GameContract {
 
         fun contextActivity(): Context
 
-        fun startGame()
         fun finishCurrentGame()
         fun setCircularProgressbar(progress: Int)
         fun setTextTimer(time: String)

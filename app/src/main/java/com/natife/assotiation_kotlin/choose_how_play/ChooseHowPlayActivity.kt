@@ -1,6 +1,7 @@
 package com.natife.assotiation_kotlin.choose_how_play
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -155,7 +156,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
         buttonGo!!.setOnClickListener {
             if (flagWord && flagAction) {
-                mPresenter!!.buttonGo()
+                mPresenter!!.buttonGoPressed()
                 flagWord = false
                 flagAction = false
             } else if (!flagWord && flagAction || !flagWord && !flagAction) {
@@ -185,6 +186,16 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
         colorPlayer = color
     }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (data == null) {
+            return
+        }
+        val name = data.getStringExtra("name")
+
+    }
+
 
     override fun onRestart() {
         super.onRestart()

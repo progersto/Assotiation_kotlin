@@ -52,7 +52,7 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
     }
 
 
-    override fun buttonGo() {
+    override fun buttonGoPressed() {
         intent!!.putStringArrayListExtra("listWords", listWords as ArrayList<String>)
         intent!!.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
         intent!!.putExtra("positionPlayer", positionPlayer)
