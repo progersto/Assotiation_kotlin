@@ -16,6 +16,7 @@ import android.graphics.drawable.GradientDrawable
 import android.widget.TextView
 import android.widget.RelativeLayout
 import android.view.LayoutInflater
+import com.natife.assotiation_kotlin.choose_how_play.ChooseHowPlayActivity
 
 class GameActivity : AppCompatActivity(), GameContract.View {
     private var mPresenter: GameContract.Presenter? = null
@@ -49,7 +50,8 @@ class GameActivity : AppCompatActivity(), GameContract.View {
 
         howExplain = intent.getStringExtra("how_explain")
         positionPlayer = intent.getIntExtra("positionPlayer", 0)
-        playerList = intent.getParcelableArrayListExtra("playerList")
+//        playerList = intent.getParcelableArrayListExtra("playerList")
+        playerList = ChooseHowPlayActivity.playerList;
         listWords = intent.getStringArrayListExtra("listWords")
         word = intent.getStringExtra("word")
         initView()
@@ -57,7 +59,6 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс GameContract.View
         mPresenter = GamePresenter(this)
     }
-
 
 
     override fun onResume() {

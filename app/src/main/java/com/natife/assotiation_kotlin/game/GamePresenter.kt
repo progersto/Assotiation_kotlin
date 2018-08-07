@@ -9,7 +9,6 @@ import javax.xml.datatype.DatatypeConstants.MINUTES
 import javax.xml.datatype.DatatypeConstants.HOURS
 
 
-
 class GamePresenter//передаем экземпляр View
 (private val mView: GameContract.View) : GameContract.Presenter {
     private val mRepository: GameContract.Repository
@@ -26,8 +25,8 @@ class GamePresenter//передаем экземпляр View
     override fun playerWin(playerList: MutableList<Player>, winPlayer: Int) {
         val score = playerList[winPlayer].countScore + 1
         val countWords = playerList[winPlayer].countWords + 1
-        playerList[winPlayer].countScore.plus(1)
-        playerList[winPlayer].countWords.plus(1)
+        playerList[winPlayer].countScore = score
+        playerList[winPlayer].countWords = countWords
         //        numberLap -= 1;
         mView.finishCurrentGame()
     }

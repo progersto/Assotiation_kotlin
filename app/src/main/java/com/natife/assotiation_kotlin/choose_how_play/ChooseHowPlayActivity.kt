@@ -15,10 +15,7 @@ import com.natife.assotiation_kotlin.initgame.Player
 class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
     private var mPresenter: ChooseHowPlayContract.Presenter? = null
-    private var listName: MutableList<String>? = null
-    private var listColor: MutableList<Int>? = null
     private var listWords: MutableList<String>? = null
-    private var playerList: MutableList<Player>? = null
     private var whoseTurn: TextView? = null
     private var results: ImageView? = null
     private var textSelection: TextView? = null
@@ -40,6 +37,10 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private var colorPlayer = 0
     private var flagWord = false
     private var flagAction = false
+
+    companion object {
+        var playerList: MutableList<Player>? = null
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
