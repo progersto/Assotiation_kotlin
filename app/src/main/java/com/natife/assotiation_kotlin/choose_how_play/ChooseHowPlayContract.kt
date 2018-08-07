@@ -30,6 +30,8 @@ interface ChooseHowPlayContract {
         fun buttonGo()
 
         fun findDataForFillFields(playerList: MutableList<Player>, listWords: MutableList<String>)
+
+        fun getPlayerList(): MutableList<Player>
     }
 
     interface Repository {

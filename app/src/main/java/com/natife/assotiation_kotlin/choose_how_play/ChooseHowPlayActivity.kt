@@ -51,7 +51,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         mPresenter = ChooseHowPlayPresenter(this)
 
         listWords = intent.getStringArrayListExtra("listWords") as MutableList<String>
-        playerList = intent.getParcelableArrayListExtra<Player>("playerList")
+        playerList = mPresenter!!.getPlayerList()
 
         initViews()
 

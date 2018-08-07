@@ -16,7 +16,7 @@ class InitGamePresenter(private val mView: InitGameContract.View) : InitGameCont
 
 
     init {
-        this.mRepository = InitGameRepository()
+        this.mRepository = InitGameRepository.getInstance()
     }
 
 

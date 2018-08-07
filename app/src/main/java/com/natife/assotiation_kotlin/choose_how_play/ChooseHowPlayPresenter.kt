@@ -3,12 +3,14 @@ package com.natife.assotiation_kotlin.choose_how_play
 import android.content.Intent
 import android.os.Parcelable
 import com.natife.assotiation_kotlin.game.GameActivity
+import com.natife.assotiation_kotlin.initgame.InitGameContract
+import com.natife.assotiation_kotlin.initgame.InitGameRepository
 import com.natife.assotiation_kotlin.initgame.Player
 import java.util.*
 
 class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : ChooseHowPlayContract.Presenter {
 
-    private val mRepository: ChooseHowPlayContract.Repository
+    private val mRepository: InitGameContract.Repository
     private var playerList = mutableListOf<Player>()
     private var listWords = mutableListOf<String>()
     private var positionWord1 = -1
@@ -21,9 +23,13 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
 
 
     init {
-        this.mRepository = ChooseHowPlayRepository()
+        this.mRepository = InitGameRepository.getInstance()
     }
 
+
+    override fun getPlayerList(): MutableList<Player> {
+        return mRepository.getCurrentPlayerList()
+    }
 
     override fun word1Pressed(word: String) {
         this.word = word

@@ -34,5 +34,7 @@ interface InitGameContract {
         fun addNameInPlayerList(): MutableList<Player>
 
         fun createListWords(difficultLevel: Int, context: Context): MutableList<String>
+
+        fun getCurrentPlayerList(): MutableList<Player>
     }
 }

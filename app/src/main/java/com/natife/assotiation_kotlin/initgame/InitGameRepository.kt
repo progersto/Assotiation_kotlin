@@ -11,6 +11,20 @@ class InitGameRepository : InitGameContract.Repository {
             R.color.colorPlayer3, R.color.colorPlayer4, R.color.colorPlayer5, R.color.colorPlayer6))
     private var playerList = mutableListOf<Player>()
 
+
+    companion object {
+
+        private var INSTANCE: InitGameRepository? = null
+
+        fun getInstance(): InitGameContract.Repository {
+            if (INSTANCE == null) {
+                INSTANCE = InitGameRepository()
+            }
+            return INSTANCE!!
+        }
+    }
+
+
     override fun addNameInPlayerList(): MutableList<Player> {
         playerList.add(Player("", colorList.get(playerList.size + 1), 0, 0))
         return playerList
@@ -36,4 +50,13 @@ class InitGameRepository : InitGameContract.Repository {
         return playerList
     }
 
+
+    override fun getCurrentPlayerList(): MutableList<Player> {
+        return playerList
+    }
+
+
+
 }
+
+

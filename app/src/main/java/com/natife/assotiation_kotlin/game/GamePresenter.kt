@@ -2,6 +2,8 @@ package com.natife.assotiation_kotlin.game
 
 import android.os.CountDownTimer
 import android.util.Log
+import com.natife.assotiation_kotlin.initgame.InitGameContract
+import com.natife.assotiation_kotlin.initgame.InitGameRepository
 import com.natife.assotiation_kotlin.initgame.Player
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -11,14 +13,19 @@ import javax.xml.datatype.DatatypeConstants.HOURS
 
 class GamePresenter//передаем экземпляр View
 (private val mView: GameContract.View) : GameContract.Presenter {
-    private val mRepository: GameContract.Repository
+    private val mRepository: InitGameContract.Repository
     private val timeMove: Int = 0
     private val timeGame: Int = 0
     private val numberLap: Int = 0
     private var mCountDownTimer: CountDownTimer? = null
 
     init {
-        this.mRepository = GameRepository()
+        this.mRepository = InitGameRepository.getInstance()
+    }
+
+
+    override fun getPlayerList(): MutableList<Player> {
+        return mRepository.getCurrentPlayerList()
     }
 
 

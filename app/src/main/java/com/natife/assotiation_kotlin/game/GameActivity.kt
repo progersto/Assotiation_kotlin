@@ -19,7 +19,7 @@ import android.view.LayoutInflater
 import com.natife.assotiation_kotlin.choose_how_play.ChooseHowPlayActivity
 
 class GameActivity : AppCompatActivity(), GameContract.View {
-    private var mPresenter: GameContract.Presenter? = null
+    private lateinit var mPresenter: GameContract.Presenter
     private var listWords: List<String>? = null
     private var howExplain: String? = null
     private var textTimerDraw: TextView? = null
@@ -48,16 +48,17 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс GameContract.View
+        mPresenter = GamePresenter(this)
+
         howExplain = intent.getStringExtra("how_explain")
         positionPlayer = intent.getIntExtra("positionPlayer", 0)
-//        playerList = intent.getParcelableArrayListExtra("playerList")
-        playerList = ChooseHowPlayActivity.playerList;
         listWords = intent.getStringArrayListExtra("listWords")
         word = intent.getStringExtra("word")
         initView()
 
-        //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс GameContract.View
-        mPresenter = GamePresenter(this)
+        playerList = mPresenter.getPlayerList()
+
     }
 
 
@@ -92,7 +93,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         textTimerDraw!!.visibility = View.VISIBLE
         drawClear!!.visibility = View.VISIBLE
         timerBig = false
-        mPresenter!!.initTimer(false)
+        mPresenter.initTimer(false)
 
         paintView = findViewById<View>(R.id.paintView) as PaintView?
         val metrics = DisplayMetrics()
@@ -108,7 +109,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         timer!!.visibility = View.VISIBLE
         layoutBtnFromTellAndShow!!.visibility = View.VISIBLE
         timerBig = true
-        mPresenter!!.initTimer(true)
+        mPresenter.initTimer(true)
     }
 
     private fun initView() {
@@ -137,7 +138,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
             }
         }
         theyGuessed!!.setOnClickListener {
-            mPresenter!!.stopCountDownTimer()
+            mPresenter.stopCountDownTimer()
             timer!!.visibility = View.GONE
             layoutBtnFromTellAndShow!!.visibility = View.GONE
             layoutBtnPlayer!!.visibility = View.VISIBLE

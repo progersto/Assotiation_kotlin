@@ -22,6 +22,7 @@ interface GameContract {
         fun notWin()
         fun initTimer(timerBig: Boolean)
         fun stopCountDownTimer()
+        fun getPlayerList(): MutableList<Player>
     }
 
     interface Repository {
