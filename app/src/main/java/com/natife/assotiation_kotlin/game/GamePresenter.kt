@@ -29,9 +29,11 @@ class GamePresenter//передаем экземпляр View
     }
 
 
-    override fun playerWin(playerList: MutableList<Player>, winPlayer: Int) {
+    override fun playerWin(playerList: MutableList<Player>, winPlayer: Int, positionGuessingPlayer: Int) {
         val score = playerList[winPlayer].countScore + 1
         val countWords = playerList[winPlayer].countWords + 1
+        val scoreGuessingPlayer = playerList[positionGuessingPlayer].countScore + 1
+        playerList[positionGuessingPlayer].countScore = scoreGuessingPlayer
         playerList[winPlayer].countScore = score
         playerList[winPlayer].countWords = countWords
         //        numberLap -= 1;

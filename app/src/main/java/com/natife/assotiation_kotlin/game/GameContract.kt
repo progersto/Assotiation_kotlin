@@ -4,7 +4,6 @@ import android.content.Context
 import com.natife.assotiation_kotlin.initgame.Player
 
 
-
 interface GameContract {
     interface View {
 
@@ -18,7 +17,7 @@ interface GameContract {
 
     interface Presenter {
 
-        fun playerWin(playerList: MutableList<Player>, winPlayer: Int)
+        fun playerWin(playerList: MutableList<Player>, winPlayer: Int, positionGuessingPlayer: Int)
         fun notWin()
         fun initTimer(timerBig: Boolean)
         fun stopCountDownTimer()

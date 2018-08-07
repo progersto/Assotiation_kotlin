@@ -2,6 +2,7 @@ package com.natife.assotiation_kotlin.initgame
 
 import android.content.Context
 import com.natife.assotiation_kotlin.R
+import com.natife.assotiation_kotlin.choose_how_play.ChooseHowPlayActivity.Companion.playerList
 import com.natife.assotiation_kotlin.utils.ListGenerator
 import java.util.*
 import kotlin.collections.ArrayList
@@ -14,13 +15,18 @@ class InitGameRepository : InitGameContract.Repository {
 
     companion object {
 
+        @Volatile
         private var INSTANCE: InitGameRepository? = null
 
         fun getInstance(): InitGameContract.Repository {
             if (INSTANCE == null) {
-                INSTANCE = InitGameRepository()
+                synchronized(InitGameRepository::class.java) {
+                    if (INSTANCE == null) {
+                        INSTANCE = InitGameRepository()
+                    }
+                }
             }
-            return INSTANCE!!
+            return INSTANCE as InitGameContract.Repository
         }
     }
 

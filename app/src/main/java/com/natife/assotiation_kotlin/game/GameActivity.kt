@@ -16,7 +16,6 @@ import android.graphics.drawable.GradientDrawable
 import android.widget.TextView
 import android.widget.RelativeLayout
 import android.view.LayoutInflater
-import com.natife.assotiation_kotlin.choose_how_play.ChooseHowPlayActivity
 
 class GameActivity : AppCompatActivity(), GameContract.View {
     private lateinit var mPresenter: GameContract.Presenter
@@ -43,6 +42,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
     private var positionPlayer: Int = 0
     private var playerList: MutableList<Player>? = null
     private var timerBig: Boolean = false
+    private lateinit var gd: GradientDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -142,6 +142,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
             timer!!.visibility = View.GONE
             layoutBtnFromTellAndShow!!.visibility = View.GONE
             layoutBtnPlayer!!.visibility = View.VISIBLE
+
             for (i in 0 until playerList!!.size) {
                 if (positionPlayer != i) {
                     val newItem = LayoutInflater.from(this).inflate(R.layout.item_player_button, null)//добавляемый item
@@ -149,16 +150,17 @@ class GameActivity : AppCompatActivity(), GameContract.View {
                     val textBtnPlayer = newItem.findViewById<TextView>(R.id.textBtnPlayer)
                     val name = playerList!![i].name!!.substring(0, 1).toUpperCase() + playerList!![i].name!!.substring(1)
                     textBtnPlayer.text = name
-                    val gd = btn.background as GradientDrawable
+                    gd = btn.background as GradientDrawable
                     gd.setColor(ContextCompat.getColor(this, playerList!![i].color))
-                    btn.setOnClickListener { _ -> mPresenter!!.playerWin(playerList!!, i) }
+                    btn.setOnClickListener { _ -> mPresenter.playerWin(playerList!!, i, positionPlayer) }
+
                     layoutBtnPlayer!!.addView(newItem)
                 }
             }
         }
         theyNotGuessed!!.setOnClickListener {
-            mPresenter!!.stopCountDownTimer()
-            mPresenter!!.notWin()
+            mPresenter.stopCountDownTimer()
+            mPresenter.notWin()
         }
 
     }
@@ -182,6 +184,11 @@ class GameActivity : AppCompatActivity(), GameContract.View {
             textTimer!!.text = time
         } else
             textTimerDraw!!.text = time
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        gd.setColor(ContextCompat.getColor(this, R.color.colorButton))
     }
 }
 
