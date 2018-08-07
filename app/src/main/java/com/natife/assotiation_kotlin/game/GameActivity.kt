@@ -1,9 +1,11 @@
 package com.natife.assotiation_kotlin.game
 
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
 import android.view.Gravity
@@ -16,6 +18,7 @@ import android.graphics.drawable.GradientDrawable
 import android.widget.TextView
 import android.widget.RelativeLayout
 import android.view.LayoutInflater
+import android.view.Window
 
 class GameActivity : AppCompatActivity(), GameContract.View {
     private lateinit var mPresenter: GameContract.Presenter
@@ -27,12 +30,11 @@ class GameActivity : AppCompatActivity(), GameContract.View {
     private var timer: RelativeLayout? = null
     private var circularProgressbar: ProgressBar? = null
     private var textTimer: TextView? = null
-    private var layoutBtnFromTellAndShow: LinearLayout? = null
+    private var layoutBtnFromTellAndShow: View? = null
     private var theyGuessed: RelativeLayout? = null
     private var theyNotGuessed: RelativeLayout? = null
     private var remindWord: RelativeLayout? = null
     private var layoutBtnPlayer: LinearLayout? = null
-    private var mCountDownTimer: CountDownTimer? = null
     private var word: String? = null
     private var paintView: PaintView? = null
     private var buttonAction: RelativeLayout? = null
@@ -42,7 +44,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
     private var positionPlayer: Int = 0
     private var playerList: MutableList<Player>? = null
     private var timerBig: Boolean = false
-    private lateinit var gd: GradientDrawable
+    private var gd: GradientDrawable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,15 +74,15 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         whoseTurn!!.setTextColor(ContextCompat.getColor(this, playerList!![positionPlayer].color))
         when (howExplain) {
             "tell" -> {
-                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.describes),  playerList!![positionPlayer].name)
+                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.describes), playerList!![positionPlayer].name)
                 selectedTellOrShow()
             }
             "show" -> {
-                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.shows),  playerList!![positionPlayer].name)
+                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.shows), playerList!![positionPlayer].name)
                 selectedTellOrShow()
             }
             "draw" -> {
-                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.draws),  playerList!![positionPlayer].name)
+                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.draws), playerList!![positionPlayer].name)
                 selectedDraw()
             }
         }
@@ -128,41 +130,73 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         buttonAction = findViewById(R.id.buttonAction)
         layoutForDraw = findViewById(R.id.layout_for_draw)
         buttonPointBrush = findViewById(R.id.buttonPointBrush)
-        buttonAction!!.setOnClickListener { _ -> layoutBtnFromTellAndShow!!.visibility = View.VISIBLE }
-        remindWord!!.setOnClickListener { _ ->
-            val toast = Toast.makeText(this, word, Toast.LENGTH_SHORT)
-            toast.setGravity(Gravity.CENTER, 0, 0)
-            toast.show()
-            if (!flagShowBtn) {
-                layoutBtnFromTellAndShow!!.visibility = View.GONE
+        buttonAction!!.setOnClickListener { _ ->
+            val dialog = Dialog(this)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.setContentView(R.layout.btn_block)
+            val theyGuessed = dialog.findViewById<RelativeLayout>(R.id.they_guessed)
+            val theyNotGuessed = dialog.findViewById<RelativeLayout>(R.id.they_not_guessed)
+            val remindWord = dialog.findViewById<RelativeLayout>(R.id.remind_word)
+            theyGuessed.setOnClickListener { _ ->
+                dialog.dismiss()
+                btnTheyGuessed()
             }
+            theyNotGuessed.setOnClickListener { _ ->
+                dialog.dismiss()
+                btnTheyNotGuessed()
+            }
+            remindWord.setOnClickListener { _ ->
+                dialog.dismiss()
+                btnRemindWord()
+            }
+            dialog.show()
         }
-        theyGuessed!!.setOnClickListener {
-            mPresenter.stopCountDownTimer()
+        remindWord!!.setOnClickListener { _ -> btnRemindWord() }
+        theyGuessed!!.setOnClickListener { btnTheyGuessed() }
+        theyNotGuessed!!.setOnClickListener { btnTheyNotGuessed() }
+    }
+
+
+    private fun btnRemindWord() {
+        val toast = Toast.makeText(this, word, Toast.LENGTH_SHORT)
+        toast.setGravity(Gravity.CENTER, 0, 0)
+        toast.show()
+    }
+
+    private fun btnTheyNotGuessed() {
+        mPresenter.stopCountDownTimer()
+        mPresenter.notWin()
+    }
+
+    private fun btnTheyGuessed() {
+        mPresenter.stopCountDownTimer()
+        whoseTurn!!.text = resources.getString(R.string.who_guessed)
+        whoseTurn!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+
+        if (flagShowBtn) {
             timer!!.visibility = View.GONE
-            layoutBtnFromTellAndShow!!.visibility = View.GONE
-            layoutBtnPlayer!!.visibility = View.VISIBLE
+        } else {
+            textTimerDraw!!.visibility = View.GONE
+            drawClear!!.visibility = View.GONE
+            layoutForDraw!!.visibility = View.GONE
+        }
+        layoutBtnFromTellAndShow!!.visibility = View.GONE
+        layoutBtnPlayer!!.visibility = View.VISIBLE
 
-            for (i in 0 until playerList!!.size) {
-                if (positionPlayer != i) {
-                    val newItem = LayoutInflater.from(this).inflate(R.layout.item_player_button, null)//добавляемый item
-                    val btn = newItem.findViewById<RelativeLayout>(R.id.btnPlayer)
-                    val textBtnPlayer = newItem.findViewById<TextView>(R.id.textBtnPlayer)
-                    val name = playerList!![i].name!!.substring(0, 1).toUpperCase() + playerList!![i].name!!.substring(1)
-                    textBtnPlayer.text = name
-                    gd = btn.background as GradientDrawable
-                    gd.setColor(ContextCompat.getColor(this, playerList!![i].color))
-                    btn.setOnClickListener { _ -> mPresenter.playerWin(playerList!!, i, positionPlayer) }
-
-                    layoutBtnPlayer!!.addView(newItem)
-                }
+        for (i in playerList!!.indices) {
+            if (positionPlayer != i) {
+                val newItem = LayoutInflater.from(this).inflate(R.layout.item_player_button, null)//добавляемый item
+                val btn = newItem.findViewById<RelativeLayout>(R.id.btnPlayer)
+                val textBtnPlayer = newItem.findViewById<TextView>(R.id.textBtnPlayer)
+                val name = playerList!![i].name!!.substring(0, 1).toUpperCase() + playerList!![i].name!!.substring(1)
+                textBtnPlayer.text = name
+                gd = btn.background as GradientDrawable
+                gd!!.setColor(ContextCompat.getColor(this, playerList!![i].color))
+                btn.setOnClickListener { _ -> mPresenter.playerWin(playerList!!, i, positionPlayer) }
+                layoutBtnPlayer!!.addView(newItem)
             }
         }
-        theyNotGuessed!!.setOnClickListener {
-            mPresenter.stopCountDownTimer()
-            mPresenter.notWin()
-        }
-
     }
 
     override fun contextActivity(): Context {
@@ -188,7 +222,9 @@ class GameActivity : AppCompatActivity(), GameContract.View {
 
     override fun onDestroy() {
         super.onDestroy()
-        gd.setColor(ContextCompat.getColor(this, R.color.colorButton))
+        if (gd != null) {
+            gd!!.setColor(ContextCompat.getColor(this, R.color.colorButton))
+        }
     }
 }
 

@@ -175,72 +175,17 @@
     </RelativeLayout>
 
 
-    <LinearLayout
+    <include
         android:id="@+id/layout_btn_from_tell_and_show"
+        layout="@layout/btn_block"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timer">
-
-        <RelativeLayout
-            android:id="@+id/they_guessed"
-            style="@style/ButtonThemeWithColor"
-            android:layout_width="200dp"
-            android:layout_height="40dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:alpha="0.5"
-                android:gravity="center"
-                android:text="@string/they_guessed"
-                android:textColor="@color/colorTextSelection"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/they_not_guessed"
-            style="@style/ButtonThemeWithColor"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="12dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:alpha="0.5"
-                android:gravity="center"
-                android:text="@string/they_not_guessed"
-                android:textColor="@color/colorTextSelection"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/remind_word"
-            style="@style/ButtonThemeWithColor"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="12dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:alpha="0.5"
-                android:gravity="center"
-                android:text="@string/remind_word"
-                android:textColor="@color/colorTextSelection"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/timer" />
 
 
 </android.support.constraint.ConstraintLayout>
