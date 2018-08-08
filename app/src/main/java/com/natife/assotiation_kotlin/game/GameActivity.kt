@@ -21,9 +21,11 @@ import android.widget.TextView
 import android.widget.RelativeLayout
 import android.view.LayoutInflater
 import android.view.Window
+import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import com.natife.assotiation_kotlin.utils.restoreTimeMove
 
-class GameActivity : AppCompatActivity(), GameContract.View {
+class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogListener {
     private lateinit var mPresenter: GameContract.Presenter
     private var howExplain: String? = null
     private var textTimerDraw: TextView? = null
@@ -48,6 +50,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
     private var timerBig: Boolean = false
     private var gd: GradientDrawable? = null
     private var timeMove: Int = 0
+    private val DIALOG_ID_COLOR = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,6 +136,21 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         buttonAction = findViewById(R.id.buttonAction)
         layoutForDraw = findViewById(R.id.layout_for_draw)
         buttonPointBrush = findViewById(R.id.buttonPointBrush)
+        buttonPointBrush!!.setOnClickListener { _ ->
+            ColorPickerDialog.newBuilder()
+                    .setDialogType(ColorPickerDialog.TYPE_PRESETS)
+                    .setAllowPresets(false)
+                    .setDialogId(DIALOG_ID_COLOR)
+                    .setColor(R.color.colorPlayer5)
+                    .setDialogTitle(R.string.select_color)
+                    .setSelectedButtonText(R.string.select)
+                    .setShowAlphaSlider(false)
+                    .setColor(Color.BLACK)
+                    .setPresetsButtonText(R.string.presets)
+                    .setCustomButtonText(R.string.custom)
+                    .setShowAlphaSlider(false)
+                    .show(this)
+        }
         buttonAction!!.setOnClickListener { _ ->
             val dialog = Dialog(this)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -234,6 +252,18 @@ class GameActivity : AppCompatActivity(), GameContract.View {
             gd!!.setColor(ContextCompat.getColor(this, R.color.colorButton))
         }
         mPresenter.stopCountDownTimer();
+    }
+
+    override fun onDialogDismissed(dialogId: Int) {
+
+    }
+
+    override fun onColorSelected(dialogId: Int, color: Int) {
+        when (dialogId) {
+            DIALOG_ID_COLOR ->
+                // We got result from the dialog that is shown when clicking on the icon in the action bar.
+                Toast.makeText(this, "Selected Color: #" + Integer.toHexString(color), Toast.LENGTH_SHORT).show()
+        }
     }
 }
 
