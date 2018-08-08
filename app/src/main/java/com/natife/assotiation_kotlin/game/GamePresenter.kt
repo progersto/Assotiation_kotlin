@@ -57,7 +57,9 @@ class GamePresenter//передаем экземпляр View
                 mView.setTextTimer(String.format(Locale.getDefault(), "%01d:%02d", minutes, seconds))
             }
 
-            override fun onFinish() {}
+            override fun onFinish() {
+                //TODO добавить здесь вызов диалога
+            }
         }
         mCountDownTimer!!.start()
     }

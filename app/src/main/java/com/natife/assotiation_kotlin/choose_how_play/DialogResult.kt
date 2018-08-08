@@ -3,9 +3,11 @@ package com.natife.assotiation_kotlin.choose_how_play
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.DialogFragment
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils.substring
 import android.util.Log
 import android.view.LayoutInflater
@@ -49,6 +51,8 @@ class DialogResult : DialogFragment() {
             intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
             startActivity(intent)
         }
+        val gd = buttonAgain.background as GradientDrawable
+        gd.setColor(ContextCompat.getColor(context!!, R.color.colorButton))
 
         (localPayerList as ArrayList<Player>).sortWith(Comparator { player, t1 ->
             if (player.countScore == t1.countScore)

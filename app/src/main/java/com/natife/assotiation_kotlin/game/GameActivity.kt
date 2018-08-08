@@ -211,8 +211,6 @@ class GameActivity : AppCompatActivity(), GameContract.View {
 
 
     override fun finishCurrentGame() {
-//        intent.putExtra("name", etName.getText().toString());
-        setResult(Activity.RESULT_OK, Intent())
         this.finish()
     }
 
@@ -230,8 +228,8 @@ class GameActivity : AppCompatActivity(), GameContract.View {
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
         if (gd != null) {
             gd!!.setColor(ContextCompat.getColor(this, R.color.colorButton))
         }

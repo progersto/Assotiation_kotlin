@@ -1,5 +1,6 @@
 package com.natife.assotiation_kotlin.choose_how_play
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.support.v7.app.AppCompatActivity
@@ -184,9 +185,9 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
     }
 
-    override fun startGameActivity(positionPlayer: Int) {
+    override fun startGameActivity(posPlayer: Int) {
         val intent = Intent(this, GameActivity::class.java)
-        intent.putExtra("positionPlayer", positionPlayer)
+        intent.putExtra("positionPlayer", posPlayer)
         intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
         intent.putExtra("word", word)
         intent.putExtra("how_explain", howExplain)
@@ -211,18 +212,13 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         colorPlayer = color
     }
 
-    override fun timeGameOver() {
-        timeGameFlag = false
+    override fun getContextActivity(): Context {
+       return this
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == GAME && resultCode == RESULT_OK){
-//            String name = data.getStringExtra("name");
-            if (!timeGameFlag){
-                showResultDialog();
-            }
-        }
+    override fun gameOver() {
+        timeGameFlag = false
     }
 
 
@@ -245,6 +241,9 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
         textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
         mPresenter!!.findDataForFillFields(playerList!!, listWords!!, timeGame)
+        if (!timeGameFlag) {
+            showResultDialog()
+        }
     }
 
     override fun onStop() {
