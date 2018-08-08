@@ -14,10 +14,10 @@ import javax.xml.datatype.DatatypeConstants.HOURS
 class GamePresenter//передаем экземпляр View
 (private val mView: GameContract.View) : GameContract.Presenter {
     private val mRepository: InitGameContract.Repository
-    private val timeMove: Int = 0
     private val timeGame: Int = 0
     private val numberLap: Int = 0
     private var mCountDownTimer: CountDownTimer? = null
+    private val countDownInterval = 1000
 
     init {
         this.mRepository = InitGameRepository.getInstance()
@@ -44,12 +44,12 @@ class GamePresenter//передаем экземпляр View
         mView.finishCurrentGame()
     }
 
-    override fun initTimer(timerBig: Boolean) {
-        mCountDownTimer = object : CountDownTimer((61 * 1000).toLong(), 1000) {
+    override fun initTimer(timerBig: Boolean, timeMove:Int) {
+        mCountDownTimer = object : CountDownTimer(((timeMove+1) * 1000).toLong(), countDownInterval.toLong()) {
             override fun onTick(millisUntilFinished: Long) {
                 Log.v("Log_tag", "Tick of Progress$millisUntilFinished")
                 if (timerBig) {
-                    val progress = 60 - millisUntilFinished.toInt() / 1000
+                    val progress = timeMove - millisUntilFinished.toInt() / 1000
                     mView.setCircularProgressbar(progress)
                 }
                 val minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished))

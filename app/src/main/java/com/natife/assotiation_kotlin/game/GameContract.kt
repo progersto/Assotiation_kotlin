@@ -18,7 +18,7 @@ interface GameContract {
 
         fun playerWin(playerList: MutableList<Player>, winPlayer: Int, positionGuessingPlayer: Int)
         fun notWin()
-        fun initTimer(timerBig: Boolean)
+        fun initTimer(timerBig: Boolean, timeMove: Int)
         fun stopCountDownTimer()
         fun getPlayerList(): MutableList<Player>
     }

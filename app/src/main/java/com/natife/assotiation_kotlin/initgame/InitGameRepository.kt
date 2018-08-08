@@ -2,10 +2,8 @@ package com.natife.assotiation_kotlin.initgame
 
 import android.content.Context
 import com.natife.assotiation_kotlin.R
-import com.natife.assotiation_kotlin.choose_how_play.ChooseHowPlayActivity.Companion.playerList
 import com.natife.assotiation_kotlin.utils.ListGenerator
 import java.util.*
-import kotlin.collections.ArrayList
 
 class InitGameRepository : InitGameContract.Repository {
     private val colorList = java.util.ArrayList(Arrays.asList(R.color.colorPlayer1, R.color.colorPlayer2,

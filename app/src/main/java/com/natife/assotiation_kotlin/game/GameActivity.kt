@@ -21,10 +21,10 @@ import android.widget.TextView
 import android.widget.RelativeLayout
 import android.view.LayoutInflater
 import android.view.Window
+import com.natife.assotiation_kotlin.utils.restoreTimeMove
 
 class GameActivity : AppCompatActivity(), GameContract.View {
     private lateinit var mPresenter: GameContract.Presenter
-    private var listWords: List<String>? = null
     private var howExplain: String? = null
     private var textTimerDraw: TextView? = null
     private var whoseTurn: TextView? = null
@@ -47,6 +47,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
     private var playerList: MutableList<Player>? = null
     private var timerBig: Boolean = false
     private var gd: GradientDrawable? = null
+    private var timeMove: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,12 +58,12 @@ class GameActivity : AppCompatActivity(), GameContract.View {
 
         howExplain = intent.getStringExtra("how_explain")
         positionPlayer = intent.getIntExtra("positionPlayer", 0)
-        listWords = intent.getStringArrayListExtra("listWords")
         word = intent.getStringExtra("word")
+        timeMove = restoreTimeMove(this)//get info from preferences
+
         initView()
 
         playerList = mPresenter.getPlayerList()
-
     }
 
 
@@ -72,7 +73,6 @@ class GameActivity : AppCompatActivity(), GameContract.View {
     }
 
     private fun showView(howExplain: String) {
-
         whoseTurn!!.setTextColor(ContextCompat.getColor(this, playerList!![positionPlayer].color))
         when (howExplain) {
             "tell" -> {
@@ -97,7 +97,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         textTimerDraw!!.visibility = View.VISIBLE
         drawClear!!.visibility = View.VISIBLE
         timerBig = false
-        mPresenter.initTimer(false)
+        mPresenter.initTimer(false, timeMove)
 
         paintView = findViewById<View>(R.id.paintView) as PaintView?
         val metrics = DisplayMetrics()
@@ -113,7 +113,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         timer!!.visibility = View.VISIBLE
         layoutBtnFromTellAndShow!!.visibility = View.VISIBLE
         timerBig = true
-        mPresenter.initTimer(true)
+        mPresenter.initTimer(true, timeMove)
     }
 
     private fun initView() {
@@ -123,6 +123,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         drawClear!!.setOnClickListener { _ -> paintView!!.clear() }
         timer = findViewById(R.id.timer)
         circularProgressbar = findViewById(R.id.circularProgressbar)
+        circularProgressbar!!.max = timeMove
         textTimer = findViewById(R.id.text_timer)
         layoutBtnFromTellAndShow = findViewById(R.id.layout_btn_from_tell_and_show)
         theyGuessed = findViewById(R.id.they_guessed)
@@ -210,10 +211,8 @@ class GameActivity : AppCompatActivity(), GameContract.View {
 
 
     override fun finishCurrentGame() {
-        val intent = Intent()
 //        intent.putExtra("name", etName.getText().toString());
-        setResult(Activity.RESULT_OK, intent)
-        finish()
+        setResult(Activity.RESULT_OK, Intent())
         this.finish()
     }
 
@@ -236,6 +235,7 @@ class GameActivity : AppCompatActivity(), GameContract.View {
         if (gd != null) {
             gd!!.setColor(ContextCompat.getColor(this, R.color.colorButton))
         }
+        mPresenter.stopCountDownTimer();
     }
 }
 

@@ -7,6 +7,12 @@ import com.natife.assotiation_kotlin.initgame.InitGameContract
 import com.natife.assotiation_kotlin.initgame.InitGameRepository
 import com.natife.assotiation_kotlin.initgame.Player
 import java.util.*
+import android.os.CountDownTimer
+import android.R.string.cancel
+
+
+
+
 
 class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : ChooseHowPlayContract.Presenter {
 
@@ -15,11 +21,12 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
     private var listWords = mutableListOf<String>()
     private var positionWord1 = -1
     private var positionWord2 = -1
-    private var intent: Intent? = null
     private var name: String? = null
     private var colorPlayer = 0
     private var word: String? = null
     private var positionPlayer: Int = 0
+    private lateinit var mCountDownTimer: CountDownTimer
+    private val COUNT_DOWN_INTERVAL = 1000
 
 
     init {
@@ -31,36 +38,13 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
         return mRepository.getCurrentPlayerList()
     }
 
-    override fun word1Pressed(word: String) {
-        this.word = word
-    }
-
-    override fun word2Pressed(word: String) {
-        this.word = word
-    }
-
-    override fun layoutShow_Pressed() {
-        intent!!.putExtra("how_explain", "show")
-    }
-
-    override fun layoutTell_Pressed() {
-        intent!!.putExtra("how_explain", "tell")
-    }
-
-    override fun layoutDraw_Pressed() {
-        intent!!.putExtra("how_explain", "draw")
-    }
 
 
     override fun buttonGoPressed() {
-        intent!!.putStringArrayListExtra("listWords", listWords as ArrayList<String>)
-        intent!!.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
-        intent!!.putExtra("positionPlayer", positionPlayer)
-        intent!!.putExtra("word", word)
-        mView.contextActivity().startActivity(intent)
+        mView.startGameActivity(positionPlayer)
     }
 
-    override fun findDataForFillFields(playerList: MutableList<Player>, listWords: MutableList<String>) {
+    override fun findDataForFillFields(playerList: MutableList<Player>, listWords: MutableList<String>, timeGame: Int) {
         this.playerList = playerList
         this.listWords = listWords
         positionPlayer = getRandom(playerList.size)
@@ -74,7 +58,7 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
         word2 = word2.substring(0, 1).toUpperCase() + word2.substring(1)
         colorPlayer = playerList.get(positionPlayer).color
         mView.showData(name!!, colorPlayer, word1, word2)
-        intent = Intent(mView.contextActivity(), GameActivity::class.java)
+        startTimerGame(timeGame);
     }
 
     private fun getRandom(size: Int): Int {
@@ -84,13 +68,25 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
         if (positionWord1 != -1 && positionWord1 == position) {
             getRandom(size)
         }
-
         return position
     }// getRandom
 
-    override fun resultPressed() {
-        mView.showResultDialog()
+
+    private fun startTimerGame(timeGame: Int) {
+        mCountDownTimer = object : CountDownTimer(((timeGame + 1) * 1000).toLong(), COUNT_DOWN_INTERVAL.toLong()) {
+            override fun onTick(millisUntilFinished: Long) {}
+            override fun onFinish() {
+                mView.timeOver()
+            }
+        }
+        mCountDownTimer.start()
     }
+
+    override fun stopTimerGame() {
+        mCountDownTimer.cancel()
+    }
+
+
 
 
 }

@@ -12,6 +12,9 @@ import android.widget.*
 import com.natife.assotiation_kotlin.R
 import java.util.ArrayList
 import com.natife.assotiation_kotlin.initgame.Player
+import com.natife.assotiation_kotlin.utils.restoreTimeGame
+import com.natife.assotiation_kotlin.game.GameActivity
+
 
 class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
@@ -38,10 +41,12 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private var colorPlayer = 0
     private var flagWord = false
     private var flagAction = false
-
-    companion object {
-        var playerList: MutableList<Player>? = null
-    }
+    var playerList: MutableList<Player>? = null
+    private var howExplain: String? = null
+    private var word: String? = null
+    private val GAME = 1000
+    private var timeGame: Int = 0
+    private var timeGameFlag = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,10 +58,11 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
         listWords = intent.getStringArrayListExtra("listWords") as MutableList<String>
         playerList = mPresenter!!.getPlayerList()
+        timeGame = restoreTimeGame(this)//get info from preferences
 
         initViews()
 
-        mPresenter!!.findDataForFillFields(playerList!!, listWords!!)
+        mPresenter!!.findDataForFillFields(playerList!!, listWords!!, timeGame)
     }
 
     private fun initViews() {
@@ -79,7 +85,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         textTell = findViewById(R.id.text_tell)
         buttonGo = findViewById(R.id.buttonGo)
 
-        results!!.setOnClickListener { mPresenter!!.resultPressed() }
+        results!!.setOnClickListener { showResultDialog(); }
         frameShowWords!!.setOnClickListener {
             frameShowWords!!.visibility = (View.GONE)
             frameWord1!!.visibility = (View.VISIBLE)
@@ -87,7 +93,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
         word1!!.setOnClickListener {
             flagWord = true
-            mPresenter!!.word1Pressed(word1!!.text.toString())
+            word = word1!!.text.toString()
             word1!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
             word2!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
             frameWord1!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
@@ -97,7 +103,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
         word2!!.setOnClickListener {
             flagWord = true
-            mPresenter!!.word1Pressed(word2!!.text.toString())
+            word = word2!!.text.toString()
             word2!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
             word1!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
             frameWord2!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
@@ -107,7 +113,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
         layoutShow!!.setOnClickListener {
             flagAction = true
-            mPresenter!!.layoutShow_Pressed()
+            howExplain = "show"
             textShow!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
             textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
             textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
@@ -122,7 +128,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
         layoutTell!!.setOnClickListener {
             flagAction = true
-            mPresenter!!.layoutTell_Pressed()
+            howExplain = "tell"
             textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
             textTell!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
             textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
@@ -137,7 +143,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
         layoutDraw!!.setOnClickListener {
             flagAction = true
-            mPresenter!!.layoutDraw_Pressed()
+            howExplain = "draw"
             //color text
             textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
             textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
@@ -166,14 +172,20 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
     }
 
-    override fun contextActivity(): Context {
-        return this
+    override fun startGameActivity(positionPlayer: Int) {
+        val intent = Intent(this, GameActivity::class.java)
+        intent.putExtra("positionPlayer", positionPlayer)
+        intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
+        intent.putExtra("word", word)
+        intent.putExtra("how_explain", howExplain)
+        startActivityForResult(intent, GAME)
     }
 
     override fun showResultDialog() {
         val dialogResult = DialogResult()
         val args = Bundle()
         args.putParcelableArrayList("playerList", playerList as ArrayList<out Parcelable>)
+        args.putBoolean("timeGameFlag", timeGameFlag);
         dialogResult.arguments = args
         dialogResult.show(supportFragmentManager, "dialogResult")
     }
@@ -187,13 +199,18 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         colorPlayer = color
     }
 
+    override fun timeOver() {
+        timeGameFlag = false
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (data == null) {
-            return
+        if (requestCode == GAME && resultCode == RESULT_OK){
+//            String name = data.getStringExtra("name");
+            if (!timeGameFlag){
+                showResultDialog();
+            }
         }
-        val name = data.getStringExtra("name")
-
     }
 
 
@@ -216,7 +233,12 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
         textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
         textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-        mPresenter!!.findDataForFillFields(playerList!!, listWords!!)
+        mPresenter!!.findDataForFillFields(playerList!!, listWords!!, timeGame)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mPresenter!!.stopTimerGame()
     }
 
 }

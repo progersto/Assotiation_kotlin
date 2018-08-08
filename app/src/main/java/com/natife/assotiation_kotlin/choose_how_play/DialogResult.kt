@@ -31,14 +31,15 @@ class DialogResult : DialogFragment() {
     private var playerList: List<Player>? = null
     private var localPayerList: MutableList<Player>? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d("ddd", "fff")
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val timeGameFlag = arguments!!.getBoolean("timeGameFlag")
+        playerList = arguments!!.getParcelableArrayList("playerList")
+        localPayerList = ArrayList(playerList)
+
         dialog.window.requestFeature(Window.FEATURE_NO_TITLE)
         dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCanceledOnTouchOutside(timeGameFlag);
         val v = inflater.inflate(R.layout.dialog_result, null)
         val buttonAgain: RelativeLayout = v.findViewById(R.id.buttonAgain)
         buttonAgain.setOnClickListener {
@@ -48,9 +49,6 @@ class DialogResult : DialogFragment() {
             intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
             startActivity(intent)
         }
-
-        playerList = arguments!!.getParcelableArrayList("playerList")
-        localPayerList = ArrayList(playerList)
 
         (localPayerList as ArrayList<Player>).sortWith(Comparator { player, t1 ->
             if (player.countScore == t1.countScore)
