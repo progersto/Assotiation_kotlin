@@ -1,6 +1,5 @@
 package com.natife.assotiation_kotlin.choose_how_play
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.support.v7.app.AppCompatActivity
@@ -12,12 +11,10 @@ import android.widget.*
 import com.natife.assotiation_kotlin.R
 import java.util.ArrayList
 import com.natife.assotiation_kotlin.initgame.Player
-import com.natife.assotiation_kotlin.utils.restoreTimeGame
 import com.natife.assotiation_kotlin.game.GameActivity
-
+import com.natife.assotiation_kotlin.utils.*
 
 class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
-
     private var mPresenter: ChooseHowPlayContract.Presenter? = null
     private var listWords: MutableList<String>? = null
     private var whoseTurn: TextView? = null
@@ -45,7 +42,9 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private var howExplain: String? = null
     private var word: String? = null
     private val GAME = 1000
+    private var timeMove: Int = 0
     private var timeGame: Int = 0
+    private var numberCircles: Int = 0
     private var timeGameFlag = true
 
 
@@ -58,7 +57,20 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
         listWords = intent.getStringArrayListExtra("listWords") as MutableList<String>
         playerList = mPresenter!!.getPlayerList()
-        timeGame = restoreTimeGame(this)//get info from preferences
+
+        //get info from preferences
+        timeMove = restoreTimeMove(this)
+        timeGame = restoreTimeGame(this)
+        numberCircles = restoreNumberCircles(this)
+
+        if (timeMove == 0 || timeGame == 0 || numberCircles == 0) {
+            saveTimeMove(this, TIME_MOVE_DEFOULT)
+            saveTimeGame(this, TIME_GAME_DEFOULT)
+            saveNumberCircles(this, NAMBER_LAP_DEFOULT)
+            timeMove = restoreTimeMove(this)
+            timeGame = restoreTimeGame(this)
+            numberCircles = restoreNumberCircles(this)
+        }
 
         initViews()
 
@@ -199,7 +211,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         colorPlayer = color
     }
 
-    override fun timeOver() {
+    override fun timeGameOver() {
         timeGameFlag = false
     }
 
@@ -216,7 +228,6 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
     override fun onRestart() {
         super.onRestart()
-        val ddd = playerList
         frameShowWords!!.visibility = View.VISIBLE
         frameWord1!!.visibility = View.GONE
         frameWord2!!.visibility = View.GONE

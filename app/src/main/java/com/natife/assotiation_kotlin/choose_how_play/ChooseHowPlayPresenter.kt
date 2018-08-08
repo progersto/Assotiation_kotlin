@@ -1,17 +1,10 @@
 package com.natife.assotiation_kotlin.choose_how_play
 
-import android.content.Intent
-import android.os.Parcelable
-import com.natife.assotiation_kotlin.game.GameActivity
 import com.natife.assotiation_kotlin.initgame.InitGameContract
 import com.natife.assotiation_kotlin.initgame.InitGameRepository
 import com.natife.assotiation_kotlin.initgame.Player
 import java.util.*
 import android.os.CountDownTimer
-import android.R.string.cancel
-
-
-
 
 
 class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : ChooseHowPlayContract.Presenter {
@@ -76,7 +69,7 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
         mCountDownTimer = object : CountDownTimer(((timeGame + 1) * 1000).toLong(), COUNT_DOWN_INTERVAL.toLong()) {
             override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
-                mView.timeOver()
+                mView.timeGameOver()
             }
         }
         mCountDownTimer.start()

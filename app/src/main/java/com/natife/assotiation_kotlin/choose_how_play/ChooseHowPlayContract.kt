@@ -12,7 +12,7 @@ interface ChooseHowPlayContract {
 
         fun showData(name: String, color: Int, word1: String, word2: String)
 
-        fun timeOver()
+        fun timeGameOver()
     }
 
     interface Presenter {

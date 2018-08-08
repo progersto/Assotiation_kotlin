@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,12 +37,12 @@ class DialogSettings : DialogFragment() {
 
         //for first init
         if (timeMove == 0 || timeGame == 0 || numberCircles == 0) {
-            timeMove = Integer.parseInt(timeMoveTV!!.text.toString())
-            timeGame = Integer.parseInt(timeGameTV!!.text.toString())
-            numberCircles = Integer.parseInt(numberCirclesTV!!.text.toString())
-            saveTimeMove(v.context, timeMove)
-            saveTimeGame(v.context, timeGame)
-            saveNumberCircles(v.context, numberCircles)
+            saveTimeMove(v.context, TIME_MOVE_DEFOULT)
+            saveTimeGame(v.context, TIME_GAME_DEFOULT)
+            saveNumberCircles(v.context, NAMBER_LAP_DEFOULT)
+            timeMove = restoreTimeMove(v.context)
+            timeGame = restoreTimeGame(v.context)
+            numberCircles = restoreNumberCircles(v.context)
         } else {
             timeMoveTV!!.text = timeMove.toString()
             timeGameTV!!.text = timeGame.toString()
