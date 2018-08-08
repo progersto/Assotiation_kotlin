@@ -53,12 +53,6 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_how_play)
 
-        //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс Contract.View
-        mPresenter = ChooseHowPlayPresenter(this)
-
-        listWords = intent.getStringArrayListExtra("listWords") as MutableList<String>
-        playerList = mPresenter!!.getPlayerList()
-
         //get info from preferences
         timeMove = restoreTimeMove(this)
         timeGame = restoreTimeGame(this)
@@ -72,6 +66,12 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             timeGame = restoreTimeGame(this)
             numberCircles = restoreNumberCircles(this)
         }
+
+        //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс Contract.View
+        mPresenter = ChooseHowPlayPresenter(this)
+
+        listWords = intent.getStringArrayListExtra("listWords") as MutableList<String>
+        playerList = mPresenter!!.getPlayerList()
 
         initViews()
 

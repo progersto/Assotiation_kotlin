@@ -29,8 +29,8 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
 
     init {
         this.mRepository = InitGameRepository.getInstance()
-        playerPosDefault = 0
         lapDefault = restoreNumberCircles(mView.getContextActivity())
+        playerPosDefault = 0
     }
 
 

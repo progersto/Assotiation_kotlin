@@ -25,6 +25,13 @@ class PaintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     private var mCanvas: Canvas? = null
     private val mBitmapPaint = Paint(Paint.DITHER_FLAG)
 
+    companion object {
+        var BRUSH_SIZE = 20
+        val DEFAULT_COLOR = Color.RED
+        val DEFAULT_BG_COLOR = Color.WHITE
+        private val TOUCH_TOLERANCE = 4f
+    }
+
     init {
         mPaint = Paint()
         mPaint.isAntiAlias = true
@@ -138,13 +145,5 @@ class PaintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             }
         }
         return true
-    }
-
-    companion object {
-
-        var BRUSH_SIZE = 20
-        val DEFAULT_COLOR = Color.RED
-        val DEFAULT_BG_COLOR = Color.WHITE
-        private val TOUCH_TOLERANCE = 4f
     }
 }
