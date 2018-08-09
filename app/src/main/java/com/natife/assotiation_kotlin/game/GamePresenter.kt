@@ -1,7 +1,14 @@
 package com.natife.assotiation_kotlin.game
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.Window
+import android.widget.RelativeLayout
+import com.natife.assotiation_kotlin.R
 import com.natife.assotiation_kotlin.initgame.InitGameContract
 import com.natife.assotiation_kotlin.initgame.InitGameRepository
 import com.natife.assotiation_kotlin.initgame.Player
@@ -58,7 +65,14 @@ class GamePresenter//передаем экземпляр View
             }
 
             override fun onFinish() {
-                //TODO добавить здесь вызов диалога
+                android.support.v7.app.AlertDialog.Builder(mView.contextActivity())
+                        .setTitle(mView.contextActivity().resources.getString(R.string.time_gone))
+                        .setMessage(mView.contextActivity().resources.getString(R.string.word_is_guessed))
+                        .setPositiveButton(mView.contextActivity().resources.getString(R.string.they_guessed)
+                        ) { dialog, button -> mView.dialogTimeMoveGone(true) }
+                        .setNegativeButton(mView.contextActivity().resources.getString(R.string.they_not_guessed)
+                        ) { dialog, button -> mView.dialogTimeMoveGone(false) }
+                        .show()
             }
         }
         mCountDownTimer!!.start()

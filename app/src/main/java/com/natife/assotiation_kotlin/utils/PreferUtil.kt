@@ -6,7 +6,7 @@ import android.preference.PreferenceManager
 var TIME_MOVE_KEY = "timeMove"
 var TIME_GAME_KEY = "timeGame"
 var NUMBER_CIRCLE_KEY = "numberCircles"
-var COLOR_DRAW_KEY = "numberCircles"
+var COLOR_DRAW_KEY = "colorDraw"
 
 fun saveTimeMove(context: Context, value: Int) {
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)

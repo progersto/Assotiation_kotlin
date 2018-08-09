@@ -187,6 +187,13 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         toast.show()
     }
 
+    override fun dialogTimeMoveGone(flag: Boolean) {
+        if (flag) {
+            btnTheyGuessed()
+        } else {
+            btnTheyNotGuessed()
+        }
+    }
 
     private fun btnTheyNotGuessed() {
         mPresenter.stopCountDownTimer()
@@ -268,7 +275,6 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
                 colorForStartDialog = selectedColor
                 saveColorDraw(this, selectedColor)
             }
-
         }
     }
 }

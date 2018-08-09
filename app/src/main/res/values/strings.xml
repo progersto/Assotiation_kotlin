@@ -50,6 +50,8 @@
     <string name="clear">Очистить</string>
     <string name="action">Действия</string>
     <string name="brush_settings">Настройки кисти</string>
+    <string name="time_gone">Время вышло</string>
+    <string name="word_is_guessed">Слово отгадано?</string>
 
     <string name="select_color">Выберите цвет</string>
     <string name="select">Выбрать</string>

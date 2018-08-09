@@ -49,7 +49,19 @@ class DialogSettings : DialogFragment() {
             numberCirclesTV!!.text = numberCircles.toString()
         }
 
+        v.findViewById<View>(R.id.number_of_circles_plus).setOnClickListener {
+            if (numberCircles != 50) {
+                numberCircles += 1
+                numberCirclesTV!!.text = numberCircles.toString()
+            }
+        }
         v.findViewById<View>(R.id.number_of_circles_minus).setOnClickListener {
+            if (numberCircles != 1) {
+                numberCircles -= 1
+                numberCirclesTV!!.text = numberCircles.toString()
+            }
+        }
+        v.findViewById<View>(R.id.time_move_minus).setOnClickListener {
             if (timeMove != 15) {
                 timeMove -= 15
                 timeMoveTV!!.text = timeMove.toString()
@@ -71,18 +83,6 @@ class DialogSettings : DialogFragment() {
             if (timeGame != 90) {
                 timeGame += 1
                 timeGameTV!!.text = timeGame.toString()
-            }
-        }
-        v.findViewById<View>(R.id.number_of_circles_plus).setOnClickListener {
-            if (numberCircles != 50) {
-                numberCircles += 1
-                numberCirclesTV!!.text = numberCircles.toString()
-            }
-        }
-        v.findViewById<View>(R.id.number_of_circles_minus).setOnClickListener {
-            if (numberCircles != 1) {
-                numberCircles -= 1
-                numberCirclesTV!!.text = numberCircles.toString()
             }
         }
         v.findViewById<View>(R.id.buttonSave).setOnClickListener {

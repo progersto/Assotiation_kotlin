@@ -12,6 +12,7 @@ interface GameContract {
         fun finishCurrentGame()
         fun setCircularProgressbar(progress: Int)
         fun setTextTimer(time: String)
+        fun dialogTimeMoveGone(flag: Boolean)
     }
 
     interface Presenter {
