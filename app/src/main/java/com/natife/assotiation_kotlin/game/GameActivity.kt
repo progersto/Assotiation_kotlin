@@ -1,9 +1,7 @@
 package com.natife.assotiation_kotlin.game
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
@@ -23,7 +21,9 @@ import android.view.LayoutInflater
 import android.view.Window
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
+import com.natife.assotiation_kotlin.utils.restoreColorDraw
 import com.natife.assotiation_kotlin.utils.restoreTimeMove
+import com.natife.assotiation_kotlin.utils.saveColorDraw
 
 class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogListener {
     private lateinit var mPresenter: GameContract.Presenter
@@ -65,7 +65,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         positionPlayer = intent.getIntExtra("positionPlayer", 0)
         word = intent.getStringExtra("word")
         timeMove = restoreTimeMove(this)//get info from preferences
-        colorForStartDialog = ContextCompat.getColor(this, R.color.colorDefault);
+        colorForStartDialog = restoreColorDraw(this)
 
         initView()
 
@@ -260,12 +260,13 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
     }
 
-    override fun onColorSelected(dialogId: Int, color1: Int) {
+    override fun onColorSelected(dialogId: Int, selectedColor: Int) {
         when (dialogId) {
             DIALOG_ID_COLOR -> {
-                paintView!!.setColorPaint(color1)
-                colorDialog!!.setColor(color1)
-                colorForStartDialog = color1
+                paintView!!.setColorPaint(selectedColor)
+                colorDialog!!.setColor(selectedColor)
+                colorForStartDialog = selectedColor
+                saveColorDraw(this, selectedColor)
             }
 
         }

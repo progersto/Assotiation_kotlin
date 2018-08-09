@@ -2,12 +2,11 @@ package com.natife.assotiation_kotlin.game.UtilForDraw
 
 import android.content.Context
 import android.graphics.*
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.view.MotionEvent
 import android.view.View
-import com.natife.assotiation_kotlin.R
+import com.natife.assotiation_kotlin.utils.restoreColorDraw
 import java.util.ArrayList
 
 class PaintView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
@@ -26,7 +25,7 @@ class PaintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     private var mBitmap: Bitmap? = null
     private var mCanvas: Canvas? = null
     private val mBitmapPaint = Paint(Paint.DITHER_FLAG)
-    private var defaultColor = ContextCompat.getColor(context, R.color.colorDefault)
+    private var defaultColor = restoreColorDraw(context)
 
     companion object {
         var BRUSH_SIZE = 20

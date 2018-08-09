@@ -62,6 +62,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             saveTimeMove(this, TIME_MOVE_DEFOULT)
             saveTimeGame(this, TIME_GAME_DEFOULT)
             saveNumberCircles(this, NAMBER_LAP_DEFOULT)
+            saveColorDraw(this, ContextCompat.getColor(this, R.color.colorDefault))
             timeMove = restoreTimeMove(this)
             timeGame = restoreTimeGame(this)
             numberCircles = restoreNumberCircles(this)
@@ -198,7 +199,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         val dialogResult = DialogResult()
         val args = Bundle()
         args.putParcelableArrayList("playerList", playerList as ArrayList<out Parcelable>)
-        args.putBoolean("timeGameFlag", timeGameFlag);
+        args.putBoolean("timeGameFlag", timeGameFlag)
         dialogResult.arguments = args
         dialogResult.show(supportFragmentManager, "dialogResult")
     }
