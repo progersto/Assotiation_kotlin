@@ -13,6 +13,7 @@ import com.natife.assotiation_kotlin.R
 import java.util.ArrayList
 import com.natife.assotiation_kotlin.initgame.Player
 import com.natife.assotiation_kotlin.game.GameActivity
+import com.natife.assotiation_kotlin.resultgame.ResultGame
 import com.natife.assotiation_kotlin.utils.*
 
 class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
@@ -196,12 +197,16 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     }
 
     override fun showResultDialog() {
-        val dialogResult = DialogResult()
-        val args = Bundle()
-        args.putParcelableArrayList("playerList", playerList as ArrayList<out Parcelable>)
-        args.putBoolean("timeGameFlag", timeGameFlag)
-        dialogResult.arguments = args
-        dialogResult.show(supportFragmentManager, "dialogResult")
+        val intent = Intent(this, ResultGame::class.java)
+        intent.getBooleanExtra("timeGameFlag", timeGameFlag)
+        intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
+        startActivity(intent)
+//        val dialogResult = DialogResult()
+//        val args = Bundle()
+//        args.putParcelableArrayList("playerList", playerList as ArrayList<out Parcelable>)
+//        args.putBoolean("timeGameFlag", timeGameFlag)
+//        dialogResult.arguments = args
+//        dialogResult.show(supportFragmentManager, "dialogResult")
     }
 
     override fun showData(name: String, color: Int, word1: String, word2: String) {

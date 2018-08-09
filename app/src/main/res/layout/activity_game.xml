@@ -32,6 +32,8 @@
         android:gravity="center"
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="@string/turn"
         android:textColor="@color/colorTextSelection"
         android:textSize="24sp"
