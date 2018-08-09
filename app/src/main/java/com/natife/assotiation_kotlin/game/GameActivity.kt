@@ -51,6 +51,8 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     private var gd: GradientDrawable? = null
     private var timeMove: Int = 0
     private val DIALOG_ID_COLOR = 0
+    private var colorDialog: ColorPickerDialog.Builder? = null
+    private var colorForStartDialog: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +65,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         positionPlayer = intent.getIntExtra("positionPlayer", 0)
         word = intent.getStringExtra("word")
         timeMove = restoreTimeMove(this)//get info from preferences
+        colorForStartDialog = ContextCompat.getColor(this, R.color.colorDefault);
 
         initView()
 
@@ -137,15 +140,14 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         layoutForDraw = findViewById(R.id.layout_for_draw)
         buttonPointBrush = findViewById(R.id.buttonPointBrush)
         buttonPointBrush!!.setOnClickListener { _ ->
-            ColorPickerDialog.newBuilder()
-                    .setDialogType(ColorPickerDialog.TYPE_PRESETS)
+            colorDialog = ColorPickerDialog.newBuilder()
+            colorDialog!!.setDialogType(ColorPickerDialog.TYPE_PRESETS)
                     .setAllowPresets(false)
                     .setDialogId(DIALOG_ID_COLOR)
-                    .setColor(R.color.colorPlayer5)
+                    .setColor(colorForStartDialog)
                     .setDialogTitle(R.string.select_color)
                     .setSelectedButtonText(R.string.select)
                     .setShowAlphaSlider(false)
-                    .setColor(Color.BLACK)
                     .setPresetsButtonText(R.string.presets)
                     .setCustomButtonText(R.string.custom)
                     .setShowAlphaSlider(false)
@@ -258,11 +260,14 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
     }
 
-    override fun onColorSelected(dialogId: Int, color: Int) {
+    override fun onColorSelected(dialogId: Int, color1: Int) {
         when (dialogId) {
-            DIALOG_ID_COLOR ->
-                // We got result from the dialog that is shown when clicking on the icon in the action bar.
-                Toast.makeText(this, "Selected Color: #" + Integer.toHexString(color), Toast.LENGTH_SHORT).show()
+            DIALOG_ID_COLOR -> {
+                paintView!!.setColorPaint(color1)
+                colorDialog!!.setColor(color1)
+                colorForStartDialog = color1
+            }
+
         }
     }
 }

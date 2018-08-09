@@ -11,6 +11,7 @@
     <color name="colorHint">#b3b2b2</color>
     <color name="colorTimer1">#ffffff</color>
     <color name="colorTimer2">#80000000</color>
+    <color name="colorDefault">#000000</color>
 
     <color name="colorPlayer1">#F8DD1C</color>
     <color name="colorPlayer2">#00D3FF</color>
