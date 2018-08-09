@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.MenuItemCompat
 import android.util.AttributeSet
 import android.view.View
 import android.view.View.inflate
@@ -21,6 +22,11 @@ import com.natife.assotiation_kotlin.R
 import com.natife.assotiation_kotlin.initgame.InitGameActivity
 import com.natife.assotiation_kotlin.initgame.Player
 import java.util.ArrayList
+import android.support.v4.view.MenuItemCompat.getActionProvider
+import android.support.v7.widget.ShareActionProvider
+import android.support.v7.widget.Toolbar
+import android.view.Menu
+
 
 class ResultGame : AppCompatActivity() {
     internal var timeMoveTV: TextView? = null
@@ -31,16 +37,21 @@ class ResultGame : AppCompatActivity() {
     internal var numberCircles: Int = 0
     private var playerList: List<Player>? = null
     private var localPayerList: MutableList<Player>? = null
+    private lateinit var mShareActionProvider: android.support.v7.widget.ShareActionProvider
+    private lateinit var toolbar: Toolbar
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val viewResult = layoutInflater.inflate(R.layout.activity_result, null)
+        toolbar = viewResult.findViewById(R.id.toolbar)
+        toolbar.title = ""
+        setSupportActionBar(toolbar)
 
         val timeGameFlag = intent.getBooleanExtra("timeGameFlag", false)
         playerList = intent.getParcelableArrayListExtra("playerList")
-        localPayerList = ArrayList(playerList)
+        localPayerList = ArrayList(playerList as List<Player>)
 
         val buttonAgain: RelativeLayout = viewResult.findViewById(R.id.buttonAgain)
         buttonAgain.setOnClickListener {
@@ -53,10 +64,11 @@ class ResultGame : AppCompatActivity() {
         gd.setColor(ContextCompat.getColor(this, R.color.colorButton))
 
         (localPayerList as ArrayList<Player>).sortWith(Comparator { player, t1 ->
-            if (player.countScore == t1.countScore)
-                0
-            else if (player.countScore < t1.countScore) 1
-            else -1
+            when {
+                player.countScore == t1.countScore -> 0
+                player.countScore < t1.countScore -> 1
+                else -> -1
+            }
         })
 
         val layoutResult: LinearLayout = viewResult.findViewById(R.id.layoutResult)//контейнер для вставки item
@@ -94,4 +106,20 @@ class ResultGame : AppCompatActivity() {
         }
         return flag
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_result, menu)
+
+        val item = menu.findItem(R.id.menu_share)
+        mShareActionProvider = MenuItemCompat.getActionProvider(item) as android.support.v7.widget.ShareActionProvider
+
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.share_text))
+        shareIntent.type = "text/plain"
+        mShareActionProvider.setShareIntent(shareIntent)
+
+        return true
+    }
+
 }
