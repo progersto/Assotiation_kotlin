@@ -53,6 +53,15 @@ class InitGamePresenter(private val mView: InitGameContract.View) : InitGameCont
                             .show()
                     return
                 }
+                for (j in i + 1 until playerList.size) {
+                    if (playerList[i].name.equals(playerList[j].name)) {
+                        android.support.v7.app.AlertDialog.Builder(mView.contextActivity())
+                                .setMessage(R.string.set_different_name)
+                                .setPositiveButton(R.string.ok) { dialog, which -> dialog.dismiss() }
+                                .show()
+                        return
+                    }
+                }
             }
             mView.changeScreen(true)
             flagStartGame = true

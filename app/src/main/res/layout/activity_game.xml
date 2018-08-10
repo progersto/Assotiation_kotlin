@@ -15,7 +15,6 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="0:59"
         android:textColor="@color/colorTextSelection"
@@ -31,14 +30,15 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
         android:text="@string/turn"
         android:textColor="@color/colorTextSelection"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/draw_clear"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/text_timer_draw"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,16 +46,16 @@
         android:id="@+id/draw_clear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
-        android:padding="8dp"
+        android:paddingBottom="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="7dp"
         android:text="@string/clear"
         android:textColor="@color/colorTextSelection"
         android:textSize="17sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <RelativeLayout
         android:id="@+id/timer"
