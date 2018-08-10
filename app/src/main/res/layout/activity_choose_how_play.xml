@@ -11,15 +11,18 @@
 
     <TextView
         android:id="@+id/whose_turn"
-        android:layout_width="wrap_content"
-        android:layout_height="29dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:text="@string/turn"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
         android:textColor="@color/colorTextSelection"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/results"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +42,7 @@
         android:id="@+id/textSelection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:alpha="0.5"
         android:gravity="center"
         android:text="@string/select_word_and_action"
@@ -55,7 +58,7 @@
         android:layout_height="110dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textSelection">
@@ -184,6 +187,7 @@
                 android:layout_gravity="bottom"
                 android:layout_margin="8dp"
                 android:gravity="center"
+                android:textSize="12sp"
                 android:text="@string/show"
                 android:textColor="@color/colorTextSelection" />
 
@@ -218,6 +222,7 @@
                 android:layout_alignBottom="@+id/iconTell"
                 android:layout_gravity="bottom"
                 android:layout_margin="8dp"
+                android:textSize="12sp"
                 android:gravity="center"
                 android:text="@string/tell"
                 android:textColor="@color/colorTextSelection" />
@@ -254,6 +259,7 @@
                 android:layout_gravity="bottom"
                 android:layout_margin="8dp"
                 android:gravity="center"
+                android:textSize="12sp"
                 android:text="@string/draw"
                 android:textColor="@color/colorTextSelection" />
         </FrameLayout>

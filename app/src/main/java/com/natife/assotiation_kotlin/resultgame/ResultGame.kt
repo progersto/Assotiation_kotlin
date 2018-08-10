@@ -116,6 +116,8 @@ class ResultGame : AppCompatActivity() {
         val shareIntent = Intent()
         shareIntent.action = Intent.ACTION_SEND
         shareIntent.putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.share_text))
+        shareIntent.putExtra(Intent.EXTRA_STREAM, resources.getString(R.string.share_URI))
+
         shareIntent.type = "text/plain"
         mShareActionProvider.setShareIntent(shareIntent)
 

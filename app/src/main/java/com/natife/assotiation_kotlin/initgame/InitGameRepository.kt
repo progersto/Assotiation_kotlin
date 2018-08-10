@@ -30,7 +30,7 @@ class InitGameRepository : InitGameContract.Repository {
 
 
     override fun addNameInPlayerList(): MutableList<Player> {
-        playerList.add(Player("", colorList.get(playerList.size + 1), 0, 0))
+        playerList.add(Player("", colorList.get(playerList.size - 1), 0, 0))
         return playerList
     }
 
@@ -58,7 +58,6 @@ class InitGameRepository : InitGameContract.Repository {
     override fun getCurrentPlayerList(): MutableList<Player> {
         return playerList
     }
-
 
 
 }
