@@ -72,6 +72,7 @@ class GamePresenter//передаем экземпляр View
                         ) { dialog, button -> mView.dialogTimeMoveGone(true) }
                         .setNegativeButton(mView.contextActivity().resources.getString(R.string.they_not_guessed)
                         ) { dialog, button -> mView.dialogTimeMoveGone(false) }
+                        .setCancelable(false)
                         .show()
             }
         }

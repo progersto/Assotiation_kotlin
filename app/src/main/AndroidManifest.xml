@@ -28,7 +28,7 @@
         <activity android:name=".choose_how_play.ChooseHowPlayActivity" />
         <activity android:name=".game.GameActivity"
             android:hardwareAccelerated="false"/>
-        <activity android:name=".resultgame.ResultGame"></activity>
+        <activity android:name=".resultgame.ResultGame"/>
     </application>
 
 </manifest>

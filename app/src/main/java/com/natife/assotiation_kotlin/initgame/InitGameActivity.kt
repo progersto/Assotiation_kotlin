@@ -41,6 +41,13 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
     private val LEVEL_NORMAL = 2
     private val LEVEL_HARD = 3
 
+    companion object {
+
+        fun start(activity: Activity) {
+            activity.startActivity(Intent(activity, InitGameActivity::class.java))
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_initgame)
@@ -153,13 +160,6 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         }
     }
 
-    companion object {
-
-        fun start(activity: Activity) {
-            activity.startActivity(Intent(activity, InitGameActivity::class.java))
-        }
-    }
-
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -173,5 +173,12 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        if (mPresenter!!.getFlagChangeScreen()) {
+            return
+        }else
+        super.onBackPressed()
     }
 }

@@ -198,15 +198,9 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
     override fun showResultDialog() {
         val intent = Intent(this, ResultGame::class.java)
-        intent.getBooleanExtra("timeGameFlag", timeGameFlag)
+        intent.putExtra("timeGameFlag", timeGameFlag)
         intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
         startActivity(intent)
-//        val dialogResult = DialogResult()
-//        val args = Bundle()
-//        args.putParcelableArrayList("playerList", playerList as ArrayList<out Parcelable>)
-//        args.putBoolean("timeGameFlag", timeGameFlag)
-//        dialogResult.arguments = args
-//        dialogResult.show(supportFragmentManager, "dialogResult")
     }
 
     override fun showData(name: String, color: Int, word1: String, word2: String) {
@@ -256,5 +250,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         super.onStop()
         mPresenter!!.stopTimerGame()
     }
+
+    override fun onBackPressed() {}
 
 }

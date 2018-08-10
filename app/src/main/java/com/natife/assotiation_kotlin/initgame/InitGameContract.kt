@@ -25,6 +25,8 @@ interface InitGameContract {
 
         fun btnSettingsClicked()
 
+        fun getFlagChangeScreen(): Boolean
+
         fun onDestroy()
     }
 

@@ -277,5 +277,8 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
             }
         }
     }
+
+    override fun onBackPressed() {
+    }
 }
 

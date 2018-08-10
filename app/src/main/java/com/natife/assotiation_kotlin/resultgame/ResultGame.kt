@@ -39,7 +39,7 @@ class ResultGame : AppCompatActivity() {
     private var localPayerList: MutableList<Player>? = null
     private lateinit var mShareActionProvider: android.support.v7.widget.ShareActionProvider
     private lateinit var toolbar: Toolbar
-
+    private var timeGameFlag: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +49,15 @@ class ResultGame : AppCompatActivity() {
         toolbar.title = ""
         setSupportActionBar(toolbar)
 
-        val timeGameFlag = intent.getBooleanExtra("timeGameFlag", false)
+        timeGameFlag = intent.getBooleanExtra("timeGameFlag", false)
         playerList = intent.getParcelableArrayListExtra("playerList")
         localPayerList = ArrayList(playerList as List<Player>)
+
+        val btnBack: ImageView = viewResult.findViewById(R.id.back)
+        btnBack.setOnClickListener {
+            finish()
+        }
+        btnBack.visibility = if (timeGameFlag) View.VISIBLE else View.INVISIBLE
 
         val buttonAgain: RelativeLayout = viewResult.findViewById(R.id.buttonAgain)
         buttonAgain.setOnClickListener {
@@ -95,8 +101,13 @@ class ResultGame : AppCompatActivity() {
                 image.visibility = View.INVISIBLE
             layoutResult.addView(newItem)
         }
-
         setContentView(viewResult)
+    }
+
+    override fun onBackPressed() {
+        if (timeGameFlag) {
+            super.onBackPressed()
+        }
     }
 
     private fun checkWin(): Boolean {

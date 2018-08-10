@@ -8,16 +8,10 @@ import com.natife.assotiation_kotlin.choose_how_play.ChooseHowPlayActivity
 import java.util.ArrayList
 
 class InitGamePresenter(private val mView: InitGameContract.View) : InitGameContract.Presenter {
-
-    private val mRepository: InitGameContract.Repository
+    private val mRepository: InitGameContract.Repository = InitGameRepository.getInstance()
     private var playerList = mutableListOf<Player>()
     private var flagStartGame = false
     private var listWords = mutableListOf<String>()
-
-
-    init {
-        this.mRepository = InitGameRepository.getInstance()
-    }
 
 
     override fun initPlayerList(listWithName: MutableList<Player>?) {
@@ -77,7 +71,12 @@ class InitGamePresenter(private val mView: InitGameContract.View) : InitGameCont
         mView.showSettingsDialog(flagStartGame)
     }
 
+    override fun getFlagChangeScreen(): Boolean {
+        return flagStartGame
+    }
+
     override fun onDestroy() {
 
     }
+
 }
