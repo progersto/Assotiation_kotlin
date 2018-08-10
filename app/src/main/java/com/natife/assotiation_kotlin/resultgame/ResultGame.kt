@@ -2,12 +2,16 @@ package com.natife.assotiation_kotlin.resultgame
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
+import android.os.StrictMode
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
 import android.util.AttributeSet
@@ -26,6 +30,9 @@ import android.support.v4.view.MenuItemCompat.getActionProvider
 import android.support.v7.widget.ShareActionProvider
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
+import java.io.File
+import java.io.FileOutputStream
 
 
 class ResultGame : AppCompatActivity() {
@@ -40,11 +47,13 @@ class ResultGame : AppCompatActivity() {
     private lateinit var mShareActionProvider: android.support.v7.widget.ShareActionProvider
     private lateinit var toolbar: Toolbar
     private var timeGameFlag: Boolean = true
+    private var layoutResult: LinearLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val viewResult = layoutInflater.inflate(R.layout.activity_result, null)
+        layoutResult = viewResult.findViewById<LinearLayout>(R.id.layoutResult)//контейнер для вставки item
         toolbar = viewResult.findViewById(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)
@@ -118,21 +127,60 @@ class ResultGame : AppCompatActivity() {
         return flag
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_result, menu)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_share -> {
 
-        val item = menu.findItem(R.id.menu_share)
-        mShareActionProvider = MenuItemCompat.getActionProvider(item) as android.support.v7.widget.ShareActionProvider
-
-        val shareIntent = Intent()
-        shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.share_text))
-        shareIntent.putExtra(Intent.EXTRA_STREAM, resources.getString(R.string.share_URI))
-
-        shareIntent.type = "text/plain"
-        mShareActionProvider.setShareIntent(shareIntent)
-
+                val bitmap = getBitmapFromView(layoutResult!!)
+                val builder = StrictMode.VmPolicy.Builder()
+                StrictMode.setVmPolicy(builder.build())
+                startShare(bitmap)
+            }
+        }
         return true
+    }
+
+    private fun startShare(bitmap: Bitmap) {
+        try {
+            val file = File(this.externalCacheDir, "logicchip.png")
+            val fOut = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
+            fOut.flush()
+            fOut.close()
+            file.setReadable(true, false)
+
+            val intent = Intent(android.content.Intent.ACTION_SEND)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.share_text))
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file))
+            intent.type = "image/png"
+            startActivity(Intent.createChooser(intent, "Share image via"))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_result, menu)
+        return true
+    }
+
+
+    private fun getBitmapFromView(view: View): Bitmap {
+        val returnedBitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(returnedBitmap)
+        val bgDrawable = view.background
+        if (bgDrawable != null) {
+            //has background drawable, then draw it on the canvas
+            bgDrawable.draw(canvas)
+        } else {
+            //does not have background drawable, then draw white background on the canvas
+            canvas.drawColor(Color.WHITE)
+        }
+        view.draw(canvas)
+        return returnedBitmap
     }
 
 }
