@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import com.natife.assotiation_kotlin.R
-import com.natife.assotiation_kotlin.initgame.InitGameActivity.Companion.start
+import com.natife.assotiation_kotlin.init_game.InitGameActivity.Companion.start
 
 class SplashActivity : AppCompatActivity() {
 

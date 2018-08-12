@@ -1,34 +1,32 @@
 package com.natife.assotiation_kotlin.choose_how_play
 
-import com.natife.assotiation_kotlin.initgame.InitGameContract
-import com.natife.assotiation_kotlin.initgame.InitGameRepository
-import com.natife.assotiation_kotlin.initgame.Player
+import com.natife.assotiation_kotlin.init_game.InitGameContract
+import com.natife.assotiation_kotlin.init_game.InitGameRepository
+import com.natife.assotiation_kotlin.init_game.Player
 import java.util.*
 import android.os.CountDownTimer
 import com.natife.assotiation_kotlin.utils.restoreNumberCircles
 
-
 class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : ChooseHowPlayContract.Presenter {
 
-    private val mRepository: InitGameContract.Repository
+    private val mRepository: InitGameContract.Repository = InitGameRepository.getInstance()
     private var playerList = mutableListOf<Player>()
     private var listWords = mutableListOf<String>()
     private var positionWord1 = -1
     private var positionWord2 = -1
-    private var name: String? = null
+    private lateinit var name: String
     private var colorPlayer = 0
-    private var word: String? = null
+    private lateinit var word: String
     private var positionPlayer: Int = 0
     private lateinit var mCountDownTimer: CountDownTimer
     private val COUNT_DOWN_INTERVAL = 1000
     private var playerPosDefault: Int = 0
     private var lapDefault: Int = 0
-    private var word1: String? = null
-    private var word2: String? = null
+    private lateinit var word1: String
+    private lateinit var word2: String
 
 
     init {
-        this.mRepository = InitGameRepository.getInstance()
         lapDefault = restoreNumberCircles(mView.getContextActivity())
         playerPosDefault = 0
     }
@@ -54,16 +52,16 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
             positionWord2 = getRandom(listWords.size)
             word1 = listWords[positionWord1]
             word2 = listWords[positionWord2]
-            name = playerList[positionPlayer].name
-            name = name!!.substring(0, 1).toUpperCase() + name!!.substring(1)
-            word1 = word1!!.substring(0, 1).toUpperCase() + word1!!.substring(1)
-            word2 = word2!!.substring(0, 1).toUpperCase() + word2!!.substring(1)
+            name = playerList[positionPlayer].name!!
+            name = name.substring(0, 1).toUpperCase() + name.substring(1)
+            word1 = word1.substring(0, 1).toUpperCase() + word1.substring(1)
+            word2 = word2.substring(0, 1).toUpperCase() + word2.substring(1)
             colorPlayer = playerList[positionPlayer].color
-            mView.showData(name!!, colorPlayer, word1!!, word2!!)
+            mView.showData(name, colorPlayer, word1, word2)
             startTimerGame(timeGame)
         } else {
             mView.gameOver()
-            mView.showData(name!!, colorPlayer, word1!!, word2!!)
+            mView.showData(name, colorPlayer, word1, word2)
         }
     }
 

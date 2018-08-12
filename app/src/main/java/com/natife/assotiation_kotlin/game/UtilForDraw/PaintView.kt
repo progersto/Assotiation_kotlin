@@ -12,8 +12,8 @@ import java.util.ArrayList
 class PaintView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
     private var mX: Float = 0.toFloat()
     private var mY: Float = 0.toFloat()
-    private var mPath: Path? = null
-    private val mPaint: Paint
+    private lateinit var mPath: Path
+    private val mPaint: Paint = Paint()
     private val paths = ArrayList<FingerPath>()
     private var currentColor: Int = 0
     private var backgrColor = DEFAULT_BG_COLOR
@@ -22,7 +22,7 @@ class PaintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     private var blur: Boolean = false
     private val mEmboss: MaskFilter
     private val mBlur: MaskFilter
-    private var mBitmap: Bitmap? = null
+    private lateinit var mBitmap: Bitmap
     private var mCanvas: Canvas? = null
     private val mBitmapPaint = Paint(Paint.DITHER_FLAG)
     private var defaultColor = restoreColorDraw(context)
@@ -34,7 +34,6 @@ class PaintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     }
 
     init {
-        mPaint = Paint()
         mPaint.isAntiAlias = true
         mPaint.isDither = true
         mPaint.color = defaultColor
@@ -57,7 +56,7 @@ class PaintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         val height = metrics.heightPixels
         val width = metrics.widthPixels
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        mCanvas = Canvas(mBitmap!!)
+        mCanvas = Canvas(mBitmap)
         currentColor = defaultColor
         strokeWidth = BRUSH_SIZE
     }
@@ -100,17 +99,17 @@ class PaintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
             mCanvas!!.drawPath(fp.path, mPaint)
         }
-        canvas.drawBitmap(mBitmap!!, 0f, 0f, mBitmapPaint)
+        canvas.drawBitmap(mBitmap, 0f, 0f, mBitmapPaint)
         canvas.restore()
     }
 
     private fun touchStart(x: Float, y: Float) {
         mPath = Path()
-        val fp = FingerPath(currentColor, emboss, blur, strokeWidth, mPath!!)
+        val fp = FingerPath(currentColor, emboss, blur, strokeWidth, mPath)
         paths.add(fp)
 
-        mPath!!.reset()
-        mPath!!.moveTo(x, y)
+        mPath.reset()
+        mPath.moveTo(x, y)
         mX = x
         mY = y
     }
@@ -120,14 +119,14 @@ class PaintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         val dy = Math.abs(y - mY)
 
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-            mPath!!.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2)
+            mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2)
             mX = x
             mY = y
         }
     }
 
     private fun touchUp() {
-        mPath!!.lineTo(mX, mY)
+        mPath.lineTo(mX, mY)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

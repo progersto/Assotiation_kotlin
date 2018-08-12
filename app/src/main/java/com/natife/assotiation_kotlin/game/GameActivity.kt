@@ -13,7 +13,7 @@ import android.view.View
 import android.widget.*
 import com.natife.assotiation_kotlin.R
 import com.natife.assotiation_kotlin.game.UtilForDraw.PaintView
-import com.natife.assotiation_kotlin.initgame.Player
+import com.natife.assotiation_kotlin.init_game.Player
 import android.graphics.drawable.GradientDrawable
 import android.widget.TextView
 import android.widget.RelativeLayout
@@ -27,31 +27,31 @@ import com.natife.assotiation_kotlin.utils.saveColorDraw
 
 class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogListener {
     private lateinit var mPresenter: GameContract.Presenter
-    private var howExplain: String? = null
-    private var textTimerDraw: TextView? = null
-    private var whoseTurn: TextView? = null
-    private var drawClear: TextView? = null
-    private var timer: RelativeLayout? = null
-    private var circularProgressbar: ProgressBar? = null
-    private var textTimer: TextView? = null
-    private var layoutBtnFromTellAndShow: View? = null
-    private var theyGuessed: RelativeLayout? = null
-    private var theyNotGuessed: RelativeLayout? = null
-    private var remindWord: RelativeLayout? = null
-    private var layoutBtnPlayer: LinearLayout? = null
-    private var word: String? = null
-    private var paintView: PaintView? = null
-    private var buttonAction: RelativeLayout? = null
-    private var buttonPointBrush: RelativeLayout? = null
+    private lateinit var howExplain: String
+    private lateinit var textTimerDraw: TextView
+    private lateinit var whoseTurn: TextView
+    private lateinit var drawClear: TextView
+    private lateinit var timer: RelativeLayout
+    private lateinit var circularProgressbar: ProgressBar
+    private lateinit var textTimer: TextView
+    private lateinit var layoutBtnFromTellAndShow: View
+    private lateinit var theyGuessed: RelativeLayout
+    private lateinit var theyNotGuessed: RelativeLayout
+    private lateinit var remindWord: RelativeLayout
+    private lateinit var layoutBtnPlayer: LinearLayout
+    private lateinit var word: String
+    private lateinit var paintView: PaintView
+    private lateinit var buttonAction: RelativeLayout
+    private lateinit var buttonPointBrush: RelativeLayout
     private var flagShowBtn: Boolean = false
-    private var layoutForDraw: RelativeLayout? = null
+    private lateinit var layoutForDraw: RelativeLayout
     private var positionPlayer: Int = 0
-    private var playerList: MutableList<Player>? = null
+    private lateinit var playerList: MutableList<Player>
     private var timerBig: Boolean = false
     private var gd: GradientDrawable? = null
     private var timeMove: Int = 0
     private val DIALOG_ID_COLOR = 0
-    private var colorDialog: ColorPickerDialog.Builder? = null
+    private lateinit var colorDialog: ColorPickerDialog.Builder
     private var colorForStartDialog: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,22 +75,22 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
     override fun onResume() {
         super.onResume()
-        showView(howExplain!!)
+        showView(howExplain)
     }
 
     private fun showView(howExplain: String) {
-        whoseTurn!!.setTextColor(ContextCompat.getColor(this, playerList!![positionPlayer].color))
+        whoseTurn.setTextColor(ContextCompat.getColor(this, playerList[positionPlayer].color))
         when (howExplain) {
             "tell" -> {
-                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.describes), playerList!![positionPlayer].name)
+                whoseTurn.text = String.format("%s %s", resources.getString(R.string.describes), playerList[positionPlayer].name)
                 selectedTellOrShow()
             }
             "show" -> {
-                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.shows), playerList!![positionPlayer].name)
+                whoseTurn.text = String.format("%s %s", resources.getString(R.string.shows), playerList[positionPlayer].name)
                 selectedTellOrShow()
             }
             "draw" -> {
-                whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.draws), playerList!![positionPlayer].name)
+                whoseTurn.text = String.format("%s %s", resources.getString(R.string.draws), playerList[positionPlayer].name)
                 selectedDraw()
             }
         }
@@ -98,26 +98,26 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
     private fun selectedDraw() {
         flagShowBtn = false
-        layoutForDraw!!.visibility = View.VISIBLE
-        layoutBtnFromTellAndShow!!.visibility = View.GONE
-        textTimerDraw!!.visibility = View.VISIBLE
-        drawClear!!.visibility = View.VISIBLE
+        layoutForDraw.visibility = View.VISIBLE
+        layoutBtnFromTellAndShow.visibility = View.GONE
+        textTimerDraw.visibility = View.VISIBLE
+        drawClear.visibility = View.VISIBLE
         timerBig = false
         mPresenter.initTimer(false, timeMove)
 
-        paintView = findViewById<View>(R.id.paintView) as PaintView?
+        paintView = (findViewById<View>(R.id.paintView) as PaintView?)!!
         val metrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(metrics)
-        paintView!!.init(metrics)
-        paintView!!.normal()
+        paintView.init(metrics)
+        paintView.normal()
         //        paintView.emboss();//чеканка
         //        paintView.blur();//пятно
     }
 
     private fun selectedTellOrShow() {
         flagShowBtn = true
-        timer!!.visibility = View.VISIBLE
-        layoutBtnFromTellAndShow!!.visibility = View.VISIBLE
+        timer.visibility = View.VISIBLE
+        layoutBtnFromTellAndShow.visibility = View.VISIBLE
         timerBig = true
         mPresenter.initTimer(true, timeMove)
     }
@@ -126,10 +126,10 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         textTimerDraw = findViewById(R.id.text_timer_draw)
         whoseTurn = findViewById(R.id.whose_turn)
         drawClear = findViewById(R.id.draw_clear)
-        drawClear!!.setOnClickListener { _ -> paintView!!.clear() }
+        drawClear.setOnClickListener { _ -> paintView.clear() }
         timer = findViewById(R.id.timer)
         circularProgressbar = findViewById(R.id.circularProgressbar)
-        circularProgressbar!!.max = timeMove
+        circularProgressbar.max = timeMove
         textTimer = findViewById(R.id.text_timer)
         layoutBtnFromTellAndShow = findViewById(R.id.layout_btn_from_tell_and_show)
         theyGuessed = findViewById(R.id.they_guessed)
@@ -139,9 +139,9 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         buttonAction = findViewById(R.id.buttonAction)
         layoutForDraw = findViewById(R.id.layout_for_draw)
         buttonPointBrush = findViewById(R.id.buttonPointBrush)
-        buttonPointBrush!!.setOnClickListener { _ ->
+        buttonPointBrush.setOnClickListener { _ ->
             colorDialog = ColorPickerDialog.newBuilder()
-            colorDialog!!.setDialogType(ColorPickerDialog.TYPE_PRESETS)
+            colorDialog.setDialogType(ColorPickerDialog.TYPE_PRESETS)
                     .setAllowPresets(false)
                     .setDialogId(DIALOG_ID_COLOR)
                     .setColor(colorForStartDialog)
@@ -153,7 +153,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
                     .setShowAlphaSlider(false)
                     .show(this)
         }
-        buttonAction!!.setOnClickListener { _ ->
+        buttonAction.setOnClickListener { _ ->
             val dialog = Dialog(this)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -175,9 +175,9 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
             }
             dialog.show()
         }
-        remindWord!!.setOnClickListener { _ -> btnRemindWord() }
-        theyGuessed!!.setOnClickListener { btnTheyGuessed() }
-        theyNotGuessed!!.setOnClickListener { btnTheyNotGuessed() }
+        remindWord.setOnClickListener { _ -> btnRemindWord() }
+        theyGuessed.setOnClickListener { btnTheyGuessed() }
+        theyNotGuessed.setOnClickListener { btnTheyNotGuessed() }
     }
 
 
@@ -203,30 +203,30 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
     private fun btnTheyGuessed() {
         mPresenter.stopCountDownTimer()
-        whoseTurn!!.text = resources.getString(R.string.who_guessed)
-        whoseTurn!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+        whoseTurn.text = resources.getString(R.string.who_guessed)
+        whoseTurn.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
 
         if (flagShowBtn) {
-            timer!!.visibility = View.GONE
+            timer.visibility = View.GONE
         } else {
-            textTimerDraw!!.visibility = View.GONE
-            drawClear!!.visibility = View.GONE
-            layoutForDraw!!.visibility = View.GONE
+            textTimerDraw.visibility = View.GONE
+            drawClear.visibility = View.GONE
+            layoutForDraw.visibility = View.GONE
         }
-        layoutBtnFromTellAndShow!!.visibility = View.GONE
-        layoutBtnPlayer!!.visibility = View.VISIBLE
+        layoutBtnFromTellAndShow.visibility = View.GONE
+        layoutBtnPlayer.visibility = View.VISIBLE
 
-        for (i in playerList!!.indices) {
+        for (i in playerList.indices) {
             if (positionPlayer != i) {
                 val newItem = LayoutInflater.from(this).inflate(R.layout.item_player_button, null)//добавляемый item
                 val btn = newItem.findViewById<RelativeLayout>(R.id.btnPlayer)
                 val textBtnPlayer = newItem.findViewById<TextView>(R.id.textBtnPlayer)
-                val name = playerList!![i].name!!.substring(0, 1).toUpperCase() + playerList!![i].name!!.substring(1)
+                val name = playerList[i].name!!.substring(0, 1).toUpperCase() + playerList[i].name!!.substring(1)
                 textBtnPlayer.text = name
                 gd = btn.background as GradientDrawable
-                gd!!.setColor(ContextCompat.getColor(this, playerList!![i].color))
-                btn.setOnClickListener { _ -> mPresenter.playerWin(playerList!!, i, positionPlayer) }
-                layoutBtnPlayer!!.addView(newItem)
+                gd!!.setColor(ContextCompat.getColor(this, playerList[i].color))
+                btn.setOnClickListener { _ -> mPresenter.playerWin(playerList, i, positionPlayer) }
+                layoutBtnPlayer.addView(newItem)
             }
         }
     }
@@ -243,15 +243,15 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
 
     override fun setCircularProgressbar(progress: Int) {
-        circularProgressbar!!.progress = progress
+        circularProgressbar.progress = progress
     }
 
 
     override fun setTextTimer(time: String) {
         if (timerBig) {
-            textTimer!!.text = time
+            textTimer.text = time
         } else
-            textTimerDraw!!.text = time
+            textTimerDraw.text = time
     }
 
 
@@ -263,22 +263,23 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         mPresenter.stopCountDownTimer();
     }
 
-    override fun onDialogDismissed(dialogId: Int) {
-
-    }
 
     override fun onColorSelected(dialogId: Int, selectedColor: Int) {
         when (dialogId) {
             DIALOG_ID_COLOR -> {
-                paintView!!.setColorPaint(selectedColor)
-                colorDialog!!.setColor(selectedColor)
+                paintView.setColorPaint(selectedColor)
+                colorDialog.setColor(selectedColor)
                 colorForStartDialog = selectedColor
                 saveColorDraw(this, selectedColor)
             }
         }
     }
 
-    override fun onBackPressed() {
+    override fun onDialogDismissed(dialogId: Int) {
+       //auto generate
     }
+
+
+    override fun onBackPressed() {}
 }
 

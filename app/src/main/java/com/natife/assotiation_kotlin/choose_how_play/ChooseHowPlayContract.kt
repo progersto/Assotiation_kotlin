@@ -1,7 +1,7 @@
 package com.natife.assotiation_kotlin.choose_how_play
 
 import android.content.Context
-import com.natife.assotiation_kotlin.initgame.Player
+import com.natife.assotiation_kotlin.init_game.Player
 
 interface ChooseHowPlayContract {
     interface View {
@@ -26,13 +26,5 @@ interface ChooseHowPlayContract {
         fun getPlayerList(): MutableList<Player>
 
         fun stopTimerGame()
-    }
-
-    interface Repository {
-
-        fun createListNamePlayers(): MutableList<String>
-
-        fun createListColor(): MutableList<Int>
-
     }
 }

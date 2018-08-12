@@ -1,34 +1,18 @@
 package com.natife.assotiation_kotlin.game
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.CountDownTimer
 import android.util.Log
-import android.view.Window
-import android.widget.RelativeLayout
 import com.natife.assotiation_kotlin.R
-import com.natife.assotiation_kotlin.initgame.InitGameContract
-import com.natife.assotiation_kotlin.initgame.InitGameRepository
-import com.natife.assotiation_kotlin.initgame.Player
+import com.natife.assotiation_kotlin.init_game.InitGameContract
+import com.natife.assotiation_kotlin.init_game.InitGameRepository
+import com.natife.assotiation_kotlin.init_game.Player
 import java.util.*
 import java.util.concurrent.TimeUnit
-import javax.xml.datatype.DatatypeConstants.MINUTES
-import javax.xml.datatype.DatatypeConstants.HOURS
 
-
-class GamePresenter//передаем экземпляр View
-(private val mView: GameContract.View) : GameContract.Presenter {
-    private val mRepository: InitGameContract.Repository
-    private val timeGame: Int = 0
-    private val numberLap: Int = 0
-    private var mCountDownTimer: CountDownTimer? = null
+class GamePresenter(private val mView: GameContract.View) : GameContract.Presenter {
+    private val mRepository: InitGameContract.Repository = InitGameRepository.getInstance()
+    private lateinit var mCountDownTimer: CountDownTimer
     private val countDownInterval = 1000
-
-    init {
-        this.mRepository = InitGameRepository.getInstance()
-    }
 
 
     override fun getPlayerList(): MutableList<Player> {
@@ -43,7 +27,6 @@ class GamePresenter//передаем экземпляр View
         playerList[positionGuessingPlayer].countScore = scoreGuessingPlayer
         playerList[winPlayer].countScore = score
         playerList[winPlayer].countWords = countWords
-        //        numberLap -= 1;
         mView.finishCurrentGame()
     }
 
@@ -69,17 +52,17 @@ class GamePresenter//передаем экземпляр View
                         .setTitle(mView.contextActivity().resources.getString(R.string.time_gone))
                         .setMessage(mView.contextActivity().resources.getString(R.string.word_is_guessed))
                         .setPositiveButton(mView.contextActivity().resources.getString(R.string.they_guessed)
-                        ) { dialog, button -> mView.dialogTimeMoveGone(true) }
+                        ) { _, _ -> mView.dialogTimeMoveGone(true) }
                         .setNegativeButton(mView.contextActivity().resources.getString(R.string.they_not_guessed)
-                        ) { dialog, button -> mView.dialogTimeMoveGone(false) }
+                        ) { _, _ -> mView.dialogTimeMoveGone(false) }
                         .setCancelable(false)
                         .show()
             }
         }
-        mCountDownTimer!!.start()
+        mCountDownTimer.start()
     }
 
     override fun stopCountDownTimer() {
-        mCountDownTimer!!.cancel()
+        mCountDownTimer.cancel()
     }
 }

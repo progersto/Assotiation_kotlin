@@ -1,7 +1,7 @@
 package com.natife.assotiation_kotlin.game
 
 import android.content.Context
-import com.natife.assotiation_kotlin.initgame.Player
+import com.natife.assotiation_kotlin.init_game.Player
 
 
 interface GameContract {

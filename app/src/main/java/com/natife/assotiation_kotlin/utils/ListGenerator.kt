@@ -18,7 +18,7 @@ class ListGenerator {
 
         fun createListSelectedLevel(context: Context, difficultLevel: Int): MutableList<String> {
             val am = context.assets
-            var `is`: InputStream?
+            val `is`: InputStream?
             var stringInGson = ""
             try {
                 `is` = am.open("words.txt")
@@ -27,7 +27,6 @@ class ListGenerator {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-
             return createListSelectedLevel(stringInGson, difficultLevel)
         }
 
@@ -62,7 +61,6 @@ class ListGenerator {
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
-
             return list
         }
     }

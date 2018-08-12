@@ -11,39 +11,39 @@ import android.view.View
 import android.widget.*
 import com.natife.assotiation_kotlin.R
 import java.util.ArrayList
-import com.natife.assotiation_kotlin.initgame.Player
+import com.natife.assotiation_kotlin.init_game.Player
 import com.natife.assotiation_kotlin.game.GameActivity
 import com.natife.assotiation_kotlin.resultgame.ResultGame
 import com.natife.assotiation_kotlin.utils.*
 
 class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
-    private var mPresenter: ChooseHowPlayContract.Presenter? = null
-    private var listWords: MutableList<String>? = null
-    private var whoseTurn: TextView? = null
-    private var results: ImageView? = null
-    private var textSelection: TextView? = null
-    private var frameWord1: FrameLayout? = null
-    private var frameWord2: FrameLayout? = null
-    private var frameShowWords: FrameLayout? = null
-    private var word1: TextView? = null
-    private var word2: TextView? = null
-    private var layoutShow: FrameLayout? = null
-    private var layoutTell: FrameLayout? = null
-    private var layoutDraw: FrameLayout? = null
-    private var iconShow: ImageView? = null
-    private var iconTell: ImageView? = null
-    private var iconDraw: ImageView? = null
-    private var textDraw: TextView? = null
-    private var textShow: TextView? = null
-    private var textTell: TextView? = null
-    private var buttonGo: RelativeLayout? = null
+    private lateinit var mPresenter: ChooseHowPlayContract.Presenter
+    private lateinit var listWords: MutableList<String>
+    private lateinit var whoseTurn: TextView
+    private lateinit var results: ImageView
+    private lateinit var textSelection: TextView
+    private lateinit var frameWord1: FrameLayout
+    private lateinit var frameWord2: FrameLayout
+    private lateinit var frameShowWords: FrameLayout
+    private lateinit var word1: TextView
+    private lateinit var word2: TextView
+    private lateinit var layoutShow: FrameLayout
+    private lateinit var layoutTell: FrameLayout
+    private lateinit var layoutDraw: FrameLayout
+    private lateinit var iconShow: ImageView
+    private lateinit var iconTell: ImageView
+    private lateinit var iconDraw: ImageView
+    private lateinit var textDraw: TextView
+    private lateinit var textShow: TextView
+    private lateinit var textTell: TextView
+    private lateinit var buttonGo: RelativeLayout
     private var colorPlayer = 0
     private var flagWord = false
     private var flagAction = false
-    var playerList: MutableList<Player>? = null
-    private var howExplain: String? = null
-    private var word: String? = null
-    private val GAME = 1000
+    private lateinit var playerList: MutableList<Player>
+    private lateinit var howExplain: String
+    private lateinit var word: String
+    private val GAME_REQUEST = 1000
     private var timeMove: Int = 0
     private var timeGame: Int = 0
     private var numberCircles: Int = 0
@@ -60,10 +60,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         numberCircles = restoreNumberCircles(this)
 
         if (timeMove == 0 || timeGame == 0 || numberCircles == 0) {
-            saveTimeMove(this, TIME_MOVE_DEFOULT)
-            saveTimeGame(this, TIME_GAME_DEFOULT)
-            saveNumberCircles(this, NAMBER_LAP_DEFOULT)
-            saveColorDraw(this, ContextCompat.getColor(this, R.color.colorDefault))
+            initPreference(this)
             timeMove = restoreTimeMove(this)
             timeGame = restoreTimeGame(this)
             numberCircles = restoreNumberCircles(this)
@@ -73,11 +70,11 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         mPresenter = ChooseHowPlayPresenter(this)
 
         listWords = intent.getStringArrayListExtra("listWords") as MutableList<String>
-        playerList = mPresenter!!.getPlayerList()
+        playerList = mPresenter.getPlayerList()
 
         initViews()
 
-        mPresenter!!.findDataForFillFields(playerList!!, listWords!!, timeGame)
+        mPresenter.findDataForFillFields(playerList, listWords, timeGame)
     }
 
     private fun initViews() {
@@ -100,84 +97,84 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         textTell = findViewById(R.id.text_tell)
         buttonGo = findViewById(R.id.buttonGo)
 
-        results!!.setOnClickListener { showResultDialog(); }
-        frameShowWords!!.setOnClickListener {
-            frameShowWords!!.visibility = (View.GONE)
-            frameWord1!!.visibility = (View.VISIBLE)
-            frameWord2!!.visibility = View.VISIBLE
+        results.setOnClickListener { showResultDialog(); }
+        frameShowWords.setOnClickListener {
+            frameShowWords.visibility = (View.GONE)
+            frameWord1.visibility = (View.VISIBLE)
+            frameWord2.visibility = View.VISIBLE
         }
-        word1!!.setOnClickListener {
+        word1.setOnClickListener {
             flagWord = true
-            word = word1!!.text.toString()
-            word1!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
-            word2!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            frameWord1!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
-            frameWord2!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            val gd = frameWord1!!.foreground as GradientDrawable
+            word = word1.text.toString()
+            word1.setTextColor(ContextCompat.getColor(this, colorPlayer))
+            word2.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            frameWord1.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
+            frameWord2.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            val gd = frameWord1.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
         }
-        word2!!.setOnClickListener {
+        word2.setOnClickListener {
             flagWord = true
-            word = word2!!.text.toString()
-            word2!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
-            word1!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            frameWord2!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
-            frameWord1!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            val gd = frameWord2!!.foreground as GradientDrawable
+            word = word2.text.toString()
+            word2.setTextColor(ContextCompat.getColor(this, colorPlayer))
+            word1.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            frameWord2.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
+            frameWord1.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            val gd = frameWord2.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
         }
-        layoutShow!!.setOnClickListener {
+        layoutShow.setOnClickListener {
             flagAction = true
             howExplain = "show"
-            textShow!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
-            textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            iconDraw!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-            iconTell!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-            iconShow!!.setColorFilter(ContextCompat.getColor(this, colorPlayer))
-            layoutShow!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
-            layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            layoutDraw!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            val gd = layoutShow!!.foreground as GradientDrawable
+            textShow.setTextColor(ContextCompat.getColor(this, colorPlayer))
+            textTell.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            textDraw.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+            iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+            iconShow.setColorFilter(ContextCompat.getColor(this, colorPlayer))
+            layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
+            layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            val gd = layoutShow.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
         }
-        layoutTell!!.setOnClickListener {
+        layoutTell.setOnClickListener {
             flagAction = true
             howExplain = "tell"
-            textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            textTell!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
-            textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            iconDraw!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-            iconTell!!.setColorFilter(ContextCompat.getColor(this, colorPlayer))
-            iconShow!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-            layoutShow!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
-            layoutDraw!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            val gd = layoutTell!!.foreground as GradientDrawable
+            textShow.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            textTell.setTextColor(ContextCompat.getColor(this, colorPlayer))
+            textDraw.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+            iconTell.setColorFilter(ContextCompat.getColor(this, colorPlayer))
+            iconShow.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+            layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
+            layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            val gd = layoutTell.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
         }
-        layoutDraw!!.setOnClickListener {
+        layoutDraw.setOnClickListener {
             flagAction = true
             howExplain = "draw"
             //color text
-            textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            textDraw!!.setTextColor(ContextCompat.getColor(this, colorPlayer))
+            textShow.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            textTell.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            textDraw.setTextColor(ContextCompat.getColor(this, colorPlayer))
             //color icon
-            iconDraw!!.setColorFilter(ContextCompat.getColor(this, colorPlayer))
-            iconTell!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-            iconShow!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+            iconDraw.setColorFilter(ContextCompat.getColor(this, colorPlayer))
+            iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+            iconShow.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
             //background
-            layoutShow!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            layoutDraw!!.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
+            layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
             //change color frame
-            val gd = layoutDraw!!.foreground as GradientDrawable
+            val gd = layoutDraw.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
         }
-        buttonGo!!.setOnClickListener {
+        buttonGo.setOnClickListener {
             if (flagWord && flagAction) {
-                mPresenter!!.buttonGoPressed()
+                mPresenter.buttonGoPressed()
                 flagWord = false
                 flagAction = false
             } else if (!flagWord && flagAction || !flagWord && !flagAction) {
@@ -193,7 +190,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
         intent.putExtra("word", word)
         intent.putExtra("how_explain", howExplain)
-        startActivityForResult(intent, GAME)
+        startActivityForResult(intent, GAME_REQUEST)
     }
 
     override fun showResultDialog() {
@@ -204,10 +201,10 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     }
 
     override fun showData(name: String, color: Int, word1: String, word2: String) {
-        whoseTurn!!.text = String.format("%s %s", resources.getString(R.string.turn), name)
-        whoseTurn!!.setTextColor(ContextCompat.getColor(this, color))
-        this.word1!!.text = word1
-        this.word2!!.text = word2
+        whoseTurn.text = String.format("%s %s", resources.getString(R.string.turn), name)
+        whoseTurn.setTextColor(ContextCompat.getColor(this, color))
+        this.word1.text = word1
+        this.word2.text = word2
 
         colorPlayer = color
     }
@@ -224,23 +221,23 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
     override fun onRestart() {
         super.onRestart()
-        frameShowWords!!.visibility = View.VISIBLE
-        frameWord1!!.visibility = View.GONE
-        frameWord2!!.visibility = View.GONE
-        word2!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-        word1!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-        frameWord2!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-        frameWord1!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-        layoutShow!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-        layoutTell!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-        layoutDraw!!.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-        iconDraw!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-        iconTell!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-        iconShow!!.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-        textShow!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-        textTell!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-        textDraw!!.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-        mPresenter!!.findDataForFillFields(playerList!!, listWords!!, timeGame)
+        frameShowWords.visibility = View.VISIBLE
+        frameWord1.visibility = View.GONE
+        frameWord2.visibility = View.GONE
+        word2.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+        word1.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+        frameWord2.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+        frameWord1.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+        layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+        layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+        layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+        iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+        iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+        iconShow.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+        textShow.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+        textTell.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+        textDraw.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+        mPresenter.findDataForFillFields(playerList, listWords, timeGame)
         if (!timeGameFlag) {
             showResultDialog()
         }
@@ -248,7 +245,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
     override fun onStop() {
         super.onStop()
-        mPresenter!!.stopTimerGame()
+        mPresenter.stopTimerGame()
     }
 
     override fun onBackPressed() {}
