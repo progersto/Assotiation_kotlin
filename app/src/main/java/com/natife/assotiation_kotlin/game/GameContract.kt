@@ -23,11 +23,4 @@ interface GameContract {
         fun stopCountDownTimer()
         fun getPlayerList(): MutableList<Player>
     }
-
-    interface Repository {
-
-        fun createListNamePlayers(): List<String>?
-
-        fun createListColor(): List<Int>?
-    }
 }
