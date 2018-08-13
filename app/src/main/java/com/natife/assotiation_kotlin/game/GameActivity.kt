@@ -106,6 +106,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         layoutBtnFromTellAndShow.visibility = View.GONE
         textTimerDraw.visibility = View.VISIBLE
         drawClear.visibility = View.VISIBLE
+        backImage.visibility = View.VISIBLE
         timerBig = false
         mPresenter.initTimer(false, timeMove)
 
@@ -127,7 +128,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     }
 
     private fun initView() {
-        backImage= findViewById(R.id.back_image)
+        backImage = findViewById(R.id.back_image)
         backImage.setOnClickListener { _ -> paintView.backPaths() }
         textTimerDraw = findViewById(R.id.text_timer_draw)
         whoseTurn = findViewById(R.id.whose_turn)
@@ -217,6 +218,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         } else {
             textTimerDraw.visibility = View.GONE
             drawClear.visibility = View.GONE
+            backImage.visibility = View.GONE
             layoutForDraw.visibility = View.GONE
         }
         layoutBtnFromTellAndShow.visibility = View.GONE
@@ -282,7 +284,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     }
 
     override fun onDialogDismissed(dialogId: Int) {
-       //auto generate
+        //auto generate
     }
 
 

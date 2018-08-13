@@ -48,6 +48,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private var numberCircles: Int = 0
     private var timeGameFlag = true
     private var positionPlayer: Int = 0
+    private lateinit var textBtnGo: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,6 +97,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         textShow = findViewById(R.id.text_show)
         textTell = findViewById(R.id.text_tell)
         buttonGo = findViewById(R.id.buttonGo)
+        textBtnGo = findViewById(R.id.text_btn_go)
 
         results.setOnClickListener { showResultDialog(); }
         frameShowWords.setOnClickListener {
@@ -105,7 +107,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
         word1.setOnClickListener {
             flagWord = true
-
+            checkFillingField()
             word = word1.text.toString()
             word1.setTextColor(ContextCompat.getColor(this, colorPlayer))
             word2.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
@@ -116,7 +118,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
         word2.setOnClickListener {
             flagWord = true
-
+            checkFillingField()
             word = word2.text.toString()
             word2.setTextColor(ContextCompat.getColor(this, colorPlayer))
             word1.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
@@ -128,7 +130,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         layoutShow.setOnClickListener {
             if (playerList[positionPlayer].show) {
                 flagAction = true
-
+                checkFillingField()
                 howExplain = "show"
                 textShow.setTextColor(ContextCompat.getColor(this, colorPlayer))
                 iconShow.setColorFilter(ContextCompat.getColor(this, colorPlayer))
@@ -154,7 +156,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         layoutTell.setOnClickListener {
             if (playerList[positionPlayer].tell) {
                 flagAction = true
-
+                checkFillingField()
                 howExplain = "tell"
                 textTell.setTextColor(ContextCompat.getColor(this, colorPlayer))
                 iconTell.setColorFilter(ContextCompat.getColor(this, colorPlayer))
@@ -180,7 +182,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         layoutDraw.setOnClickListener {
             if (playerList[positionPlayer].draw) {
                 flagAction = true
-
+                checkFillingField()
                 howExplain = "draw"
                 textDraw.setTextColor(ContextCompat.getColor(this, colorPlayer))
                 iconDraw.setColorFilter(ContextCompat.getColor(this, colorPlayer))
@@ -216,11 +218,11 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
     }
 
-//    private fun checkFillingField(){
-//        if (flagWord && flagAction) {
-//            buttonGo.background.alpha = 0
-//        }
-//    }
+    private fun checkFillingField(){
+        if (flagWord && flagAction) {
+            textBtnGo.alpha = 1F
+        }
+    }
 
     override fun startGameActivity(posPlayer: Int) {
         val intent = Intent(this, GameActivity::class.java)
@@ -290,6 +292,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
     override fun onRestart() {
         super.onRestart()
+        textBtnGo.alpha = 0.5F
         frameShowWords.visibility = View.VISIBLE
         frameWord1.visibility = View.GONE
         frameWord2.visibility = View.GONE
@@ -303,8 +306,6 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             iconShow.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
             textShow.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            val gd = layoutShow.foreground as GradientDrawable
-
             iconShow.alpha = 1F
             textShow.alpha = 1F
         }
@@ -313,8 +314,6 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
             textTell.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            val gd = layoutTell.foreground as GradientDrawable
-
             iconTell.alpha = 1F
             textTell.alpha = 1F
         }
@@ -323,8 +322,6 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
             textDraw.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            val gd = layoutDraw.foreground as GradientDrawable
-
             iconDraw.alpha = 1F
             textDraw.alpha = 1F
         }

@@ -24,7 +24,11 @@
 
 
     <style name="ButtonThemeWithColor" parent="android:Widget.Button">
-        <item name="android:background">@drawable/button_circuit_with_color</item>
+        <item name="android:background">@drawable/button</item>
+    </style>
+
+    <style name="ButtonThemeWithColor2" parent="android:Widget.Button">
+        <item name="android:background">@drawable/button_result</item>
     </style>
 
     <style name="RecyclerTheme" parent="android:Widget.ListView">

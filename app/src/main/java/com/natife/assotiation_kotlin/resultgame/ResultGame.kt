@@ -60,8 +60,8 @@ class ResultGame : AppCompatActivity() {
             intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
             startActivity(intent)
         }
-        val gd = buttonAgain.background as GradientDrawable
-        gd.setColor(ContextCompat.getColor(this, R.color.colorButton))
+//        val gd = buttonAgain.background as GradientDrawable
+//        gd.setColor(ContextCompat.getColor(this, R.color.colorButton))
 
         (localPayerList as ArrayList<Player>).sortWith(Comparator { player, t1 ->
             when {
