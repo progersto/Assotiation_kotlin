@@ -329,7 +329,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             textDraw.alpha = 1F
         }
 
-        if (!timeGameFlag) {
+        if (!timeGameFlag && positionPlayer == 0) {
             showResultDialog()
         }
     }

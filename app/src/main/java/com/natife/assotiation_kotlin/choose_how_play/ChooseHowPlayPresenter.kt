@@ -73,7 +73,7 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
         val rand = Random()
         val position = rand.nextInt(size)
 
-        if (positionWord1 != -1 && listWords.get(positionWord1).equals(listWords.get(position))) {
+        if (positionWord1 != -1 && listWords[positionWord1] == listWords[position]) {
             getRandom(size)
         }
         return position
