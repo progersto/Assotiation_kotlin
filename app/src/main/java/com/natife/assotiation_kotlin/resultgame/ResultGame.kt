@@ -45,7 +45,7 @@ class ResultGame : AppCompatActivity() {
 
         timeGameFlag = intent.getBooleanExtra("timeGameFlag", false)
         playerList = intent.getParcelableArrayListExtra("playerList")
-        localPayerList = ArrayList(playerList as List<Player>)
+        localPayerList = ArrayList(playerList)
 
         val btnBack: ImageView = viewResult.findViewById(R.id.back)
         btnBack.setOnClickListener {
@@ -135,7 +135,8 @@ class ResultGame : AppCompatActivity() {
 
             val intent = Intent(android.content.Intent.ACTION_SEND)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            intent.putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.share_text))
+            intent.putExtra(Intent.EXTRA_SUBJECT, resources.getString(R.string.share_text))
+            intent.putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.share_URI))
             intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file))
             intent.type = "image/png"
             startActivity(Intent.createChooser(intent, "Share image via"))

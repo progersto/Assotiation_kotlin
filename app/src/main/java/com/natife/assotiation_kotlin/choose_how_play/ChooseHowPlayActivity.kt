@@ -43,11 +43,11 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private lateinit var playerList: MutableList<Player>
     private lateinit var howExplain: String
     private lateinit var word: String
-    private val GAME_REQUEST = 1000
     private var timeMove: Int = 0
     private var timeGame: Int = 0
     private var numberCircles: Int = 0
     private var timeGameFlag = true
+    private var positionPlayer: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,6 +105,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
         word1.setOnClickListener {
             flagWord = true
+
             word = word1.text.toString()
             word1.setTextColor(ContextCompat.getColor(this, colorPlayer))
             word2.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
@@ -115,6 +116,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
         word2.setOnClickListener {
             flagWord = true
+
             word = word2.text.toString()
             word2.setTextColor(ContextCompat.getColor(this, colorPlayer))
             word1.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
@@ -124,53 +126,83 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
         }
         layoutShow.setOnClickListener {
-            flagAction = true
-            howExplain = "show"
-            textShow.setTextColor(ContextCompat.getColor(this, colorPlayer))
-            textTell.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            textDraw.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-            iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-            iconShow.setColorFilter(ContextCompat.getColor(this, colorPlayer))
-            layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
-            layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            val gd = layoutShow.foreground as GradientDrawable
-            gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
+            if (playerList[positionPlayer].show) {
+                flagAction = true
+
+                howExplain = "show"
+                textShow.setTextColor(ContextCompat.getColor(this, colorPlayer))
+                iconShow.setColorFilter(ContextCompat.getColor(this, colorPlayer))
+                layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
+                val gd = layoutShow.foreground as GradientDrawable
+                gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
+                iconShow.alpha = 1F
+                textShow.alpha = 1F
+
+                if (playerList[positionPlayer].draw) {
+                    textDraw.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+                    iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+                    layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+                }
+
+                if (playerList[positionPlayer].tell) {
+                    textTell.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+                    iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+                    layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+                }
+            }
         }
         layoutTell.setOnClickListener {
-            flagAction = true
-            howExplain = "tell"
-            textShow.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            textTell.setTextColor(ContextCompat.getColor(this, colorPlayer))
-            textDraw.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-            iconTell.setColorFilter(ContextCompat.getColor(this, colorPlayer))
-            iconShow.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-            layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
-            layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            val gd = layoutTell.foreground as GradientDrawable
-            gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
+            if (playerList[positionPlayer].tell) {
+                flagAction = true
+
+                howExplain = "tell"
+                textTell.setTextColor(ContextCompat.getColor(this, colorPlayer))
+                iconTell.setColorFilter(ContextCompat.getColor(this, colorPlayer))
+                layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
+                val gd = layoutTell.foreground as GradientDrawable
+                gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
+                iconTell.alpha = 1F
+                textTell.alpha = 1F
+
+                if (playerList[positionPlayer].show) {
+                    textShow.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+                    iconShow.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+                    layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+                }
+
+                if (playerList[positionPlayer].draw) {
+                    textDraw.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+                    iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+                    layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+                }
+            }
         }
         layoutDraw.setOnClickListener {
-            flagAction = true
-            howExplain = "draw"
-            //color text
-            textShow.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            textTell.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-            textDraw.setTextColor(ContextCompat.getColor(this, colorPlayer))
-            //color icon
-            iconDraw.setColorFilter(ContextCompat.getColor(this, colorPlayer))
-            iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-            iconShow.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-            //background
-            layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-            layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
-            //change color frame
-            val gd = layoutDraw.foreground as GradientDrawable
-            gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
+            if (playerList[positionPlayer].draw) {
+                flagAction = true
+
+                howExplain = "draw"
+                textDraw.setTextColor(ContextCompat.getColor(this, colorPlayer))
+                iconDraw.setColorFilter(ContextCompat.getColor(this, colorPlayer))
+                layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)
+                //change color frame
+                val gd = layoutDraw.foreground as GradientDrawable
+                gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
+                iconDraw.alpha = 1F
+                textDraw.alpha = 1F
+
+                if (playerList[positionPlayer].show) {
+                    textShow.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection)) //color text
+                    iconShow.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection)) //color icon
+                    layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)  //background
+                }
+
+                if (playerList[positionPlayer].tell) {
+                    textTell.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+                    iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+                    layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+                }
+            }
         }
         buttonGo.setOnClickListener {
             if (flagWord && flagAction) {
@@ -184,13 +216,19 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
     }
 
+//    private fun checkFillingField(){
+//        if (flagWord && flagAction) {
+//            buttonGo.background.alpha = 0
+//        }
+//    }
+
     override fun startGameActivity(posPlayer: Int) {
         val intent = Intent(this, GameActivity::class.java)
         intent.putExtra("positionPlayer", posPlayer)
         intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
         intent.putExtra("word", word)
         intent.putExtra("how_explain", howExplain)
-        startActivityForResult(intent, GAME_REQUEST)
+        startActivity(intent)
     }
 
     override fun showResultDialog() {
@@ -200,17 +238,48 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         startActivity(intent)
     }
 
-    override fun showData(name: String, color: Int, word1: String, word2: String) {
+    override fun showData(name: String, color: Int, word1: String, word2: String, positionPlayer: Int) {
         whoseTurn.text = String.format("%s %s", resources.getString(R.string.turn), name)
         whoseTurn.setTextColor(ContextCompat.getColor(this, color))
         this.word1.text = word1
         this.word2.text = word2
 
         colorPlayer = color
+        this.positionPlayer = positionPlayer
+        if (!playerList[positionPlayer].show) {
+            textShow.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))//text
+            iconShow.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))//icon
+            layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)//background
+            val gd = layoutShow.foreground as GradientDrawable
+            gd.setStroke(3, ContextCompat.getColor(this, R.color.colorNotActive))
+            gd.alpha = 50
+            iconShow.alpha = 0.3F
+            textShow.alpha = 0.3F
+        }
+        if (!playerList[positionPlayer].tell) {
+            textTell.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))//text
+            iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))//icon
+            layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)//background
+            val gd = layoutTell.foreground as GradientDrawable
+            gd.setStroke(3, ContextCompat.getColor(this, R.color.colorNotActive))
+            gd.alpha = 50
+            iconTell.alpha = 0.3F
+            textTell.alpha = 0.3F
+        }
+        if (!playerList[positionPlayer].draw) {
+            textDraw.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))//text
+            iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))//icon
+            layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.selected_action_and_word)//background
+            val gd = layoutDraw.foreground as GradientDrawable
+            gd.setStroke(3, ContextCompat.getColor(this, R.color.colorNotActive))
+            gd.alpha = 50
+            iconDraw.alpha = 0.3F
+            textDraw.alpha = 0.3F
+        }
     }
 
     override fun getContextActivity(): Context {
-       return this
+        return this
     }
 
 
@@ -228,16 +297,38 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         word1.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
         frameWord2.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
         frameWord1.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-        layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-        layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-        layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-        iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-        iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-        iconShow.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
-        textShow.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-        textTell.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
-        textDraw.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
         mPresenter.findDataForFillFields(playerList, listWords, timeGame)
+
+        if (playerList[positionPlayer].show) {
+            layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            iconShow.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+            textShow.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            val gd = layoutShow.foreground as GradientDrawable
+
+            iconShow.alpha = 1F
+            textShow.alpha = 1F
+        }
+
+        if (playerList[positionPlayer].tell) {
+            layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+            textTell.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            val gd = layoutTell.foreground as GradientDrawable
+
+            iconTell.alpha = 1F
+            textTell.alpha = 1F
+        }
+
+        if (playerList[positionPlayer].draw) {
+            layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
+            iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
+            textDraw.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
+            val gd = layoutDraw.foreground as GradientDrawable
+
+            iconDraw.alpha = 1F
+            textDraw.alpha = 1F
+        }
+
         if (!timeGameFlag) {
             showResultDialog()
         }

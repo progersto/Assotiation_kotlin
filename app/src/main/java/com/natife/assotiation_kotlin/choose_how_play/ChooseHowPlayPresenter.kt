@@ -20,7 +20,7 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
     private var positionPlayer: Int = 0
     private lateinit var mCountDownTimer: CountDownTimer
     private val COUNT_DOWN_INTERVAL = 1000
-    private var playerPosDefault: Int = 0
+    private var playerPosDefault: Int = -1
     private var lapDefault: Int = 0
     private lateinit var word1: String
     private lateinit var word2: String
@@ -28,7 +28,6 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
 
     init {
         lapDefault = restoreNumberCircles(mView.getContextActivity())
-        playerPosDefault = 0
     }
 
 
@@ -45,6 +44,11 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
     override fun findDataForFillFields(playerList: MutableList<Player>, listWords: MutableList<String>, timeGame: Int) {
         this.playerList = playerList
         positionPlayer = getPositionPlayer()
+        if (!playerList[positionPlayer].tell && !playerList[positionPlayer].show && !playerList[positionPlayer].draw){
+            playerList[positionPlayer].tell = true
+            playerList[positionPlayer].show = true
+            playerList[positionPlayer].draw = true
+        }
 
         if (lapDefault != 0) {
             this.listWords = listWords
@@ -57,11 +61,11 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
             word1 = word1.substring(0, 1).toUpperCase() + word1.substring(1)
             word2 = word2.substring(0, 1).toUpperCase() + word2.substring(1)
             colorPlayer = playerList[positionPlayer].color
-            mView.showData(name, colorPlayer, word1, word2)
+            mView.showData(name, colorPlayer, word1, word2, positionPlayer)
             startTimerGame(timeGame)
         } else {
             mView.gameOver()
-            mView.showData(name, colorPlayer, word1, word2)
+            mView.showData(name, colorPlayer, word1, word2, positionPlayer)
         }
     }
 
@@ -77,7 +81,7 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
 
 
     private fun startTimerGame(timeGame: Int) {
-        mCountDownTimer = object : CountDownTimer(((timeGame + 1) * 1000).toLong(), COUNT_DOWN_INTERVAL.toLong()) {
+        mCountDownTimer = object : CountDownTimer(((timeGame + 1) * 1001).toLong(), COUNT_DOWN_INTERVAL.toLong()) {
             override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
                 mView.gameOver()
@@ -92,15 +96,13 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
 
 
     private fun getPositionPlayer(): Int {
-        var pos = 0
-        if (playerPosDefault < playerList.size) {
-            pos = playerPosDefault
+        if (playerPosDefault < playerList.size - 1) {
             playerPosDefault++
         } else {
             playerPosDefault = 0
             lapDefault--
         }
-        return pos
+        return playerPosDefault
     }
 
 

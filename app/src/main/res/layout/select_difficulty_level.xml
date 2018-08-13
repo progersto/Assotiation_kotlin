@@ -110,7 +110,7 @@
 
 
     <RadioGroup
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -120,11 +120,13 @@
             android:id="@+id/radio_easy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:layout_marginTop="35dp"
             android:layout_weight="1"
             android:buttonTint="@color/colorTextSelection"
             android:checked="true"
-            android:gravity="top" />
+            android:gravity="top"
+            android:layoutDirection="rtl" />
 
         <RadioButton
             android:id="@+id/radio_normal"
@@ -133,7 +135,8 @@
             android:layout_marginTop="35dp"
             android:layout_weight="1"
             android:buttonTint="@color/colorTextSelection"
-            android:gravity="top" />
+            android:gravity="top"
+            android:layoutDirection="rtl" />
 
         <RadioButton
             android:id="@+id/radio_hard"
@@ -142,7 +145,8 @@
             android:layout_marginTop="35dp"
             android:layout_weight="1"
             android:buttonTint="@color/colorTextSelection"
-            android:gravity="top" />
+            android:gravity="top"
+            android:layoutDirection="rtl" />
 
     </RadioGroup>
 

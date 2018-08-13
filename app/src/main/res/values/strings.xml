@@ -61,6 +61,6 @@
 
     <string name="share">Поделиться</string>
     <string name="share_text">Результат игры Association</string>
-    <string name="share_URI"><a href="https://natife.com">Natife.com</a></string>
+    <string name="share_URI"><a href="https://natife.com">https://natife.com</a></string>
 
 </resources>

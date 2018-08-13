@@ -30,7 +30,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     private lateinit var howExplain: String
     private lateinit var textTimerDraw: TextView
     private lateinit var whoseTurn: TextView
-    private lateinit var drawClear: TextView
+    private lateinit var drawClear: ImageView
     private lateinit var timer: RelativeLayout
     private lateinit var circularProgressbar: ProgressBar
     private lateinit var textTimer: TextView
@@ -53,6 +53,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     private val DIALOG_ID_COLOR = 0
     private lateinit var colorDialog: ColorPickerDialog.Builder
     private var colorForStartDialog: Int = 0
+    private lateinit var backImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,14 +85,17 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
             "tell" -> {
                 whoseTurn.text = String.format("%s %s", resources.getString(R.string.describes), playerList[positionPlayer].name)
                 selectedTellOrShow()
+                playerList[positionPlayer].tell = false
             }
             "show" -> {
                 whoseTurn.text = String.format("%s %s", resources.getString(R.string.shows), playerList[positionPlayer].name)
                 selectedTellOrShow()
+                playerList[positionPlayer].show = false
             }
             "draw" -> {
                 whoseTurn.text = String.format("%s %s", resources.getString(R.string.draws), playerList[positionPlayer].name)
                 selectedDraw()
+                playerList[positionPlayer].draw = false
             }
         }
     }
@@ -123,6 +127,8 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     }
 
     private fun initView() {
+        backImage= findViewById(R.id.back_image)
+        backImage.setOnClickListener { _ -> paintView.backPaths() }
         textTimerDraw = findViewById(R.id.text_timer_draw)
         whoseTurn = findViewById(R.id.whose_turn)
         drawClear = findViewById(R.id.draw_clear)

@@ -10,7 +10,7 @@ interface ChooseHowPlayContract {
 
         fun showResultDialog()
 
-        fun showData(name: String, color: Int, word1: String, word2: String)
+        fun showData(name: String, color: Int, word1: String, word2: String, positionPlayer: Int)
 
         fun getContextActivity(): Context
 

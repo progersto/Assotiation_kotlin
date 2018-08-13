@@ -30,7 +30,7 @@ class InitGameRepository : InitGameContract.Repository {
 
 
     override fun addNameInPlayerList(): MutableList<Player> {
-        playerList.add(Player("", colorList[playerList.size - 1], 0, 0))
+        playerList.add(Player("", colorList[playerList.size - 1], 0, 0, true, true, true))
         return playerList
     }
 
@@ -44,11 +44,11 @@ class InitGameRepository : InitGameContract.Repository {
         playerList = java.util.ArrayList()
         if (listWithName == null) {
             for (i in 0..2) {
-                playerList.add(Player("", colorList[i], 0, 0))
+                playerList.add(Player("", colorList[i], 0, 0, true, true, true))
             }
         } else {
             for (i in listWithName.indices) {
-                playerList.add(Player(listWithName[i].name!!, colorList[i], 0, 0))
+                playerList.add(Player(listWithName[i].name!!, colorList[i], 0, 0, true, true, true))
             }
         }
         return playerList

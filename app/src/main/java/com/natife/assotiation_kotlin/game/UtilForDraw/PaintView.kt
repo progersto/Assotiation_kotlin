@@ -83,6 +83,14 @@ class PaintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         invalidate()
     }
 
+    fun backPaths() {
+        if (paths.size > 0){
+            paths.removeAt(paths.size - 1)
+            normal()
+            invalidate()
+        }
+    }
+
     override fun onDraw(canvas: Canvas) {
         canvas.save()
         mCanvas!!.drawColor(backgrColor)
