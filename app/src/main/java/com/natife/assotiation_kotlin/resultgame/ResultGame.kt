@@ -55,10 +55,20 @@ class ResultGame : AppCompatActivity() {
 
         val buttonAgain: RelativeLayout = viewResult.findViewById(R.id.buttonAgain)
         buttonAgain.setOnClickListener {
-            finishAffinity()
-            val intent = Intent(this, InitGameActivity::class.java)
-            intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
-            startActivity(intent)
+            android.support.v7.app.AlertDialog.Builder(this)
+                    .setMessage(R.string.you_are_sure)
+                    .setNegativeButton(R.string.no) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton(R.string.ok) { dialog, _ ->
+                        dialog.dismiss()
+                        finishAffinity()
+                        val intent = Intent(this, InitGameActivity::class.java)
+                        intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
+                        startActivity(intent)
+                    }
+                    .show()
+
         }
 //        val gd = buttonAgain.background as GradientDrawable
 //        gd.setColor(ContextCompat.getColor(this, R.color.colorButton))
