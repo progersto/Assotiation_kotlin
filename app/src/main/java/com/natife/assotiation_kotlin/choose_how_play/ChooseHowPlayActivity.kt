@@ -15,6 +15,7 @@ import com.natife.assotiation_kotlin.init_game.Player
 import com.natife.assotiation_kotlin.game.GameActivity
 import com.natife.assotiation_kotlin.resultgame.ResultGame
 import com.natife.assotiation_kotlin.utils.*
+import com.natife.assotiation_kotlin.utils.audio.AudioUtil
 
 class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
@@ -51,6 +52,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private var positionPlayer: Int = 0
     private lateinit var textBtnGo: TextView
     private var flagNextPlayer: Boolean = false
+    private lateinit var audio: AudioUtil
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +73,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
         //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс Contract.View
         mPresenter = ChooseHowPlayPresenter(this)
+        audio = AudioUtil.getInstance()
 
         listWords = intent.getStringArrayListExtra("listWords") as MutableList<String>
         playerList = mPresenter.getPlayerList()
@@ -117,6 +120,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             frameWord2.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = frameWord1.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
+            audio.soundClick(this)
         }
         word2.setOnClickListener {
             flagWord = true
@@ -128,6 +132,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             frameWord1.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = frameWord2.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
+            audio.soundClick(this)
         }
         layoutShow.setOnClickListener {
             if (playerList[positionPlayer].show) {
@@ -153,6 +158,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                     iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
                     layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
                 }
+                audio.soundClick(this)
             }
         }
         layoutTell.setOnClickListener {
@@ -179,6 +185,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                     iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
                     layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
                 }
+                audio.soundClick(this)
             }
         }
         layoutDraw.setOnClickListener {
@@ -206,9 +213,11 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                     iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
                     layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
                 }
+                audio.soundClick(this)
             }
         }
         buttonGo.setOnClickListener {
+            audio.soundClick(this)
             if (flagWord && flagAction) {
                 mPresenter.buttonGoPressed()
                 flagWord = false

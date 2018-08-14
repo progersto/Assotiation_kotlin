@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.support.v7.app.AppCompatActivity
@@ -17,6 +19,7 @@ import android.view.View
 import android.view.Window
 import android.widget.*
 import com.natife.assotiation_kotlin.R
+import com.natife.assotiation_kotlin.utils.audio.AudioUtil
 import java.util.*
 
 class InitGameActivity : AppCompatActivity(), InitGameContract.View {
@@ -40,6 +43,9 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
     private val LEVEL_EASE = 1
     private val LEVEL_NORMAL = 2
     private val LEVEL_HARD = 3
+    private lateinit var sp: SoundPool
+    private var soundIdShot: Int = 1
+    private lateinit var audio: AudioUtil
 
     companion object {
 
@@ -84,6 +90,7 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
 
         val playerList = intent.getParcelableArrayListExtra<Player>("playerList")
         (mPresenter as InitGamePresenter).initPlayerList(playerList)
+         audio = AudioUtil.getInstance()
     }//onCreate
 
 
@@ -97,13 +104,25 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         textBtnNext = findViewById(R.id.textBtnNext)
         viewRadioButton = findViewById(R.id.viewRadioButton)
         radioEasy = findViewById(R.id.radio_easy)
+        radioEasy.setOnClickListener{ audio.soundClick(this)}
         radioNormal = findViewById(R.id.radio_normal)
+        radioNormal.setOnClickListener{ audio.soundClick(this) }
         radioHard = findViewById(R.id.radio_hard)
-
-        btnAddPlayer.setOnClickListener { mPresenter.btnAddPlayerClicked() }
-        btnNext.setOnClickListener { mPresenter.btnNextClicked(checkDifficultLevel()) }
-        back.setOnClickListener { mPresenter.btnBackClicked() }
-        settings.setOnClickListener { mPresenter.btnSettingsClicked() }
+        radioHard.setOnClickListener{ audio.soundClick(this)}
+        btnAddPlayer.setOnClickListener {
+            audio.soundClick(this)
+            mPresenter.btnAddPlayerClicked()
+        }
+        btnNext.setOnClickListener {
+            audio.soundClick(this)
+            mPresenter.btnNextClicked(checkDifficultLevel())
+            }
+        back.setOnClickListener {
+            audio.soundClick(this)
+            mPresenter.btnBackClicked() }
+        settings.setOnClickListener {
+            audio.soundClick(this)
+            mPresenter.btnSettingsClicked() }
         onItemVoiceIconListener = object : OnItemVoiceIconListener {
             override fun onItemVoiceIconClick(position: Int, editText: EditText) {
                 // call the voice dialing activity

@@ -11,6 +11,7 @@ import android.view.Window
 import android.widget.TextView
 import com.natife.assotiation_kotlin.R
 import com.natife.assotiation_kotlin.utils.*
+import com.natife.assotiation_kotlin.utils.audio.AudioUtil
 
 class DialogSettings : DialogFragment() {
     private lateinit var timeMoveTV: TextView
@@ -19,6 +20,7 @@ class DialogSettings : DialogFragment() {
     private var timeMove: Int = 0
     private var timeGame: Int = 0
     private var numberCircles: Int = 0
+    private lateinit var audio: AudioUtil
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.dialog_settings_game, null)
@@ -29,6 +31,7 @@ class DialogSettings : DialogFragment() {
         timeMoveTV = v.findViewById(R.id.text_time_move)
         timeGameTV = v.findViewById(R.id.text_time_game)
         numberCirclesTV = v.findViewById(R.id.text_number_of_circles)
+        audio = AudioUtil.getInstance()
 
         //get info from preferences
         timeMove = restoreTimeMove(v.context)
@@ -48,45 +51,52 @@ class DialogSettings : DialogFragment() {
         }
 
         v.findViewById<View>(R.id.number_of_circles_plus).setOnClickListener {
-            if (numberCircles != 50) {
+            if (numberCircles != 30) {
                 numberCircles += 1
                 numberCirclesTV.text = numberCircles.toString()
+                audio.soundClick(dialog.context)
             }
         }
         v.findViewById<View>(R.id.number_of_circles_minus).setOnClickListener {
             if (numberCircles != 1) {
                 numberCircles -= 1
                 numberCirclesTV.text = numberCircles.toString()
+                audio.soundClick(dialog.context)
             }
         }
         v.findViewById<View>(R.id.time_move_minus).setOnClickListener {
             if (timeMove != 15) {
                 timeMove -= 15
                 timeMoveTV.text = timeMove.toString()
+                audio.soundClick(dialog.context)
             }
         }
         v.findViewById<View>(R.id.time_move_plus).setOnClickListener {
-            if (timeMove != 300) {
+            if (timeMove != 180) {
                 timeMove += 15
                 timeMoveTV.text = timeMove.toString()
+                audio.soundClick(dialog.context)
             }
         }
         v.findViewById<View>(R.id.time_game_minus).setOnClickListener {
             if (timeGame != 15) {
                 timeGame -= 1
                 timeGameTV.text = timeGame.toString()
+                audio.soundClick(dialog.context)
             }
         }
         v.findViewById<View>(R.id.time_game_plus).setOnClickListener {
             if (timeGame != 90) {
                 timeGame += 1
                 timeGameTV.text = timeGame.toString()
+                audio.soundClick(dialog.context)
             }
         }
         v.findViewById<View>(R.id.buttonSave).setOnClickListener {
             saveTimeMove(v.context, timeMove)
             saveTimeGame(v.context, timeGame)
             saveNumberCircles(v.context, numberCircles)
+            audio.soundClick(dialog.context)
             dismiss()
         }
 

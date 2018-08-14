@@ -6,13 +6,12 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.GradientDrawable
+import android.media.SoundPool
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.os.StrictMode
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.View.inflate
 import android.widget.ImageView
@@ -27,6 +26,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.Window
+import com.natife.assotiation_kotlin.utils.audio.AudioUtil
 import java.io.File
 import java.io.FileOutputStream
 
@@ -37,6 +37,10 @@ class ResultGame : AppCompatActivity() {
     private var timeGameFlag: Boolean = true
     private lateinit var layoutResult: LinearLayout
     private var dialog: Dialog? = null
+    private lateinit var sp: SoundPool
+    private var soundIdShot: Int = 1
+    private lateinit var audio: AudioUtil
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +50,7 @@ class ResultGame : AppCompatActivity() {
         toolbar = viewResult.findViewById(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)
+        audio = AudioUtil.getInstance()
 
         timeGameFlag = intent.getBooleanExtra("timeGameFlag", false)
         playerList = intent.getParcelableArrayListExtra("playerList")
@@ -60,12 +65,15 @@ class ResultGame : AppCompatActivity() {
 
         val buttonAgain: RelativeLayout = viewResult.findViewById(R.id.buttonAgain)
         buttonAgain.setOnClickListener {
+            audio.soundApplause(this)
             android.support.v7.app.AlertDialog.Builder(this)
                     .setMessage(R.string.you_are_sure)
                     .setNegativeButton(R.string.no) { dialog, _ ->
+                        audio.soundApplause(this)
                         dialog.dismiss()
                     }
                     .setPositiveButton(R.string.ok) { dialog, _ ->
+                        audio.soundApplause(this)
                         dialog.dismiss()
                         finishAffinity()
                         val intent = Intent(this, InitGameActivity::class.java)
@@ -73,7 +81,6 @@ class ResultGame : AppCompatActivity() {
                         startActivity(intent)
                     }
                     .show()
-
         }
 
         (localPayerList as ArrayList<Player>).sortWith(Comparator { player, t1 ->

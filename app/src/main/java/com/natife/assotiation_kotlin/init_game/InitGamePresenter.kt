@@ -51,7 +51,7 @@ class InitGamePresenter(private val mView: InitGameContract.View) : InitGameCont
                     if (playerList[i].name.equals(playerList[j].name)) {
                         android.support.v7.app.AlertDialog.Builder(mView.contextActivity())
                                 .setMessage(R.string.set_different_name)
-                                .setPositiveButton(R.string.ok) { dialog, which -> dialog.dismiss() }
+                                .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
                                 .show()
                         return
                     }

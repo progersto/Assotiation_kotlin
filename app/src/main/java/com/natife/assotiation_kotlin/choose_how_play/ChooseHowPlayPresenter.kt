@@ -70,10 +70,13 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
 
     private fun getRandom(size: Int): Int {
         val rand = Random()
-        val position = rand.nextInt(size)
+        var position = rand.nextInt(size)
+        if (positionWord1 == -1){
+            return position
+        }
 
-        if (positionWord1 != -1 && listWords[positionWord1] == listWords[position]) {
-            getRandom(size)
+        if (listWords[positionWord1] == listWords[position]) {
+            position = getRandom(size)
         }
         return position
     }// getRandom

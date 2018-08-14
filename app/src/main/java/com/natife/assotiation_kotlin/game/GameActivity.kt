@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.Window
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
+import com.natife.assotiation_kotlin.utils.audio.AudioUtil
 import com.natife.assotiation_kotlin.utils.restoreColorDraw
 import com.natife.assotiation_kotlin.utils.restoreTimeMove
 import com.natife.assotiation_kotlin.utils.saveColorDraw
@@ -54,6 +55,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     private lateinit var colorDialog: ColorPickerDialog.Builder
     private var colorForStartDialog: Int = 0
     private lateinit var backImage: ImageView
+    private lateinit var audio: AudioUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +72,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
         initView()
 
+        audio = AudioUtil.getInstance()
         playerList = mPresenter.getPlayerList()
     }
 
@@ -129,11 +132,15 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
     private fun initView() {
         backImage = findViewById(R.id.back_image)
-        backImage.setOnClickListener { _ -> paintView.backPaths() }
+        backImage.setOnClickListener { _ ->
+            audio.soundClick(this)
+            paintView.backPaths() }
         textTimerDraw = findViewById(R.id.text_timer_draw)
         whoseTurn = findViewById(R.id.whose_turn)
         drawClear = findViewById(R.id.draw_clear)
-        drawClear.setOnClickListener { _ -> paintView.clear() }
+        drawClear.setOnClickListener { _ ->
+            audio.soundClick(this)
+            paintView.clear() }
         timer = findViewById(R.id.timer)
         circularProgressbar = findViewById(R.id.circularProgressbar)
         circularProgressbar.max = timeMove
@@ -147,6 +154,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         layoutForDraw = findViewById(R.id.layout_for_draw)
         buttonPointBrush = findViewById(R.id.buttonPointBrush)
         buttonPointBrush.setOnClickListener { _ ->
+            audio.soundClick(this)
             colorDialog = ColorPickerDialog.newBuilder()
             colorDialog.setDialogType(ColorPickerDialog.TYPE_PRESETS)
                     .setAllowPresets(false)
@@ -161,6 +169,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
                     .show(this)
         }
         buttonAction.setOnClickListener { _ ->
+            audio.soundClick(this)
             val dialog = Dialog(this)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -189,6 +198,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
 
     private fun btnRemindWord() {
+        audio.soundClick(this)
         val toast = Toast.makeText(this, word, Toast.LENGTH_SHORT)
         toast.setGravity(Gravity.CENTER, 0, 0)
         toast.show()
@@ -203,12 +213,14 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     }
 
     private fun btnTheyNotGuessed() {
+        audio.soundClick(this)
         mPresenter.stopCountDownTimer()
         mPresenter.notWin()
     }
 
 
     private fun btnTheyGuessed() {
+        audio.soundClick(this)
         mPresenter.stopCountDownTimer()
         whoseTurn.text = resources.getString(R.string.who_guessed)
         whoseTurn.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
@@ -233,7 +245,9 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
                 textBtnPlayer.text = name
                 gd = btn.background as GradientDrawable
                 gd!!.setColor(ContextCompat.getColor(this, playerList[i].color))
-                btn.setOnClickListener { _ -> mPresenter.playerWin(playerList, i, positionPlayer) }
+                btn.setOnClickListener { _ ->
+                    audio.soundClick(this)
+                    mPresenter.playerWin(playerList, i, positionPlayer) }
                 layoutBtnPlayer.addView(newItem)
             }
         }
