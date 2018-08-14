@@ -104,7 +104,9 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         buttonGo = findViewById(R.id.buttonGo)
         textBtnGo = findViewById(R.id.text_btn_go)
 
-        results.setOnClickListener { showResultDialog(); }
+        results.setOnClickListener {
+            audio.soundClick(this)
+            showResultDialog(); }
         frameShowWords.setOnClickListener {
             frameShowWords.visibility = (View.GONE)
             frameWord1.visibility = (View.VISIBLE)
