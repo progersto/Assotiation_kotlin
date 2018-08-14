@@ -8,7 +8,6 @@ import android.os.CountDownTimer
 import com.natife.assotiation_kotlin.utils.restoreNumberCircles
 
 class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : ChooseHowPlayContract.Presenter {
-
     private val mRepository: InitGameContract.Repository = InitGameRepository.getInstance()
     private var playerList = mutableListOf<Player>()
     private var listWords = mutableListOf<String>()
@@ -103,6 +102,10 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
             lapDefault--
         }
         return playerPosDefault
+    }
+
+    override fun getPosPlayer(): Int {
+        return positionPlayer
     }
 
 

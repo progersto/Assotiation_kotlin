@@ -26,5 +26,7 @@ interface ChooseHowPlayContract {
         fun getPlayerList(): MutableList<Player>
 
         fun stopTimerGame()
+
+        fun getPosPlayer(): Int
     }
 }

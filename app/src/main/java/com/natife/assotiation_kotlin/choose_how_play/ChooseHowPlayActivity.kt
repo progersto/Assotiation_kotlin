@@ -17,6 +17,7 @@ import com.natife.assotiation_kotlin.resultgame.ResultGame
 import com.natife.assotiation_kotlin.utils.*
 
 class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
+
     private lateinit var mPresenter: ChooseHowPlayContract.Presenter
     private lateinit var listWords: MutableList<String>
     private lateinit var whoseTurn: TextView
@@ -49,6 +50,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private var timeGameFlag = true
     private var positionPlayer: Int = 0
     private lateinit var textBtnGo: TextView
+    private var flagNextPlayer: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -237,7 +239,15 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         val intent = Intent(this, ResultGame::class.java)
         intent.putExtra("timeGameFlag", timeGameFlag)
         intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
-        startActivity(intent)
+        startActivityForResult(intent, 11111)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (data == null) {
+            return
+        }else{
+            flagNextPlayer = data.getBooleanExtra("flagNextPlayer", false)
+        }
     }
 
     override fun showData(name: String, color: Int, word1: String, word2: String, positionPlayer: Int) {
@@ -292,6 +302,10 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
     override fun onRestart() {
         super.onRestart()
+        refreshScreen()
+    }
+
+    private fun refreshScreen() {
         textBtnGo.alpha = 0.5F
         frameShowWords.visibility = View.VISIBLE
         frameWord1.visibility = View.GONE
@@ -300,7 +314,10 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         word1.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
         frameWord2.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
         frameWord1.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
-        mPresenter.findDataForFillFields(playerList, listWords, timeGame)
+
+        if (!flagNextPlayer){
+            mPresenter.findDataForFillFields(playerList, listWords, timeGame)
+        }
 
         if (playerList[positionPlayer].show) {
             layoutShow.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
@@ -329,6 +346,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         if (!timeGameFlag && positionPlayer == 0) {
             showResultDialog()
         }
+        flagNextPlayer = false
     }
 
     override fun onStop() {

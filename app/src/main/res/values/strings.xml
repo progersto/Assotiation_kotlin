@@ -42,6 +42,8 @@
     <string name="start_over">Начать заново</string>
     <string name="no">Нет</string>
     <string name="you_are_sure">Уверены, что хотите начать заново игру?</string>
+    <string name="winner">Поздравляем!</string>
+    <string name="first_place">1-е место занимает</string>
 
     <string name="they_guessed">Отгадали</string>
     <string name="they_not_guessed">Не отгадали</string>

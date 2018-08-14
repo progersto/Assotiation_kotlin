@@ -1,9 +1,11 @@
 package com.natife.assotiation_kotlin.resultgame
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -24,6 +26,7 @@ import java.util.ArrayList
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
 import java.io.File
 import java.io.FileOutputStream
 
@@ -33,6 +36,7 @@ class ResultGame : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private var timeGameFlag: Boolean = true
     private lateinit var layoutResult: LinearLayout
+    private var dialog: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +53,8 @@ class ResultGame : AppCompatActivity() {
 
         val btnBack: ImageView = viewResult.findViewById(R.id.back)
         btnBack.setOnClickListener {
-            finish()
+            setResult(RESULT_OK, intent.putExtra("flagNextPlayer", true))
+            this.finish()
         }
         btnBack.visibility = if (timeGameFlag) View.VISIBLE else View.INVISIBLE
 
@@ -70,8 +75,6 @@ class ResultGame : AppCompatActivity() {
                     .show()
 
         }
-//        val gd = buttonAgain.background as GradientDrawable
-//        gd.setColor(ContextCompat.getColor(this, R.color.colorButton))
 
         (localPayerList as ArrayList<Player>).sortWith(Comparator { player, t1 ->
             when {
@@ -84,14 +87,14 @@ class ResultGame : AppCompatActivity() {
         val layoutResult: LinearLayout = viewResult.findViewById(R.id.layoutResult)//контейнер для вставки item
 
         val isWin = checkWin()
-        for (i in playerList.indices) {
+        for (i in localPayerList.indices) {
             val newItem = inflate(this, R.layout.item_result, null)//добавляемый item
             val image = newItem.findViewById<ImageView>(R.id.image_result)
             val nameResult = newItem.findViewById<TextView>(R.id.name_result)//inserted name
             val totalPointsResult = newItem.findViewById<TextView>(R.id.total_points)
             val guessedWordsResult = newItem.findViewById<TextView>(R.id.guessed_words)
 
-            val name = playerList[i].name!!.substring(0, 1).toUpperCase() + playerList[i].name!!.substring(1)
+            val name = localPayerList[i].name!!.substring(0, 1).toUpperCase() + localPayerList[i].name!!.substring(1)
             nameResult.text = name
             val guessedWords = String.format("%s %s %s",
                     resources.getString(R.string.guessed),
@@ -101,6 +104,15 @@ class ResultGame : AppCompatActivity() {
             totalPointsResult.text = localPayerList[i].countScore.toString()
             if (isWin && i == 0) {
                 image.visibility = View.VISIBLE
+                if (!timeGameFlag){
+                    dialog = Dialog(this)
+                    dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                    dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    dialog!!.setContentView(R.layout.dialog_win)
+                    val nameWiner: TextView = dialog!!.findViewById(R.id.name_win)
+                    nameWiner.text = name
+                    dialog!!.show()
+                }
             } else
                 image.visibility = View.INVISIBLE
             layoutResult.addView(newItem)
