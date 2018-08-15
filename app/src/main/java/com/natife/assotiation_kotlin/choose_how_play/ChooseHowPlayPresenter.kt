@@ -116,7 +116,7 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
     }
 
     override fun getLifeData(): LiveData<Boolean> {
-        return InitGameRepository.getInstance().startRefresh()
+        return InitGameRepository.getInstance().getLifeData()
     }
 
 }

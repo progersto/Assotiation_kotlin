@@ -1,6 +1,7 @@
 package com.natife.assotiation_kotlin.init_game
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 
 interface InitGameContract {
@@ -40,6 +41,7 @@ interface InitGameContract {
 
         fun getCurrentPlayerList(): MutableList<Player>
 
-        fun startRefresh(): LiveData<Boolean>
+        fun startRefreshHowPlayScreen()
+        fun getLifeData(): MutableLiveData<Boolean>
     }
 }

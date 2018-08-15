@@ -12,7 +12,9 @@ class InitGameRepository : InitGameContract.Repository {
     private val colorList = java.util.ArrayList(Arrays.asList(R.color.colorPlayer1, R.color.colorPlayer2,
             R.color.colorPlayer3, R.color.colorPlayer4, R.color.colorPlayer5, R.color.colorPlayer6))
     private var playerList = mutableListOf<Player>()
-    private val liveData = MutableLiveData<Boolean>()
+    private val liveData = MutableLiveData<Boolean>().apply {
+        value = true
+    }
 
 
     companion object {
@@ -63,10 +65,13 @@ class InitGameRepository : InitGameContract.Repository {
         return playerList
     }
 
-
-    override fun startRefresh(): LiveData<Boolean> {
-        liveData.value = true
+    override fun getLifeData(): MutableLiveData<Boolean> {
         return liveData
+    }
+
+
+    override fun startRefreshHowPlayScreen(){
+        liveData.value = true
     }
 
 }

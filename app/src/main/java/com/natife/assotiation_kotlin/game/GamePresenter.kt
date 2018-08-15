@@ -1,5 +1,7 @@
 package com.natife.assotiation_kotlin.game
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.os.CountDownTimer
 import android.util.Log
 import com.natife.assotiation_kotlin.R
@@ -68,6 +70,6 @@ class GamePresenter(private val mView: GameContract.View) : GameContract.Present
     }
 
     override fun gameActivityDestroyed() {
-        mRepository.startRefresh()
+       mRepository.startRefreshHowPlayScreen()
     }
 }
