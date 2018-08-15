@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.SoundEffectConstants
 import android.view.View
 import android.view.Window
 import android.widget.*
@@ -44,6 +45,7 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
     private val LEVEL_NORMAL = 2
     private val LEVEL_HARD = 3
     private lateinit var audio: AudioUtil
+    private lateinit var audioManager: AudioManager
 
     companion object {
 
@@ -56,6 +58,7 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_initgame)
 
+        audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс InitGameContract.View
         mPresenter = InitGamePresenter(this)
 
@@ -114,8 +117,7 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         }
         btnNext.setOnClickListener {
             audio.soundClick(this)
-            mPresenter.btnNextClicked(checkDifficultLevel())
-            }
+            mPresenter.btnNextClicked(checkDifficultLevel()) }
         back.setOnClickListener {
             audio.soundClick(this)
             mPresenter.btnBackClicked() }

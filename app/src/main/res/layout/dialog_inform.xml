@@ -5,7 +5,7 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="#0C4FBD"
+    android:background="@android:color/white"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -16,14 +16,14 @@
         android:layout_marginTop="50dp"
         android:scaleType="fitXY"
         android:contentDescription="logo"
-        app:srcCompat="@drawable/ic_logo" />
+        app:srcCompat="@drawable/ic_logo_black" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
         android:text="@string/version_game"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         />
 
     <TextView
@@ -34,7 +34,7 @@
         android:autoLink="all"
         android:linksClickable="true"
         android:text="@string/contact"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textColorLink="@android:color/holo_blue_dark"
         android:textIsSelectable="true"
         />
