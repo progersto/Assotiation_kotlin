@@ -53,7 +53,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private var positionPlayer: Int = 0
     private lateinit var textBtnGo: TextView
     private var flagNextPlayer: Boolean = false
-    private lateinit var audio: AudioUtil
+    private var audio: AudioUtil? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,7 +107,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         textBtnGo = findViewById(R.id.text_btn_go)
 
         results.setOnClickListener {
-            audio.soundClick(this)
+            audio!!.soundClick(this)
             showResultDialog(); }
         frameShowWords.setOnClickListener {
             frameShowWords.visibility = (View.GONE)
@@ -124,7 +124,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             frameWord2.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = frameWord1.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
-            audio.soundClick(this)
+            audio!!.soundClick(this)
         }
         word2.setOnClickListener {
             flagWord = true
@@ -136,7 +136,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             frameWord1.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = frameWord2.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
-            audio.soundClick(this)
+            audio!!.soundClick(this)
         }
         layoutShow.setOnClickListener {
             if (playerList[positionPlayer].show) {
@@ -162,7 +162,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                     iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
                     layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
                 }
-                audio.soundClick(this)
+                audio!!.soundClick(this)
             }
         }
         layoutTell.setOnClickListener {
@@ -189,7 +189,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                     iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
                     layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
                 }
-                audio.soundClick(this)
+                audio!!.soundClick(this)
             }
         }
         layoutDraw.setOnClickListener {
@@ -217,11 +217,11 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                     iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
                     layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
                 }
-                audio.soundClick(this)
+                audio!!.soundClick(this)
             }
         }
         buttonGo.setOnClickListener {
-            audio.soundClick(this)
+            audio!!.soundClick(this)
             if (flagWord && flagAction) {
                 mPresenter.buttonGoPressed()
                 flagWord = false
@@ -360,6 +360,16 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             showResultDialog()
         }
         flagNextPlayer = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        audio = AudioUtil.getInstance()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        audio = null
     }
 
     override fun onStop() {
