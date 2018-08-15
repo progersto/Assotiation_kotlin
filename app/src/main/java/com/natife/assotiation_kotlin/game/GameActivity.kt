@@ -15,6 +15,7 @@ import com.natife.assotiation_kotlin.R
 import com.natife.assotiation_kotlin.game.UtilForDraw.PaintView
 import com.natife.assotiation_kotlin.init_game.Player
 import android.graphics.drawable.GradientDrawable
+import android.media.AudioManager
 import android.widget.TextView
 import android.widget.RelativeLayout
 import android.view.LayoutInflater
@@ -73,6 +74,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         initView()
 
         audio = AudioUtil.getInstance()
+        volumeControlStream = AudioManager.STREAM_MUSIC//volume on the volumeButton
         playerList = mPresenter.getPlayerList()
     }
 

@@ -88,7 +88,8 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
 
         val playerList = intent.getParcelableArrayListExtra<Player>("playerList")
         (mPresenter as InitGamePresenter).initPlayerList(playerList)
-         audio = AudioUtil.getInstance()
+        audio = AudioUtil.getInstance()
+        volumeControlStream = AudioManager.STREAM_MUSIC//volume on the volumeButton
     }//onCreate
 
 

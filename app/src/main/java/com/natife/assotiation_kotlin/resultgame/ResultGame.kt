@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.media.AudioManager
 import android.media.SoundPool
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -51,6 +52,7 @@ class ResultGame : AppCompatActivity() {
         toolbar.title = ""
         setSupportActionBar(toolbar)
         audio = AudioUtil.getInstance()
+        volumeControlStream = AudioManager.STREAM_MUSIC//volume on the volumeButton
 
         timeGameFlag = intent.getBooleanExtra("timeGameFlag", false)
         playerList = intent.getParcelableArrayListExtra("playerList")

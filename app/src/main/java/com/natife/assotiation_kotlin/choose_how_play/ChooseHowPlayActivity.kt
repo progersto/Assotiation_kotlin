@@ -3,6 +3,7 @@ package com.natife.assotiation_kotlin.choose_how_play
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
+import android.media.AudioManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
@@ -74,6 +75,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс Contract.View
         mPresenter = ChooseHowPlayPresenter(this)
         audio = AudioUtil.getInstance()
+        volumeControlStream = AudioManager.STREAM_MUSIC//volume on the volumeButton
 
         listWords = intent.getStringArrayListExtra("listWords") as MutableList<String>
         playerList = mPresenter.getPlayerList()
