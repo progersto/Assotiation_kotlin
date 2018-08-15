@@ -113,8 +113,7 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         radioHard.setOnClickListener{ audio.soundClick(this)}
         btnAddPlayer.setOnClickListener {
             audio.soundClick(this)
-            mPresenter.btnAddPlayerClicked()
-        }
+            mPresenter.btnAddPlayerClicked() }
         btnNext.setOnClickListener {
             audio.soundClick(this)
             mPresenter.btnNextClicked(checkDifficultLevel()) }
