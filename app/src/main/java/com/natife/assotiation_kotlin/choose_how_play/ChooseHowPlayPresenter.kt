@@ -1,5 +1,8 @@
 package com.natife.assotiation_kotlin.choose_how_play
 
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.LiveData
+import android.content.Context
 import com.natife.assotiation_kotlin.init_game.InitGameContract
 import com.natife.assotiation_kotlin.init_game.InitGameRepository
 import com.natife.assotiation_kotlin.init_game.Player
@@ -8,6 +11,7 @@ import android.os.CountDownTimer
 import com.natife.assotiation_kotlin.utils.restoreNumberCircles
 
 class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : ChooseHowPlayContract.Presenter {
+
     private val mRepository: InitGameContract.Repository = InitGameRepository.getInstance()
     private var playerList = mutableListOf<Player>()
     private var listWords = mutableListOf<String>()
@@ -111,5 +115,8 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
         return positionPlayer
     }
 
+    override fun getLifeData(): LiveData<Boolean> {
+        return InitGameRepository.getInstance().startRefresh()
+    }
 
 }

@@ -22,5 +22,6 @@ interface GameContract {
         fun initTimer(timerBig: Boolean, timeMove: Int)
         fun stopCountDownTimer()
         fun getPlayerList(): MutableList<Player>
+        fun gameActivityDestroyed()
     }
 }

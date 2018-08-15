@@ -1,5 +1,6 @@
 package com.natife.assotiation_kotlin.init_game
 
+import android.arch.lifecycle.LiveData
 import android.content.Context
 
 interface InitGameContract {
@@ -38,5 +39,7 @@ interface InitGameContract {
         fun createListWords(difficultLevel: Int, context: Context): MutableList<String>
 
         fun getCurrentPlayerList(): MutableList<Player>
+
+        fun startRefresh(): LiveData<Boolean>
     }
 }

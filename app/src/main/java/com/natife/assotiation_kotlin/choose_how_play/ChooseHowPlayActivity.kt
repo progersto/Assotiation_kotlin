@@ -1,5 +1,8 @@
 package com.natife.assotiation_kotlin.choose_how_play
 
+
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
@@ -56,6 +59,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private var audio: AudioUtil? = null
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_how_play)
@@ -82,8 +86,13 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
         initViews()
 
-        mPresenter.findDataForFillFields(playerList, listWords, timeGame)
+        mPresenter.getLifeData().observe(this, Observer<Boolean> { value ->
+            if (value!!){
+                refreshScreen()
+            }
+        })
     }
+
 
     private fun initViews() {
         whoseTurn = findViewById(R.id.whose_turn)
@@ -312,11 +321,6 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         timeGameFlag = false
     }
 
-
-    override fun onRestart() {
-        super.onRestart()
-        refreshScreen()
-    }
 
     private fun refreshScreen() {
         textBtnGo.alpha = 0.5F

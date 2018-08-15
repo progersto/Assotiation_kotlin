@@ -10,6 +10,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class GamePresenter(private val mView: GameContract.View) : GameContract.Presenter {
+
     private val mRepository: InitGameContract.Repository = InitGameRepository.getInstance()
     private lateinit var mCountDownTimer: CountDownTimer
     private val countDownInterval = 1000
@@ -64,5 +65,9 @@ class GamePresenter(private val mView: GameContract.View) : GameContract.Present
 
     override fun stopCountDownTimer() {
         mCountDownTimer.cancel()
+    }
+
+    override fun gameActivityDestroyed() {
+        mRepository.startRefresh()
     }
 }

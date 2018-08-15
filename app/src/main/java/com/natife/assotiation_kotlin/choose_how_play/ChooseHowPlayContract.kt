@@ -1,5 +1,6 @@
 package com.natife.assotiation_kotlin.choose_how_play
 
+import android.arch.lifecycle.LiveData
 import android.content.Context
 import com.natife.assotiation_kotlin.init_game.Player
 
@@ -28,5 +29,7 @@ interface ChooseHowPlayContract {
         fun stopTimerGame()
 
         fun getPosPlayer(): Int
+
+        fun getLifeData(): LiveData<Boolean>
     }
 }

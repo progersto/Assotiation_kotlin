@@ -1,14 +1,18 @@
 package com.natife.assotiation_kotlin.init_game
 
+import android.arch.lifecycle.LiveData
 import android.content.Context
 import com.natife.assotiation_kotlin.R
 import com.natife.assotiation_kotlin.utils.ListGenerator
 import java.util.*
+import android.arch.lifecycle.MutableLiveData
 
 class InitGameRepository : InitGameContract.Repository {
+
     private val colorList = java.util.ArrayList(Arrays.asList(R.color.colorPlayer1, R.color.colorPlayer2,
             R.color.colorPlayer3, R.color.colorPlayer4, R.color.colorPlayer5, R.color.colorPlayer6))
     private var playerList = mutableListOf<Player>()
+    private val liveData = MutableLiveData<Boolean>()
 
 
     companion object {
@@ -59,6 +63,11 @@ class InitGameRepository : InitGameContract.Repository {
         return playerList
     }
 
+
+    override fun startRefresh(): LiveData<Boolean> {
+        liveData.value = true
+        return liveData
+    }
 
 }
 

@@ -252,13 +252,13 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         }
     }
 
-
     override fun contextActivity(): Context {
         return this
     }
 
 
     override fun finishCurrentGame() {
+        mPresenter.gameActivityDestroyed()
         this.finish()
     }
 
