@@ -43,8 +43,6 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
     private val LEVEL_EASE = 1
     private val LEVEL_NORMAL = 2
     private val LEVEL_HARD = 3
-    private lateinit var sp: SoundPool
-    private var soundIdShot: Int = 1
     private lateinit var audio: AudioUtil
 
     companion object {
