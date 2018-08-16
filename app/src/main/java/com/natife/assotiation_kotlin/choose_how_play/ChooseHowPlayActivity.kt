@@ -10,13 +10,17 @@ import android.media.AudioManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.v4.app.ActivityCompat.startActivityForResult
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.ContextCompat.startActivity
 import android.view.View
 import android.widget.*
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.natife.assotiation_kotlin.R
+import com.natife.assotiation_kotlin.R.id.*
 import java.util.ArrayList
 import com.natife.assotiation_kotlin.init_game.Player
 import com.natife.assotiation_kotlin.game.GameActivity
@@ -60,8 +64,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private lateinit var textBtnGo: TextView
     private var flagNextPlayer: Boolean = false
     private var audio: AudioUtil? = null
-    private lateinit var mAdView : AdView
-
+    private lateinit var mAdView: AdView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,15 +94,36 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         initViews()
 
         mPresenter.getLifeData().observe(this, Observer<Boolean> { value ->
-            if (value!!){
+            if (value!!) {
                 refreshScreen()
             }
         })
 
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
+        starAdvertising()
+    }
+
+    private fun starAdvertising() {
         mAdView = findViewById(R.id.adView)
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
+        mAdView.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                mAdView.visibility = View.VISIBLE
+            }
+
+            override fun onAdFailedToLoad(errorCode: Int) {
+                mAdView.visibility = View.INVISIBLE
+            }
+
+            override fun onAdOpened() {
+            }
+
+            override fun onAdLeftApplication() {
+            }
+
+            override fun onAdClosed() {
+            }
+        }
     }
 
 
@@ -126,7 +150,8 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
         results.setOnClickListener {
             audio!!.soundClick(this)
-            showResultDialog(); }
+            showResultDialog();
+        }
         frameShowWords.setOnClickListener {
             frameShowWords.visibility = (View.GONE)
             frameWord1.visibility = (View.VISIBLE)
@@ -251,7 +276,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         }
     }
 
-    private fun checkFillingField(){
+    private fun checkFillingField() {
         if (flagWord && flagAction) {
             textBtnGo.alpha = 1F
         }
@@ -276,7 +301,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data == null) {
             return
-        }else{
+        } else {
             flagNextPlayer = data.getBooleanExtra("flagNextPlayer", false)
         }
     }
@@ -341,7 +366,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         frameWord2.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
         frameWord1.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
 
-        if (!flagNextPlayer){
+        if (!flagNextPlayer) {
             mPresenter.findDataForFillFields(playerList, listWords, timeGame)
         }
 

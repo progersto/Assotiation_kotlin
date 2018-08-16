@@ -27,6 +27,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.Window
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -142,10 +143,31 @@ class ResultGame : AppCompatActivity() {
         }
         setContentView(viewResult)
 
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
+        starAdvertising()
+    }
+
+    private fun starAdvertising() {
         mAdView = findViewById(R.id.adView)
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
+        mAdView.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                mAdView.visibility = View.VISIBLE
+            }
+
+            override fun onAdFailedToLoad(errorCode: Int) {
+                mAdView.visibility = View.INVISIBLE
+            }
+
+            override fun onAdOpened() {
+            }
+
+            override fun onAdLeftApplication() {
+            }
+
+            override fun onAdClosed() {
+            }
+        }
     }
 
     override fun onBackPressed() {

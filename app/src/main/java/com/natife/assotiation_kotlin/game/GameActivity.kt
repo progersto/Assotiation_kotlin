@@ -17,6 +17,7 @@ import android.media.AudioManager
 import android.view.*
 import android.widget.TextView
 import android.widget.RelativeLayout
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -79,10 +80,33 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         volumeControlStream = AudioManager.STREAM_MUSIC//volume on the volumeButton
         playerList = mPresenter.getPlayerList()
 
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
+        starAdvertising()
+    }
+
+    private fun starAdvertising() {
         mAdView = findViewById(R.id.adView)
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
+        mAdView.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                if (layoutForDraw.visibility != View.VISIBLE){
+                    mAdView.visibility = View.VISIBLE
+                }
+            }
+
+            override fun onAdFailedToLoad(errorCode: Int) {
+                mAdView.visibility = View.INVISIBLE
+            }
+
+            override fun onAdOpened() {
+            }
+
+            override fun onAdLeftApplication() {
+            }
+
+            override fun onAdClosed() {
+            }
+        }
     }
 
 

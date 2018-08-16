@@ -69,4 +69,8 @@
     <string name="share_text">Результат игры Association</string>
     <string name="share_URI"><a href="https://natife.com">https://natife.com</a></string>
 
+    <string name="adUnitId">ca-app-pub-6629087046457001/8960702631</string>
+    <string name="mobileAds">ca-app-pub-6629087046457001~7076775328</string>
+    <string name="test">ca-app-pub-3940256099942544/6300978111</string>
+
 </resources>

@@ -17,6 +17,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.view.Window
 import android.widget.*
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -36,7 +37,7 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
     private val LEVEL_EASE = 1
     private val LEVEL_NORMAL = 2
     private val LEVEL_HARD = 3
-    private lateinit var audio: AudioUtil
+    private var audio: AudioUtil? = null
     private lateinit var audioManager: AudioManager
     private lateinit var mAdView : AdView
 
@@ -84,31 +85,54 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
 
         val playerList = intent.getParcelableArrayListExtra<Player>("playerList")
         (mPresenter as InitGamePresenter).initPlayerList(playerList)
-        audio = AudioUtil.getInstance()
+
         volumeControlStream = AudioManager.STREAM_MUSIC//volume on the volumeButton
 
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
+
+        starAdvertising()
+    }
+
+    private fun starAdvertising() {
+        MobileAds.initialize(this, resources.getString(R.string.mobileAds))
         mAdView = findViewById(R.id.adView)
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
-    }//onCreate
+        mAdView.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                mAdView.visibility = View.VISIBLE
+            }
+
+            override fun onAdFailedToLoad(errorCode: Int) {
+                mAdView.visibility = View.INVISIBLE
+            }
+
+            override fun onAdOpened() {
+            }
+
+            override fun onAdLeftApplication() {
+            }
+
+            override fun onAdClosed() {
+            }
+        }
+    }
 
 
     private fun initView() {
-        radio_easy.setOnClickListener{ audio.soundClick(this)}
-        radio_normal.setOnClickListener{ audio.soundClick(this) }
-        radio_hard.setOnClickListener{ audio.soundClick(this)}
+        radio_easy.setOnClickListener{ audio!!.soundClick(this)}
+        radio_normal.setOnClickListener{ audio!!.soundClick(this) }
+        radio_hard.setOnClickListener{ audio!!.soundClick(this)}
         buttonAddPlayer.setOnClickListener {
-            audio.soundClick(this)
+            audio!!.soundClick(this)
             mPresenter.btnAddPlayerClicked() }
         buttonNext.setOnClickListener {
-            audio.soundClick(this)
+            audio!!.soundClick(this)
             mPresenter.btnNextClicked(checkDifficultLevel()) }
         back.setOnClickListener {
-            audio.soundClick(this)
+            audio!!.soundClick(this)
             mPresenter.btnBackClicked() }
         settings.setOnClickListener {
-            audio.soundClick(this)
+            audio!!.soundClick(this)
             mPresenter.btnSettingsClicked() }
         onItemVoiceIconListener = object : OnItemVoiceIconListener {
             override fun onItemVoiceIconClick(position: Int, editText: EditText) {
@@ -179,6 +203,16 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        audio = AudioUtil.getInstance()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        audio = null
     }
 
     override fun onBackPressed() {
