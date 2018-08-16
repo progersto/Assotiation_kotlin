@@ -27,6 +27,9 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.Window
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.natife.assotiation_kotlin.utils.audio.AudioUtil
 import java.io.File
 import java.io.FileOutputStream
@@ -41,6 +44,7 @@ class ResultGame : AppCompatActivity() {
     private lateinit var sp: SoundPool
     private var soundIdShot: Int = 1
     private lateinit var audio: AudioUtil
+    private lateinit var mAdView : AdView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -127,8 +131,21 @@ class ResultGame : AppCompatActivity() {
             } else
                 image.visibility = View.INVISIBLE
             layoutResult.addView(newItem)
+
+            if (!isWin && !timeGameFlag && i == 0){
+                dialog = Dialog(this)
+                dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog!!.setContentView(R.layout.dialog_draw)
+                dialog!!.show()
+            }
         }
         setContentView(viewResult)
+
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
     override fun onBackPressed() {

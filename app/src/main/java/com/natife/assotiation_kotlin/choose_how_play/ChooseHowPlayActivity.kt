@@ -13,6 +13,9 @@ import android.os.Parcelable
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.*
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.natife.assotiation_kotlin.R
 import java.util.ArrayList
 import com.natife.assotiation_kotlin.init_game.Player
@@ -57,6 +60,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private lateinit var textBtnGo: TextView
     private var flagNextPlayer: Boolean = false
     private var audio: AudioUtil? = null
+    private lateinit var mAdView : AdView
 
 
 
@@ -91,6 +95,11 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                 refreshScreen()
             }
         })
+
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
 

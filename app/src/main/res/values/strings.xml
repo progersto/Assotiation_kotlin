@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Assotiation</string>
-    <string name="splash">N Game</string>
+    <string name="app_name">Воображарий</string>
+    <string name="splash">Воображарий</string>
+    <string name="splash1">N Game</string>
 
     <string name="text_selection_name">Укажите имена всех игроков</string>
     <string name="text_selection_difficulty_level">Выберите сложность игры</string>
@@ -44,6 +45,7 @@
     <string name="you_are_sure">Уверены, что хотите начать заново игру?</string>
     <string name="winner">Поздравляем!</string>
     <string name="first_place">1-е место занимает</string>
+    <string name="text_draw">Ничья</string>
 
     <string name="they_guessed">Отгадали</string>
     <string name="they_not_guessed">Не отгадали</string>

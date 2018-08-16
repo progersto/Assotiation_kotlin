@@ -17,6 +17,9 @@ import android.media.AudioManager
 import android.view.*
 import android.widget.TextView
 import android.widget.RelativeLayout
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import com.natife.assotiation_kotlin.utils.audio.AudioUtil
@@ -54,6 +57,8 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     private var colorForStartDialog: Int = 0
     private lateinit var backImage: ImageView
     private lateinit var audio: AudioUtil
+    private lateinit var mAdView : AdView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +78,11 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         audio = AudioUtil.getInstance()
         volumeControlStream = AudioManager.STREAM_MUSIC//volume on the volumeButton
         playerList = mPresenter.getPlayerList()
+
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
 
