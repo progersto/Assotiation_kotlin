@@ -36,7 +36,7 @@ class InitGameRepository : InitGameContract.Repository {
 
 
     override fun addNameInPlayerList(): MutableList<Player> {
-        playerList.add(Player("", colorList[playerList.size - 1], 0, 0, true, true, true))
+        playerList.add(Player("", colorList[playerList.size], 0, 0, true, true, true))
         return playerList
     }
 
