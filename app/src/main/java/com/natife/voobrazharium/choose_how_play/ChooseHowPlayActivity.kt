@@ -298,13 +298,13 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         startActivityForResult(intent, 11111)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (data == null) {
-            return
-        } else {
-            flagNextPlayer = data.getBooleanExtra("flagNextPlayer", false)
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        if (data == null) {
+//            return
+//        } else {
+//            flagNextPlayer = data.getBooleanExtra("flagNextPlayer", false)
+//        }
+//    }
 
     override fun showData(name: String, color: Int, word1: String, word2: String, positionPlayer: Int) {
         whoseTurn.text = String.format("%s %s", resources.getString(R.string.turn), name)
@@ -400,19 +400,15 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         flagNextPlayer = false
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         audio = AudioUtil.getInstance()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        audio = null
     }
 
     override fun onStop() {
         super.onStop()
         mPresenter.stopTimerGame()
+        audio = null
     }
 
     override fun onBackPressed() {}

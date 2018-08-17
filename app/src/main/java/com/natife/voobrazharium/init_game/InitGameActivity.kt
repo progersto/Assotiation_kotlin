@@ -205,13 +205,13 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         audio = AudioUtil.getInstance()
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         audio = null
     }
 
