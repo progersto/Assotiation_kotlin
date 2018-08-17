@@ -125,6 +125,7 @@
             android:layout_weight="1"
             android:buttonTint="@color/colorTextSelection"
             android:checked="true"
+            android:theme="@style/RadioButtonStyle"
             android:gravity="top"
             android:layoutDirection="rtl" />
 
@@ -136,6 +137,7 @@
             android:layout_weight="1"
             android:buttonTint="@color/colorTextSelection"
             android:gravity="top"
+            android:theme="@style/RadioButtonStyle"
             android:layoutDirection="rtl" />
 
         <RadioButton
@@ -144,6 +146,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="50dp"
             android:layout_weight="1"
+            android:theme="@style/RadioButtonStyle"
             android:buttonTint="@color/colorTextSelection"
             android:gravity="top"
             android:layoutDirection="rtl" />

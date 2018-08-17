@@ -64,24 +64,30 @@ class ResultGame : AppCompatActivity() {
         localPayerList = ArrayList(playerList)
 
         val btnBack: ImageView = viewResult.findViewById(R.id.back)
+        btnBack.isSoundEffectsEnabled= false
         btnBack.setOnClickListener {
-            audio.soundClick(this)
+            audio.soundClickPlayer(this)
+           // audio.soundClick(this)
             setResult(RESULT_OK, intent.putExtra("flagNextPlayer", true))
             this.finish()
         }
         btnBack.visibility = if (timeGameFlag) View.VISIBLE else View.INVISIBLE
 
         val buttonAgain: RelativeLayout = viewResult.findViewById(R.id.buttonAgain)
+        buttonAgain.isSoundEffectsEnabled= false
         buttonAgain.setOnClickListener {
-            audio.soundClick(this)
+           // audio.soundClick(this)
+            audio.soundClickPlayer(this)
             android.support.v7.app.AlertDialog.Builder(this)
                     .setMessage(R.string.you_are_sure)
                     .setNegativeButton(R.string.no) { dialog, _ ->
-                        audio.soundClick(this)
+                        audio.soundClickPlayer(this)
+                      //  audio.soundClick(this)
                         dialog.dismiss()
                     }
                     .setPositiveButton(R.string.ok) { dialog, _ ->
-                        audio.soundClick(this)
+                        audio.soundClickPlayer(this)
+                       // audio.soundClick(this)
                         dialog.dismiss()
                         finishAffinity()
                         val intent = Intent(this, InitGameActivity::class.java)
@@ -120,7 +126,8 @@ class ResultGame : AppCompatActivity() {
             if (isWin && i == 0) {
                 image.visibility = View.VISIBLE
                 if (!timeGameFlag){
-                    audio.soundApplause(this)
+                    audio.soundApplausePlayer(this)
+                    //audio.soundApplause(this)
                     dialog = Dialog(this)
                     dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
                     dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -187,7 +194,8 @@ class ResultGame : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_share -> {
-                audio.soundClick(this)
+                audio.soundClickPlayer(this)
+//                audio.soundClick(this)
                 val bitmap = getBitmapFromView(layoutResult)
                 val builder = StrictMode.VmPolicy.Builder()
                 StrictMode.setVmPolicy(builder.build())

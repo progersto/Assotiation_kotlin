@@ -1,7 +1,5 @@
 package com.natife.voobrazharium.choose_how_play
 
-
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
@@ -10,17 +8,13 @@ import android.media.AudioManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.app.ActivityCompat.startActivityForResult
 import android.support.v4.content.ContextCompat
-import android.support.v4.content.ContextCompat.startActivity
 import android.view.View
 import android.widget.*
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.natife.voobrazharium.R
-import com.natife.voobrazharium.R.id.*
 import java.util.ArrayList
 import com.natife.voobrazharium.init_game.Player
 import com.natife.voobrazharium.game.GameActivity
@@ -85,7 +79,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
         //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс Contract.View
         mPresenter = ChooseHowPlayPresenter(this)
-        audio = AudioUtil.getInstance()
+
         volumeControlStream = AudioManager.STREAM_MUSIC//volume on the volumeButton
 
         listWords = intent.getStringArrayListExtra("listWords") as MutableList<String>
@@ -148,8 +142,10 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         buttonGo = findViewById(R.id.buttonGo)
         textBtnGo = findViewById(R.id.text_btn_go)
 
+        results.isSoundEffectsEnabled= false
         results.setOnClickListener {
-            audio!!.soundClick(this)
+//            audio!!.soundClick(this)
+            audio!!.soundClickPlayer(this)
             showResultDialog();
         }
         frameShowWords.setOnClickListener {
@@ -157,6 +153,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             frameWord1.visibility = (View.VISIBLE)
             frameWord2.visibility = View.VISIBLE
         }
+        word1.isSoundEffectsEnabled= false
         word1.setOnClickListener {
             flagWord = true
             checkFillingField()
@@ -167,8 +164,10 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             frameWord2.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = frameWord1.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
-            audio!!.soundClick(this)
+//            audio!!.soundClick(this)
+            audio!!.soundClickPlayer(this)
         }
+        word2.isSoundEffectsEnabled= false
         word2.setOnClickListener {
             flagWord = true
             checkFillingField()
@@ -179,8 +178,10 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             frameWord1.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = frameWord2.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
-            audio!!.soundClick(this)
+            //audio!!.soundClick(this)
+            audio!!.soundClickPlayer(this)
         }
+        layoutShow.isSoundEffectsEnabled= false
         layoutShow.setOnClickListener {
             if (playerList[positionPlayer].show) {
                 flagAction = true
@@ -205,9 +206,11 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                     iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
                     layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
                 }
-                audio!!.soundClick(this)
+                //audio!!.soundClick(this)
+                audio!!.soundClickPlayer(this)
             }
         }
+        layoutTell.isSoundEffectsEnabled= false
         layoutTell.setOnClickListener {
             if (playerList[positionPlayer].tell) {
                 flagAction = true
@@ -232,9 +235,11 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                     iconDraw.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
                     layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
                 }
-                audio!!.soundClick(this)
+                audio!!.soundClickPlayer(this)
+               // audio!!.soundClick(this)
             }
         }
+        layoutDraw.isSoundEffectsEnabled= false
         layoutDraw.setOnClickListener {
             if (playerList[positionPlayer].draw) {
                 flagAction = true
@@ -260,11 +265,14 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                     iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
                     layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
                 }
-                audio!!.soundClick(this)
+                audio!!.soundClickPlayer(this)
+                //audio!!.soundClick(this)
             }
         }
+        buttonGo.isSoundEffectsEnabled= false
         buttonGo.setOnClickListener {
-            audio!!.soundClick(this)
+            audio!!.soundClickPlayer(this)
+           // audio!!.soundClick(this)
             if (flagWord && flagAction) {
                 mPresenter.buttonGoPressed()
                 flagWord = false

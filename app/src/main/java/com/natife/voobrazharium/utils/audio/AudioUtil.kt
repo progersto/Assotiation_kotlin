@@ -3,6 +3,7 @@ package com.natife.voobrazharium.utils.audio
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioManager
+import android.media.MediaPlayer
 import android.media.SoundPool
 import com.natife.voobrazharium.R
 
@@ -12,7 +13,7 @@ class AudioUtil : OnAudio{
     private var soundIdApplause: Int = 1
 
     init {
-        initSP()
+//        initSP()
     }
 
     companion object {
@@ -34,17 +35,17 @@ class AudioUtil : OnAudio{
     }
 
 
-    private fun initSP():SoundPool {
-        val audioAttrib = AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_GAME)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build()
-
-        sp = SoundPool.Builder()
-                .setAudioAttributes(audioAttrib)
-                .build()
-        return sp
-    }
+//    private fun initSP():SoundPool {
+//        val audioAttrib = AudioAttributes.Builder()
+//                .setUsage(AudioAttributes.USAGE_GAME)
+//                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+//                .build()
+//
+//        sp = SoundPool.Builder()
+//                .setAudioAttributes(audioAttrib)
+//                .build()
+//        return sp
+//    }
 
 
     override fun soundClick(context: Context){
@@ -74,6 +75,18 @@ class AudioUtil : OnAudio{
         val no_loop = 0
         val normal_playback_rate = 1f
         sp.play(soundIdApplause, leftVolume, rightVolume, priority, no_loop, normal_playback_rate)
+    }
+
+    override fun soundClickPlayer(context: Context) {
+        Thread(Runnable {
+            MediaPlayer.create(context,  R.raw.click).start()
+        }).start()
+    }
+
+    override fun soundApplausePlayer(context: Context) {
+        Thread(Runnable {
+            MediaPlayer.create(context,  R.raw.applause).start()
+        }).start()
     }
 
 }

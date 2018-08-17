@@ -11,7 +11,7 @@
         android:layout_width="108dp"
         android:layout_height="58dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_splash_logo"
+        app:srcCompat="@drawable/ic_splash_logo"
         app:layout_constraintBottom_toTopOf="@+id/appCompatAutoCompleteTextView"
         app:layout_constraintEnd_toEndOf="@+id/appCompatAutoCompleteTextView"
         app:layout_constraintStart_toStartOf="@+id/appCompatAutoCompleteTextView" />

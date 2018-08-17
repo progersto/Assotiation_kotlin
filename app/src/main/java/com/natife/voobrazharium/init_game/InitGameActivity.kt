@@ -24,6 +24,7 @@ import com.google.android.gms.ads.MobileAds
 import com.natife.voobrazharium.R
 import com.natife.voobrazharium.utils.audio.AudioUtil
 import kotlinx.android.synthetic.main.activity_initgame.*
+import kotlinx.android.synthetic.main.activity_initgame.view.*
 import kotlinx.android.synthetic.main.select_difficulty_level.*
 import java.util.*
 
@@ -119,21 +120,41 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
 
 
     private fun initView() {
-        radio_easy.setOnClickListener{ audio!!.soundClick(this)}
-        radio_normal.setOnClickListener{ audio!!.soundClick(this) }
-        radio_hard.setOnClickListener{ audio!!.soundClick(this)}
+        radio_easy.setOnClickListener{
+            audio!!.soundClickPlayer(this)
+//            audio!!.soundClick(this)
+        }
+        radio_easy.isSoundEffectsEnabled= false
+        radio_normal.setOnClickListener{
+//            audio!!.soundClick(this)
+            audio!!.soundClickPlayer(this)
+        }
+        radio_normal.isSoundEffectsEnabled= false
+        radio_hard.setOnClickListener{
+//            audio!!.soundClick(this)
+            audio!!.soundClickPlayer(this)
+        }
+        radio_hard.isSoundEffectsEnabled= false
         buttonAddPlayer.setOnClickListener {
-            audio!!.soundClick(this)
+//            audio!!.soundClick(this)
+            audio!!.soundClickPlayer(this)
             mPresenter.btnAddPlayerClicked() }
+        buttonAddPlayer.isSoundEffectsEnabled= false
         buttonNext.setOnClickListener {
-            audio!!.soundClick(this)
+//            audio!!.soundClick(this)
+            audio!!.soundClickPlayer(this)
             mPresenter.btnNextClicked(checkDifficultLevel()) }
+        buttonNext.isSoundEffectsEnabled= false
         back.setOnClickListener {
-            audio!!.soundClick(this)
+//            audio!!.soundClick(this)
+            audio!!.soundClickPlayer(this)
             mPresenter.btnBackClicked() }
+        back.isSoundEffectsEnabled= false
         settings.setOnClickListener {
-            audio!!.soundClick(this)
+//            audio!!.soundClick(this)
+            audio!!.soundClickPlayer(this)
             mPresenter.btnSettingsClicked() }
+        settings.isSoundEffectsEnabled= false
         onItemVoiceIconListener = object : OnItemVoiceIconListener {
             override fun onItemVoiceIconClick(position: Int, editText: EditText) {
                 // call the voice dialing activity

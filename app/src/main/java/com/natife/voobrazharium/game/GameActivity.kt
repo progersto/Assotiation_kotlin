@@ -166,14 +166,18 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     private fun initView() {
         backImage = findViewById(R.id.back_image)
         backImage.setOnClickListener { _ ->
-            audio.soundClick(this)
+//            audio.soundClick(this)
+            audio.soundClickPlayer(this)
             paintView.backPaths() }
+        backImage.isSoundEffectsEnabled= false
         textTimerDraw = findViewById(R.id.text_timer_draw)
         whoseTurn = findViewById(R.id.whose_turn)
         drawClear = findViewById(R.id.draw_clear)
         drawClear.setOnClickListener { _ ->
-            audio.soundClick(this)
+//            audio.soundClick(this)
+            audio.soundClickPlayer(this)
             paintView.clear() }
+        drawClear.isSoundEffectsEnabled= false
         timer = findViewById(R.id.timer)
         circularProgressbar = findViewById(R.id.circularProgressbar)
         circularProgressbar.max = timeMove
@@ -186,8 +190,10 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         buttonAction = findViewById(R.id.buttonAction)
         layoutForDraw = findViewById(R.id.layout_for_draw)
         buttonPointBrush = findViewById(R.id.buttonPointBrush)
+        buttonPointBrush.isSoundEffectsEnabled= false
         buttonPointBrush.setOnClickListener { _ ->
-            audio.soundClick(this)
+           // audio.soundClick(this)
+            audio.soundClickPlayer(this)
             colorDialog = ColorPickerDialog.newBuilder()
             colorDialog.setDialogType(ColorPickerDialog.TYPE_PRESETS)
                     .setAllowPresets(false)
@@ -201,8 +207,10 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
                     .setShowAlphaSlider(false)
                     .show(this)
         }
+        buttonAction.isSoundEffectsEnabled= false
         buttonAction.setOnClickListener { _ ->
-            audio.soundClick(this)
+//            audio.soundClick(this)
+            audio.soundClickPlayer(this)
             val dialog = Dialog(this)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -210,14 +218,17 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
             val theyGuessed = dialog.findViewById<RelativeLayout>(R.id.they_guessed)
             val theyNotGuessed = dialog.findViewById<RelativeLayout>(R.id.they_not_guessed)
             val remindWord = dialog.findViewById<RelativeLayout>(R.id.remind_word)
+            theyGuessed.isSoundEffectsEnabled= false
             theyGuessed.setOnClickListener { _ ->
                 dialog.dismiss()
                 btnTheyGuessed()
             }
+            theyNotGuessed.isSoundEffectsEnabled= false
             theyNotGuessed.setOnClickListener { _ ->
                 dialog.dismiss()
                 btnTheyNotGuessed()
             }
+            remindWord.isSoundEffectsEnabled= false
             remindWord.setOnClickListener { _ ->
                 dialog.dismiss()
                 btnRemindWord()
@@ -225,13 +236,17 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
             dialog.show()
         }
         remindWord.setOnClickListener { _ -> btnRemindWord() }
+        remindWord.isSoundEffectsEnabled= false
         theyGuessed.setOnClickListener { btnTheyGuessed() }
+        theyGuessed.isSoundEffectsEnabled= false
         theyNotGuessed.setOnClickListener { btnTheyNotGuessed() }
+        theyNotGuessed.isSoundEffectsEnabled= false
     }
 
 
     private fun btnRemindWord() {
-        audio.soundClick(this)
+//        audio.soundClick(this)
+        audio.soundClickPlayer(this)
         val toast = Toast.makeText(this, word, Toast.LENGTH_SHORT)
         toast.setGravity(Gravity.CENTER, 0, 0)
         toast.show()
@@ -246,14 +261,16 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     }
 
     private fun btnTheyNotGuessed() {
-        audio.soundClick(this)
+//        audio.soundClick(this)
+        audio.soundClickPlayer(this)
         mPresenter.stopCountDownTimer()
         mPresenter.notWin()
     }
 
 
     private fun btnTheyGuessed() {
-        audio.soundClick(this)
+//        audio.soundClick(this)
+        audio.soundClickPlayer(this)
         mPresenter.stopCountDownTimer()
         whoseTurn.text = resources.getString(R.string.who_guessed)
         whoseTurn.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
@@ -278,8 +295,10 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
                 textBtnPlayer.text = name
                 gd = btn.background as GradientDrawable
                 gd!!.setColor(ContextCompat.getColor(this, playerList[i].color))
+                btn.isSoundEffectsEnabled= false
                 btn.setOnClickListener { _ ->
-                    audio.soundClick(this)
+//                    audio.soundClick(this)
+                    audio.soundClickPlayer(this)
                     mPresenter.playerWin(playerList, i, positionPlayer) }
                 layoutBtnPlayer.addView(newItem)
             }

@@ -54,49 +54,56 @@ class DialogSettings : DialogFragment() {
             if (numberCircles != 30) {
                 numberCircles += 1
                 numberCirclesTV.text = numberCircles.toString()
-                audio.soundClick(dialog.context)
+                audio.soundClickPlayer(dialog.context)
+//                audio.soundClick(dialog.context)
             }
         }
         v.findViewById<View>(R.id.number_of_circles_minus).setOnClickListener {
             if (numberCircles != 1) {
                 numberCircles -= 1
                 numberCirclesTV.text = numberCircles.toString()
-                audio.soundClick(dialog.context)
+                audio.soundClickPlayer(dialog.context)
+//                audio.soundClick(dialog.context)
             }
         }
         v.findViewById<View>(R.id.time_move_minus).setOnClickListener {
             if (timeMove != 15) {
                 timeMove -= 15
                 timeMoveTV.text = timeMove.toString()
-                audio.soundClick(dialog.context)
+                audio.soundClickPlayer(dialog.context)
+//                audio.soundClick(dialog.context)
             }
         }
         v.findViewById<View>(R.id.time_move_plus).setOnClickListener {
             if (timeMove != 180) {
                 timeMove += 15
                 timeMoveTV.text = timeMove.toString()
-                audio.soundClick(dialog.context)
+                audio.soundClickPlayer(dialog.context)
+//                audio.soundClick(dialog.context)
             }
         }
         v.findViewById<View>(R.id.time_game_minus).setOnClickListener {
             if (timeGame != 15) {
                 timeGame -= 1
                 timeGameTV.text = timeGame.toString()
-                audio.soundClick(dialog.context)
+                audio.soundClickPlayer(dialog.context)
+//                audio.soundClick(dialog.context)
             }
         }
         v.findViewById<View>(R.id.time_game_plus).setOnClickListener {
             if (timeGame != 90) {
                 timeGame += 1
                 timeGameTV.text = timeGame.toString()
-                audio.soundClick(dialog.context)
+                audio.soundClickPlayer(dialog.context)
+//                audio.soundClick(dialog.context)
             }
         }
         v.findViewById<View>(R.id.buttonSave).setOnClickListener {
             saveTimeMove(v.context, timeMove)
             saveTimeGame(v.context, timeGame)
             saveNumberCircles(v.context, numberCircles)
-            audio.soundClick(dialog.context)
+            audio.soundClickPlayer(dialog.context)
+//            audio.soundClick(dialog.context)
             dismiss()
         }
 

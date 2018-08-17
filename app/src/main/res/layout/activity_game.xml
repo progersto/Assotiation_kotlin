@@ -154,7 +154,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:alpha="0.5"
                     android:gravity="center"
                     android:text="@string/action"
                     android:textColor="@color/colorTextSelection"
@@ -173,7 +172,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:alpha="0.5"
                     android:gravity="center"
                     android:text="@string/brush_settings"
                     android:textColor="@color/colorTextSelection"

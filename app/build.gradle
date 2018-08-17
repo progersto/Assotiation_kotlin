@@ -4,8 +4,8 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.natife.assotiation_kotlin"
-        minSdkVersion 21
+        applicationId "com.natife.voobrazharium"
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"

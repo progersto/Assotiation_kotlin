@@ -77,6 +77,7 @@ class PlayersAdapter(private val context: Context, private val voiceIconListener
         val listener = View.OnClickListener {
             voiceIconListener.onItemVoiceIconClick(holder.adapterPosition, holder.editTextPlayerName)
         }
+        holder.imageVoice.isSoundEffectsEnabled= false
         holder.imageVoice.setOnClickListener(listener)
     }//onBindViewHolder
 
