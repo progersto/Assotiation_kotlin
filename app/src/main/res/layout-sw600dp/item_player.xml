@@ -40,7 +40,7 @@
 
     <RelativeLayout
         android:id="@+id/imageVoice"
-        android:layout_width="40dp"
+        android:layout_width="60dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
