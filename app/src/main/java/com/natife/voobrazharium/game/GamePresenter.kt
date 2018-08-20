@@ -13,7 +13,7 @@ class GamePresenter(private val mView: GameContract.View) : GameContract.Present
 
     private val mRepository: InitGameContract.Repository = InitGameRepository.getInstance()
     private var mCountDownTimer: CountDownTimer? = null
-    private val countDownInterval = 1000
+    private val countDownInterval = 500
     private var timeStart: Long = System.currentTimeMillis()
 
 
@@ -60,6 +60,10 @@ class GamePresenter(private val mView: GameContract.View) : GameContract.Present
             }
 
             override fun onFinish() {
+                if (timerBig) {
+                    mView.setCircularProgressbar(timeMove)
+                }
+                mView.setTextTimer(String.format(Locale.getDefault(), "%01d:%02d", 0, 0))
                 android.support.v7.app.AlertDialog.Builder(mView.contextActivity())
                         .setTitle(mView.contextActivity().resources.getString(R.string.time_gone))
                         .setMessage(mView.contextActivity().resources.getString(R.string.word_is_guessed))

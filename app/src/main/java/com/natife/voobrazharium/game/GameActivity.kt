@@ -58,7 +58,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     private lateinit var backImage: ImageView
     private lateinit var audio: AudioUtil
     private lateinit var mAdView : AdView
-    private var flagPause: Boolean = true
+    private var flagSelectWhoGuessed: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,12 +107,6 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
             override fun onAdClosed() {
             }
         }
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        showView(howExplain)
     }
 
     private fun showView(howExplain: String) {
@@ -269,8 +263,6 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
 
     private fun btnTheyGuessed() {
-//        audio.soundClick(this)
-        audio.soundClickPlayer(this)
         mPresenter.stopCountDownTimer()
         whoseTurn.text = resources.getString(R.string.who_guessed)
         whoseTurn.setTextColor(ContextCompat.getColor(this, R.color.colorTextSelection))
@@ -286,23 +278,28 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         layoutBtnFromTellAndShow.visibility = View.GONE
         layoutBtnPlayer.visibility = View.VISIBLE
 
-        for (i in playerList.indices) {
-            if (positionPlayer != i) {
-                val newItem = LayoutInflater.from(this).inflate(R.layout.item_player_button, null)//добавляемый item
-                val btn = newItem.findViewById<RelativeLayout>(R.id.btnPlayer)
-                val textBtnPlayer = newItem.findViewById<TextView>(R.id.textBtnPlayer)
-                val name = playerList[i].name!!.substring(0, 1).toUpperCase() + playerList[i].name!!.substring(1)
-                textBtnPlayer.text = name
-                gd = btn.background as GradientDrawable
-                gd!!.setColor(ContextCompat.getColor(this, playerList[i].color))
-                btn.isSoundEffectsEnabled= false
-                btn.setOnClickListener { _ ->
-//                    audio.soundClick(this)
-                    audio.soundClickPlayer(this)
-                    mPresenter.playerWin(playerList, i, positionPlayer) }
-                layoutBtnPlayer.addView(newItem)
+        if (!flagSelectWhoGuessed){
+            audio.soundClickPlayer(this)
+            for (i in playerList.indices) {
+                if (positionPlayer != i) {
+                    val newItem = LayoutInflater.from(this).inflate(R.layout.item_player_button, null)//добавляемый item
+                    val btn = newItem.findViewById<RelativeLayout>(R.id.btnPlayer)
+                    val textBtnPlayer = newItem.findViewById<TextView>(R.id.textBtnPlayer)
+                    val name = playerList[i].name!!.substring(0, 1).toUpperCase() + playerList[i].name!!.substring(1)
+                    textBtnPlayer.text = name
+                    gd = btn.background as GradientDrawable
+                    gd!!.setColor(ContextCompat.getColor(this, playerList[i].color))
+                    btn.isSoundEffectsEnabled= false
+                    btn.setOnClickListener { _ ->
+                        //                    audio.soundClick(this)
+                        audio.soundClickPlayer(this)
+                        mPresenter.playerWin(playerList, i, positionPlayer) }
+                    layoutBtnPlayer.addView(newItem)
+                }
             }
         }
+
+        flagSelectWhoGuessed = true
     }
 
     override fun contextActivity(): Context {
@@ -328,15 +325,22 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
             textTimerDraw.text = time
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (flagSelectWhoGuessed){
+            btnTheyGuessed()
+        }else{
+            showView(howExplain)
+        }
+    }
+
     override fun onPause() {
         super.onPause()
-        flagPause = false
         mPresenter.stopCountDownTimer()
     }
 
-
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         if (gd != null) {
             gd!!.setColor(ContextCompat.getColor(this, R.color.colorButton))
         }
