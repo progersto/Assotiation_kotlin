@@ -20,7 +20,6 @@ import android.widget.RelativeLayout
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import com.natife.voobrazharium.utils.audio.AudioUtil
@@ -59,6 +58,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     private lateinit var backImage: ImageView
     private lateinit var audio: AudioUtil
     private lateinit var mAdView : AdView
+    private var flagPause: Boolean = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -328,13 +328,18 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
             textTimerDraw.text = time
     }
 
+    override fun onPause() {
+        super.onPause()
+        flagPause = false
+        mPresenter.stopCountDownTimer()
+    }
+
 
     override fun onStop() {
         super.onStop()
         if (gd != null) {
             gd!!.setColor(ContextCompat.getColor(this, R.color.colorButton))
         }
-        mPresenter.stopCountDownTimer();
     }
 
 

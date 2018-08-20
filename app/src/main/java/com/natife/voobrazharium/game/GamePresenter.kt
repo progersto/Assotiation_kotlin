@@ -1,7 +1,5 @@
 package com.natife.voobrazharium.game
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.os.CountDownTimer
 import android.util.Log
 import com.natife.voobrazharium.R
@@ -14,8 +12,9 @@ import java.util.concurrent.TimeUnit
 class GamePresenter(private val mView: GameContract.View) : GameContract.Presenter {
 
     private val mRepository: InitGameContract.Repository = InitGameRepository.getInstance()
-    private lateinit var mCountDownTimer: CountDownTimer
+    private var mCountDownTimer: CountDownTimer? = null
     private val countDownInterval = 1000
+    private var timeStart: Long = System.currentTimeMillis()
 
 
     override fun getPlayerList(): MutableList<Player> {
@@ -38,14 +37,24 @@ class GamePresenter(private val mView: GameContract.View) : GameContract.Present
     }
 
     override fun initTimer(timerBig: Boolean, timeMove:Int) {
-        mCountDownTimer = object : CountDownTimer(((timeMove+1) * 1000).toLong(), countDownInterval.toLong()) {
+
+        val newTime: Long
+        var difference = 0
+
+        if (mCountDownTimer != null) {
+            newTime = System.currentTimeMillis()//время после паузы
+            difference = (newTime - timeStart).toInt()// разница между стартом и паузой
+        }
+
+
+        mCountDownTimer = object : CountDownTimer((((timeMove + 1) * 1000) - difference).toLong(), countDownInterval.toLong()) {
             override fun onTick(millisUntilFinished: Long) {
                 Log.v("Log_tag", "Tick of Progress$millisUntilFinished")
                 if (timerBig) {
                     val progress = timeMove - millisUntilFinished.toInt() / 1000
                     mView.setCircularProgressbar(progress)
                 }
-                val minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished))
+                val minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished ) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished))
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
                 mView.setTextTimer(String.format(Locale.getDefault(), "%01d:%02d", minutes, seconds))
             }
@@ -62,11 +71,11 @@ class GamePresenter(private val mView: GameContract.View) : GameContract.Present
                         .show()
             }
         }
-        mCountDownTimer.start()
+        mCountDownTimer!!.start()
     }
 
     override fun stopCountDownTimer() {
-        mCountDownTimer.cancel()
+        mCountDownTimer!!.cancel()
     }
 
     override fun gameActivityDestroyed() {
