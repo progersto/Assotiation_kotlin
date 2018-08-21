@@ -21,6 +21,7 @@
     <color name="colorNotGuessed">#fb696e</color>
     <color name="colorNotGuessedPressed">#88fb696e</color>
     <color name="colorCircleWin">#e9e8e0</color>
+    <color name="colorText">#34DCB2</color>
 
     <color name="colorPlayer1">#F8DD1C</color>
     <color name="colorPlayer2">#00D3FF</color>
