@@ -26,11 +26,12 @@ import com.natife.voobrazharium.utils.audio.AudioUtil
 import com.natife.voobrazharium.utils.restoreColorDraw
 import com.natife.voobrazharium.utils.restoreTimeMove
 import com.natife.voobrazharium.utils.saveColorDraw
+import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogListener {
     private lateinit var mPresenter: GameContract.Presenter
     private lateinit var howExplain: String
-    private lateinit var textTimerDraw: TextView
+//    private lateinit var textTimerDraw: TextView
     private lateinit var whoseTurn: TextView
     private lateinit var drawClear: ImageView
     private lateinit var timer: RelativeLayout
@@ -55,7 +56,6 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     private val DIALOG_ID_COLOR = 0
     private lateinit var colorDialog: ColorPickerDialog.Builder
     private var colorForStartDialog: Int = 0
-    private lateinit var backImage: ImageView
     private lateinit var audio: AudioUtil
     private lateinit var mAdView : AdView
     private var flagSelectWhoGuessed: Boolean = false
@@ -134,9 +134,9 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         flagShowBtn = false
         layoutForDraw.visibility = View.VISIBLE
         layoutBtnFromTellAndShow.visibility = View.GONE
-        textTimerDraw.visibility = View.VISIBLE
+        text_timer_draw.visibility = View.VISIBLE
         drawClear.visibility = View.VISIBLE
-        backImage.visibility = View.VISIBLE
+        back_image.visibility = View.VISIBLE
         timerBig = false
         mPresenter.initTimer(false, timeMove)
 
@@ -158,17 +158,14 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     }
 
     private fun initView() {
-        backImage = findViewById(R.id.back_image)
-        backImage.setOnClickListener { _ ->
-//            audio.soundClick(this)
+        back_image.setOnClickListener { _ ->
             audio.soundClickPlayer(this)
             paintView.backPaths() }
-        backImage.isSoundEffectsEnabled= false
-        textTimerDraw = findViewById(R.id.text_timer_draw)
+        back_image.isSoundEffectsEnabled= false
+//        textTimerDraw = findViewById(R.id.text_timer_draw)
         whoseTurn = findViewById(R.id.whose_turn)
         drawClear = findViewById(R.id.draw_clear)
         drawClear.setOnClickListener { _ ->
-//            audio.soundClick(this)
             audio.soundClickPlayer(this)
             paintView.clear() }
         drawClear.isSoundEffectsEnabled= false
@@ -186,7 +183,6 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         buttonPointBrush = findViewById(R.id.buttonPointBrush)
         buttonPointBrush.isSoundEffectsEnabled= false
         buttonPointBrush.setOnClickListener { _ ->
-           // audio.soundClick(this)
             audio.soundClickPlayer(this)
             colorDialog = ColorPickerDialog.newBuilder()
             colorDialog.setDialogType(ColorPickerDialog.TYPE_PRESETS)
@@ -203,7 +199,6 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         }
         buttonAction.isSoundEffectsEnabled= false
         buttonAction.setOnClickListener { _ ->
-//            audio.soundClick(this)
             audio.soundClickPlayer(this)
             val dialog = Dialog(this)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -239,7 +234,6 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
 
     private fun btnRemindWord() {
-//        audio.soundClick(this)
         audio.soundClickPlayer(this)
         val toast = Toast.makeText(this, word, Toast.LENGTH_SHORT)
         toast.setGravity(Gravity.CENTER, 0, 0)
@@ -255,7 +249,6 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     }
 
     private fun btnTheyNotGuessed() {
-//        audio.soundClick(this)
         audio.soundClickPlayer(this)
         mPresenter.stopCountDownTimer()
         mPresenter.notWin()
@@ -270,9 +263,9 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         if (flagShowBtn) {
             timer.visibility = View.GONE
         } else {
-            textTimerDraw.visibility = View.GONE
+            text_timer_draw.visibility = View.GONE
             drawClear.visibility = View.GONE
-            backImage.visibility = View.GONE
+            back_image.visibility = View.GONE
             layoutForDraw.visibility = View.GONE
         }
         layoutBtnFromTellAndShow.visibility = View.GONE
@@ -322,7 +315,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         if (timerBig) {
             textTimer.text = time
         } else
-            textTimerDraw.text = time
+            text_timer_draw.text = time
     }
 
     override fun onResume() {
