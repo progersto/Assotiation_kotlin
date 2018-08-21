@@ -18,7 +18,7 @@ import com.natife.voobrazharium.R
 import java.util.ArrayList
 import com.natife.voobrazharium.init_game.Player
 import com.natife.voobrazharium.game.GameActivity
-import com.natife.voobrazharium.resultgame.ResultGame
+import com.natife.voobrazharium.resultgame.ResultGameActivity
 import com.natife.voobrazharium.utils.*
 import com.natife.voobrazharium.utils.audio.AudioUtil
 
@@ -300,19 +300,10 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     }
 
     override fun showResultDialog() {
-        val intent = Intent(this, ResultGame::class.java)
+        val intent = Intent(this, ResultGameActivity::class.java)
         intent.putExtra("timeGameFlag", timeGameFlag)
-        intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
         startActivityForResult(intent, 11111)
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        if (data == null) {
-//            return
-//        } else {
-//            flagNextPlayer = data.getBooleanExtra("flagNextPlayer", false)
-//        }
-//    }
 
     override fun showData(name: String, color: Int, word1: String, word2: String, positionPlayer: Int) {
         whoseTurn.text = String.format("%s %s", resources.getString(R.string.turn), name)

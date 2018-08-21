@@ -1,13 +1,11 @@
 package com.natife.voobrazharium.init_game
 
-import android.content.Intent
-import android.os.Parcelable
 import android.util.Log
 import com.natife.voobrazharium.R
-import com.natife.voobrazharium.choose_how_play.ChooseHowPlayActivity
-import java.util.ArrayList
+import com.natife.voobrazharium.base.BasePresenterImpl
 
-class InitGamePresenter(private val mView: InitGameContract.View) : InitGameContract.Presenter {
+class InitGamePresenter : BasePresenterImpl<InitGameContract.View>(), InitGameContract.Presenter {
+
     private val mRepository: InitGameContract.Repository = InitGameRepository.getInstance()
     private var playerList = mutableListOf<Player>()
     private var flagStartGame = false
@@ -16,67 +14,53 @@ class InitGamePresenter(private val mView: InitGameContract.View) : InitGameCont
 
     override fun initPlayerList(listWithName: MutableList<Player>?) {
         this.playerList = mRepository.createListPlayer(listWithName)
-        mView.showListPlayers(this.playerList)
+        baseView?.showListPlayers(this.playerList)
     }
 
     override fun btnAddPlayerClicked() {
         if (playerList.size <= 5) {
             playerList = mRepository.addNameInPlayerList()
-            mView.showListPlayers(playerList)
+            baseView?.showListPlayers(playerList)
         }
     }
 
     override fun btnNextClicked(difficultLevel: Int) {
         if (flagStartGame) {
             flagStartGame = false
-            listWords = mRepository.createListWords(difficultLevel, mView.contextActivity())
+            listWords = baseView?.createWordList(mRepository, difficultLevel)!!
             Log.d("ddd", "listWords = $listWords")
 
             //start to play...
-            val intent = Intent(mView.contextActivity(), ChooseHowPlayActivity::class.java)
-            intent.putStringArrayListExtra("listWords", listWords as ArrayList<String>)
-            intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
-            mView.contextActivity().startActivity(intent)
-
+            baseView?.startGame(listWords, playerList)
         } else {
             for (i in playerList.indices) {
                 if (playerList[i].name.equals("")) {
-                    android.support.v7.app.AlertDialog.Builder(mView.contextActivity())
-                            .setMessage(R.string.set_name)
-                            .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
-                            .show()
+                    baseView?.showAlert(R.string.set_name)
                     return
                 }
                 for (j in i + 1 until playerList.size) {
                     if (playerList[i].name.equals(playerList[j].name)) {
-                        android.support.v7.app.AlertDialog.Builder(mView.contextActivity())
-                                .setMessage(R.string.set_different_name)
-                                .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
-                                .show()
+                        baseView?.showAlert(R.string.set_different_name)
                         return
                     }
                 }
             }
-            mView.changeScreen(true)
+            baseView?.changeScreen(true)
             flagStartGame = true
         }
     }
 
     override fun btnBackClicked() {
         flagStartGame = false
-        mView.changeScreen(false)
+        baseView?.changeScreen(false)
     }
 
     override fun btnSettingsClicked() {
-        mView.showSettingsDialog(flagStartGame)
+        baseView?.showSettingsDialog(flagStartGame)
     }
 
     override fun getFlagChangeScreen(): Boolean {
         return flagStartGame
-    }
-
-    override fun onDestroy() {
-
     }
 
 }

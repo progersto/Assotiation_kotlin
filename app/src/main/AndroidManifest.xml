@@ -34,7 +34,7 @@
         <activity android:name=".game.GameActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
-        <activity android:name=".resultgame.ResultGame"
+        <activity android:name=".resultgame.ResultGameActivity"
             android:screenOrientation="portrait" />
     </application>
 

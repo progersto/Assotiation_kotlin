@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Bundle
+import android.os.Parcelable
 import android.speech.RecognizerIntent
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -22,9 +23,9 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.natife.voobrazharium.R
+import com.natife.voobrazharium.choose_how_play.ChooseHowPlayActivity
 import com.natife.voobrazharium.utils.audio.AudioUtil
 import kotlinx.android.synthetic.main.activity_initgame.*
-import kotlinx.android.synthetic.main.activity_initgame.view.*
 import kotlinx.android.synthetic.main.select_difficulty_level.*
 import java.util.*
 
@@ -55,7 +56,8 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
 
         audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс InitGameContract.View
-        mPresenter = InitGamePresenter(this)
+        mPresenter = InitGamePresenter()
+        mPresenter.viewAttach(this)
 
         initView()
 
@@ -89,7 +91,6 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
 
         volumeControlStream = AudioManager.STREAM_MUSIC//volume on the volumeButton
 
-
         starAdvertising()
     }
 
@@ -122,36 +123,29 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
     private fun initView() {
         radio_easy.setOnClickListener{
             audio!!.soundClickPlayer(this)
-//            audio!!.soundClick(this)
         }
         radio_easy.isSoundEffectsEnabled= false
         radio_normal.setOnClickListener{
-//            audio!!.soundClick(this)
             audio!!.soundClickPlayer(this)
         }
         radio_normal.isSoundEffectsEnabled= false
         radio_hard.setOnClickListener{
-//            audio!!.soundClick(this)
             audio!!.soundClickPlayer(this)
         }
         radio_hard.isSoundEffectsEnabled= false
         buttonAddPlayer.setOnClickListener {
-//            audio!!.soundClick(this)
             audio!!.soundClickPlayer(this)
             mPresenter.btnAddPlayerClicked() }
         buttonAddPlayer.isSoundEffectsEnabled= false
         buttonNext.setOnClickListener {
-//            audio!!.soundClick(this)
             audio!!.soundClickPlayer(this)
             mPresenter.btnNextClicked(checkDifficultLevel()) }
         buttonNext.isSoundEffectsEnabled= false
         back.setOnClickListener {
-//            audio!!.soundClick(this)
             audio!!.soundClickPlayer(this)
             mPresenter.btnBackClicked() }
         back.isSoundEffectsEnabled= false
         settings.setOnClickListener {
-//            audio!!.soundClick(this)
             audio!!.soundClickPlayer(this)
             mPresenter.btnSettingsClicked() }
         settings.isSoundEffectsEnabled= false
@@ -211,6 +205,25 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         }
     }
 
+    override fun showAlert(message: Int) {
+        android.support.v7.app.AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
+                .show()
+    }
+
+    override fun createWordList(mRepository: InitGameContract.Repository, difficultLevel: Int): MutableList<String> {
+        return mRepository.createListWords(difficultLevel, this)
+    }
+
+
+    override fun startGame(listWords: MutableList<String>, playerList: MutableList<Player>) {
+        val intent = Intent(this, ChooseHowPlayActivity::class.java)
+        intent.putStringArrayListExtra("listWords", listWords as ArrayList<String>)
+        intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
+        startActivity(intent)
+    }
+
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -234,6 +247,11 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
     override fun onStop() {
         super.onStop()
         audio = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.viewDetach()
     }
 
     override fun onBackPressed() {
