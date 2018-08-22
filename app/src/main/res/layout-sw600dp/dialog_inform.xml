@@ -30,8 +30,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
         android:paddingTop="10dp"
+        android:paddingBottom="20dp"
         android:autoLink="all"
         android:linksClickable="true"
         android:text="@string/contact"
@@ -40,5 +40,15 @@
         android:textIsSelectable="true"
         android:textSize="20sp"
         />
+
+    <TextView
+        android:id="@+id/textRules"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rules_game"
+        android:textSize="20sp"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textIsSelectable="true"
+        android:layout_marginBottom="50dp"/>
 
 </LinearLayout>

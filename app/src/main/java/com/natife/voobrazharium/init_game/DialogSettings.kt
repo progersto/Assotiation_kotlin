@@ -101,6 +101,7 @@ class DialogSettings : DialogFragment() {
             dismiss()
         }
         v.findViewById<View>(R.id.backSettings).setOnClickListener{
+            audio.soundClickPlayer(dialog.context)
             dismiss()
         }
         return v

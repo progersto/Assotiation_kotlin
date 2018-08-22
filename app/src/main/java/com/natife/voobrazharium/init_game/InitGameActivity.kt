@@ -15,7 +15,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import com.google.android.gms.ads.AdListener
@@ -23,9 +25,11 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.natife.voobrazharium.R
+import com.natife.voobrazharium.R.layout.dialog_inform
 import com.natife.voobrazharium.choose_how_play.ChooseHowPlayActivity
 import com.natife.voobrazharium.utils.audio.AudioUtil
 import kotlinx.android.synthetic.main.activity_initgame.*
+import kotlinx.android.synthetic.main.dialog_inform.view.*
 import kotlinx.android.synthetic.main.select_difficulty_level.*
 import java.util.*
 
@@ -198,9 +202,14 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
             dialogSettings.show(supportFragmentManager, "dialogSettings")
         } else {
             val dialog = Dialog(this)
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window!!.setLayout(1000, ViewGroup.LayoutParams.MATCH_PARENT)
             dialog.setContentView(R.layout.dialog_inform)
+            val rules: TextView = dialog.findViewById<TextView>(R.id.textRules)
+            rules.setOnClickListener{
+                val dialogRules = DialogRules()
+                dialogRules.show(supportFragmentManager, "dialogRules")
+                dialog.dismiss()
+            }
             dialog.show()
         }
     }
