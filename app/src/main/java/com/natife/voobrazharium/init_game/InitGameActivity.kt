@@ -226,9 +226,9 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
     }
 
 
-    override fun startGame(listWords: MutableList<String>, playerList: MutableList<Player>) {
+    override fun startGame(playerList: MutableList<Player>, difficultLevel: Int) {
         val intent = Intent(this, ChooseHowPlayActivity::class.java)
-        intent.putStringArrayListExtra("listWords", listWords as ArrayList<String>)
+        intent.putExtra("difficultLevel", difficultLevel)
         intent.putParcelableArrayListExtra("playerList", playerList as ArrayList<out Parcelable>)
         startActivity(intent)
     }

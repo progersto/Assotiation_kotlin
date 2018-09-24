@@ -17,7 +17,7 @@ interface InitGameContract {
 
         fun showAlert(message: Int)
 
-        fun startGame(listWords: MutableList<String>, playerList: MutableList<Player>)
+        fun startGame(playerList: MutableList<Player>, difficultLevel: Int)
 
         fun createWordList(mRepository: Repository, difficultLevel: Int): MutableList<String>
     }

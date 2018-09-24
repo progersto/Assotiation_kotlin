@@ -27,11 +27,9 @@ class InitGamePresenter : BasePresenterImpl<InitGameContract.View>(), InitGameCo
     override fun btnNextClicked(difficultLevel: Int) {
         if (flagStartGame) {
             flagStartGame = false
-            listWords = baseView?.createWordList(mRepository, difficultLevel)!!
-            Log.d("ddd", "listWords = $listWords")
 
             //start to play...
-            baseView?.startGame(listWords, playerList)
+            baseView?.startGame(playerList, difficultLevel)
         } else {
             for (i in playerList.indices) {
                 if (playerList[i].name.equals("")) {

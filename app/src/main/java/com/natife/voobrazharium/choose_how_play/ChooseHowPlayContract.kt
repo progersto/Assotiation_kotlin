@@ -22,7 +22,7 @@ interface ChooseHowPlayContract {
 
         fun buttonGoPressed()
 
-        fun findDataForFillFields(playerList: MutableList<Player>, listWords: MutableList<String>, timeGame: Int)
+        fun findDataForFillFields(playerList: MutableList<Player>, timeGame: Int, difficultLevel: Int)
 
         fun getPlayerList(): MutableList<Player>
 
@@ -31,5 +31,7 @@ interface ChooseHowPlayContract {
         fun getPosPlayer(): Int
 
         fun getLifeData(): LiveData<Boolean>
+
+        fun removeSelectedWord(word: String)
     }
 }

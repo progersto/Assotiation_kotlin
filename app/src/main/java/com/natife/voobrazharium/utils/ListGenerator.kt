@@ -56,7 +56,9 @@ class ListGenerator {
                 val messages = obj.get(level) as JSONArray
 
                 for (i in 0 until messages.length()) {
-                    list.add(messages.getString(i))
+                    var word = messages.getString(i)
+                    word = word.substring(0, 1).toUpperCase() + word.substring(1);
+                    list.add(word)
                 }
             } catch (e: JSONException) {
                 e.printStackTrace()

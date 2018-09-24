@@ -162,7 +162,6 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
             audio.soundClickPlayer(this)
             paintView.backPaths() }
         back_image.isSoundEffectsEnabled= false
-//        textTimerDraw = findViewById(R.id.text_timer_draw)
         whoseTurn = findViewById(R.id.whose_turn)
         drawClear = findViewById(R.id.draw_clear)
         drawClear.setOnClickListener { _ ->

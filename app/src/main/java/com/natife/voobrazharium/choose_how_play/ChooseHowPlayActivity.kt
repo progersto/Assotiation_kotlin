@@ -25,7 +25,6 @@ import com.natife.voobrazharium.utils.audio.AudioUtil
 class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
     private lateinit var mPresenter: ChooseHowPlayContract.Presenter
-    private lateinit var listWords: MutableList<String>
     private lateinit var whoseTurn: TextView
     private lateinit var results: ImageView
     private lateinit var textSelection: TextView
@@ -59,6 +58,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
     private var flagNextPlayer: Boolean = false
     private var audio: AudioUtil? = null
     private lateinit var mAdView: AdView
+    private var difficultLevel:Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +82,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
         volumeControlStream = AudioManager.STREAM_MUSIC//volume on the volumeButton
 
-        listWords = intent.getStringArrayListExtra("listWords") as MutableList<String>
+        difficultLevel = intent.getIntExtra("difficultLevel", 0)
         playerList = mPresenter.getPlayerList()
 
         initViews()
@@ -144,7 +144,6 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
         results.isSoundEffectsEnabled= false
         results.setOnClickListener {
-//            audio!!.soundClick(this)
             audio!!.soundClickPlayer(this)
             showResultDialog();
         }
@@ -164,8 +163,8 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             frameWord2.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = frameWord1.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
-//            audio!!.soundClick(this)
             audio!!.soundClickPlayer(this)
+            mPresenter.removeSelectedWord(word1.text.toString())
         }
         word2.isSoundEffectsEnabled= false
         word2.setOnClickListener {
@@ -178,8 +177,8 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             frameWord1.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
             val gd = frameWord2.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
-            //audio!!.soundClick(this)
             audio!!.soundClickPlayer(this)
+            mPresenter.removeSelectedWord(word2.text.toString())
         }
         layoutShow.isSoundEffectsEnabled= false
         layoutShow.setOnClickListener {
@@ -206,7 +205,6 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                     iconTell.setColorFilter(ContextCompat.getColor(this, R.color.colorTextSelection))
                     layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
                 }
-                //audio!!.soundClick(this)
                 audio!!.soundClickPlayer(this)
             }
         }
@@ -236,7 +234,6 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                     layoutDraw.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
                 }
                 audio!!.soundClickPlayer(this)
-               // audio!!.soundClick(this)
             }
         }
         layoutDraw.isSoundEffectsEnabled= false
@@ -266,13 +263,11 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
                     layoutTell.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
                 }
                 audio!!.soundClickPlayer(this)
-                //audio!!.soundClick(this)
             }
         }
         buttonGo.isSoundEffectsEnabled= false
         buttonGo.setOnClickListener {
             audio!!.soundClickPlayer(this)
-           // audio!!.soundClick(this)
             if (flagWord && flagAction) {
                 mPresenter.buttonGoPressed()
                 flagWord = false
@@ -366,7 +361,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         frameWord1.foreground = ContextCompat.getDrawable(this, R.drawable.recycler_backgroind)
 
         if (!flagNextPlayer) {
-            mPresenter.findDataForFillFields(playerList, listWords, timeGame)
+            mPresenter.findDataForFillFields(playerList, timeGame, difficultLevel)
         }
 
         if (playerList[positionPlayer].show) {

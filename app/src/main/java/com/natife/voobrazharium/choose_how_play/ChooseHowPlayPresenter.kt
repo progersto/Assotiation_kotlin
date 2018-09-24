@@ -44,21 +44,26 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
     }
 
 
-    override fun findDataForFillFields(playerList: MutableList<Player>, listWords: MutableList<String>, timeGame: Int) {
+    override fun findDataForFillFields(playerList: MutableList<Player>, timeGame: Int, difficultLevel: Int) {
         this.playerList = playerList
         positionPlayer = getPositionPlayer()
-        if (!playerList[positionPlayer].tell && !playerList[positionPlayer].show && !playerList[positionPlayer].draw){
+        if (!playerList[positionPlayer].tell && !playerList[positionPlayer].show && !playerList[positionPlayer].draw) {
             playerList[positionPlayer].tell = true
             playerList[positionPlayer].show = true
             playerList[positionPlayer].draw = true
         }
 
         if (lapDefault != 0) {
-            this.listWords = listWords
-            positionWord1 = getRandom(listWords.size)
-            positionWord2 = getRandom(listWords.size)
-            word1 = listWords[positionWord1]
-            word2 = listWords[positionWord2]
+            if (this.listWords.size < 2) {
+                this.listWords = mRepository.createListWords(difficultLevel, mView.getContextActivity())
+            }
+            positionWord1 = getRandom(this.listWords.size)
+            positionWord2 = getRandom(this.listWords.size)
+            word1 = this.listWords[positionWord1]
+            word2 = this.listWords[positionWord2]
+            positionWord1 = -1
+
+
             name = playerList[positionPlayer].name!!
             name = name.substring(0, 1).toUpperCase() + name.substring(1)
             word1 = word1.substring(0, 1).toUpperCase() + word1.substring(1)
@@ -72,14 +77,18 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
         }
     }
 
+    override fun removeSelectedWord(word: String) {
+        this.listWords.remove(word)
+    }
+
     private fun getRandom(size: Int): Int {
         val rand = Random()
         var position = rand.nextInt(size)
-        if (positionWord1 == -1){
+        if (positionWord1 == -1) {
             return position
         }
 
-        if (listWords[positionWord1] == listWords[position]) {
+        if (this.listWords[positionWord1] == this.listWords[position]) {
             position = getRandom(size)
         }
         return position
