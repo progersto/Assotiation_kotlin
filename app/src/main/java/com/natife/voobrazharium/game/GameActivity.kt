@@ -14,6 +14,7 @@ import com.natife.voobrazharium.game.UtilForDraw.PaintView
 import com.natife.voobrazharium.init_game.Player
 import android.graphics.drawable.GradientDrawable
 import android.media.AudioManager
+import android.text.TextUtils.substring
 import android.view.*
 import android.widget.TextView
 import android.widget.RelativeLayout
@@ -27,11 +28,11 @@ import com.natife.voobrazharium.utils.restoreColorDraw
 import com.natife.voobrazharium.utils.restoreTimeMove
 import com.natife.voobrazharium.utils.saveColorDraw
 import kotlinx.android.synthetic.main.activity_game.*
+import java.util.*
 
 class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogListener {
     private lateinit var mPresenter: GameContract.Presenter
     private lateinit var howExplain: String
-//    private lateinit var textTimerDraw: TextView
     private lateinit var whoseTurn: TextView
     private lateinit var drawClear: ImageView
     private lateinit var timer: RelativeLayout
@@ -57,7 +58,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     private lateinit var colorDialog: ColorPickerDialog.Builder
     private var colorForStartDialog: Int = 0
     private lateinit var audio: AudioUtil
-    private lateinit var mAdView : AdView
+    private lateinit var mAdView: AdView
     private var flagSelectWhoGuessed: Boolean = false
 
 
@@ -89,7 +90,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         mAdView.loadAd(adRequest)
         mAdView.adListener = object : AdListener() {
             override fun onAdLoaded() {
-                if (layoutForDraw.visibility != View.VISIBLE){
+                if (layoutForDraw.visibility != View.VISIBLE) {
                     mAdView.visibility = View.VISIBLE
                 }
             }
@@ -111,19 +112,20 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
     private fun showView(howExplain: String) {
         whoseTurn.setTextColor(ContextCompat.getColor(this, playerList[positionPlayer].color))
+        val name = playerList[positionPlayer].name
         when (howExplain) {
             "tell" -> {
-                whoseTurn.text = String.format("%s %s", resources.getString(R.string.describes), playerList[positionPlayer].name)
+                whoseTurn.text = mPresenter.setLocaleRes(name, resources.getString(R.string.describes))
                 selectedTellOrShow()
                 playerList[positionPlayer].tell = false
             }
             "show" -> {
-                whoseTurn.text = String.format("%s %s", resources.getString(R.string.shows), playerList[positionPlayer].name)
+                whoseTurn.text = mPresenter.setLocaleRes(name, resources.getString(R.string.shows))
                 selectedTellOrShow()
                 playerList[positionPlayer].show = false
             }
             "draw" -> {
-                whoseTurn.text = String.format("%s %s", resources.getString(R.string.draws), playerList[positionPlayer].name)
+                whoseTurn.text = mPresenter.setLocaleRes(name, resources.getString(R.string.draws))
                 selectedDraw()
                 playerList[positionPlayer].draw = false
             }
@@ -160,14 +162,16 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
     private fun initView() {
         back_image.setOnClickListener { _ ->
             audio.soundClickPlayer(this)
-            paintView.backPaths() }
-        back_image.isSoundEffectsEnabled= false
+            paintView.backPaths()
+        }
+        back_image.isSoundEffectsEnabled = false
         whoseTurn = findViewById(R.id.whose_turn)
         drawClear = findViewById(R.id.draw_clear)
         drawClear.setOnClickListener { _ ->
             audio.soundClickPlayer(this)
-            paintView.clear() }
-        drawClear.isSoundEffectsEnabled= false
+            paintView.clear()
+        }
+        drawClear.isSoundEffectsEnabled = false
         timer = findViewById(R.id.timer)
         circularProgressbar = findViewById(R.id.circularProgressbar)
         circularProgressbar.max = timeMove
@@ -180,7 +184,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         buttonAction = findViewById(R.id.buttonAction)
         layoutForDraw = findViewById(R.id.layout_for_draw)
         buttonPointBrush = findViewById(R.id.buttonPointBrush)
-        buttonPointBrush.isSoundEffectsEnabled= false
+        buttonPointBrush.isSoundEffectsEnabled = false
         buttonPointBrush.setOnClickListener { _ ->
             audio.soundClickPlayer(this)
             colorDialog = ColorPickerDialog.newBuilder()
@@ -196,7 +200,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
                     .setShowAlphaSlider(false)
                     .show(this)
         }
-        buttonAction.isSoundEffectsEnabled= false
+        buttonAction.isSoundEffectsEnabled = false
         buttonAction.setOnClickListener { _ ->
             audio.soundClickPlayer(this)
             val dialog = Dialog(this)
@@ -206,17 +210,17 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
             val theyGuessed = dialog.findViewById<RelativeLayout>(R.id.they_guessed)
             val theyNotGuessed = dialog.findViewById<RelativeLayout>(R.id.they_not_guessed)
             val remindWord = dialog.findViewById<RelativeLayout>(R.id.remind_word)
-            theyGuessed.isSoundEffectsEnabled= false
+            theyGuessed.isSoundEffectsEnabled = false
             theyGuessed.setOnClickListener { _ ->
                 dialog.dismiss()
                 btnTheyGuessed()
             }
-            theyNotGuessed.isSoundEffectsEnabled= false
+            theyNotGuessed.isSoundEffectsEnabled = false
             theyNotGuessed.setOnClickListener { _ ->
                 dialog.dismiss()
                 btnTheyNotGuessed()
             }
-            remindWord.isSoundEffectsEnabled= false
+            remindWord.isSoundEffectsEnabled = false
             remindWord.setOnClickListener { _ ->
                 dialog.dismiss()
                 btnRemindWord()
@@ -224,11 +228,11 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
             dialog.show()
         }
         remindWord.setOnClickListener { _ -> btnRemindWord() }
-        remindWord.isSoundEffectsEnabled= false
+        remindWord.isSoundEffectsEnabled = false
         theyGuessed.setOnClickListener { btnTheyGuessed() }
-        theyGuessed.isSoundEffectsEnabled= false
+        theyGuessed.isSoundEffectsEnabled = false
         theyNotGuessed.setOnClickListener { btnTheyNotGuessed() }
-        theyNotGuessed.isSoundEffectsEnabled= false
+        theyNotGuessed.isSoundEffectsEnabled = false
     }
 
 
@@ -270,7 +274,7 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
         layoutBtnFromTellAndShow.visibility = View.GONE
         layoutBtnPlayer.visibility = View.VISIBLE
 
-        if (!flagSelectWhoGuessed){
+        if (!flagSelectWhoGuessed) {
             audio.soundClickPlayer(this)
             for (i in playerList.indices) {
                 if (positionPlayer != i) {
@@ -281,11 +285,12 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
                     textBtnPlayer.text = name
                     gd = btn.background as GradientDrawable
                     gd!!.setColor(ContextCompat.getColor(this, playerList[i].color))
-                    btn.isSoundEffectsEnabled= false
+                    btn.isSoundEffectsEnabled = false
                     btn.setOnClickListener { _ ->
                         //                    audio.soundClick(this)
                         audio.soundClickPlayer(this)
-                        mPresenter.playerWin(playerList, i, positionPlayer) }
+                        mPresenter.playerWin(playerList, i, positionPlayer)
+                    }
                     layoutBtnPlayer.addView(newItem)
                 }
             }
@@ -319,9 +324,9 @@ class GameActivity : AppCompatActivity(), GameContract.View, ColorPickerDialogLi
 
     override fun onResume() {
         super.onResume()
-        if (flagSelectWhoGuessed){
+        if (flagSelectWhoGuessed) {
             btnTheyGuessed()
-        }else{
+        } else {
             showView(howExplain)
         }
     }

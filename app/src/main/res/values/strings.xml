@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Воображарий</string>
-    <string name="splash">Воображарий</string>
+    <string name="app_name">Воображариум</string>
+    <string name="splash">Воображариум</string>
     <string name="splash1">N Game</string>
 
     <string name="text_selection_name">Укажите имена всех игроков</string>
@@ -16,14 +17,17 @@
     <string name="example_normal_words">Анонс, Секатор, Торжество</string>
     <string name="example_hard_words">Концепция, Мышиная возня, Аллерген</string>
     <string name="rules_game">Правила игры</string>
-    <string name="rules_text">\n   Приветствуем в Воображарие!\n   Сейчас мы хотим рассказать тебе правила игры.
-        \n   Игра начинается с выбора количества игроков: 3-6 и ввода их имен. Можешь использовать микрофон, для задачи имени голосом.
-        \n   В следующем окне тебе предстоит выбрать сложность, на которой ты и твоя компания будете играть. \n   В правом верхнем углу можно выбрать режим игры: время для загадывания одного слова, общее время игры, количество раундов, которое будет длиться игра(1 раунд = количеству слов, при котором каждый из игроков загадает 1 слово)
-        \n   В случае, когда игрок отгадал слово - 1 балл получает игрок, который загадал слово и тот, кто отгадал слово.
-        \n   Игра заканчивается, когда игроки сыграли выбранное количество раундов или общее время игры окончено.</string>
+    <string name="rules_text">
+        Приветствуем в Воображарие!
+        \n\nСейчас мы хотим рассказать тебе правила игры.
+        \n\nИгра начинается с выбора количества игроков: 3-6 и ввода их имен. Можешь использовать микрофон, для задачи имени голосом.
+        \n\nВ следующем окне тебе предстоит выбрать сложность, на которой ты и твоя компания будете играть.
+        \n\nВ правом верхнем углу можно выбрать режим игры: время для загадывания одного слова, общее время игры, количество раундов, которое будет длиться игра(1 раунд = количеству слов, при котором каждый из игроков загадает 1 слово)
+        \n\nВ случае, когда игрок отгадал слово - 1 балл получает игрок, который загадал слово и тот, кто отгадал слово.
+        \n\nИгра заканчивается, когда игроки сыграли выбранное количество раундов или общее время игры окончено.</string>
 
 
-    <string name="version_game">Версия игры 1.0</string>
+    <string name="version_game">Версия игры 1.1</string>
     <string name="contact">Разработчик <a href="https://natife.com">Natife.com</a></string>
     <string name="error_voice_not_support">Ой! Ваше устройство не поддерживает голосовой набор текста</string>
     <string name="ok">Да</string>
@@ -43,6 +47,8 @@
     <string name="tell">Рассказать</string>
     <string name="draw">Нарисовать</string>
     <string name="go">Поехали!</string>
+    <string name="select_word">Виберите слово!</string>
+    <string name="select_action">Виберите действие!</string>
 
     <string name="table_result">Результаты</string>
     <string name="guessed">отгадано</string>
@@ -73,8 +79,9 @@
     <string name="presets">Предустановленные</string>
 
     <string name="share">Поделиться</string>
-    <string name="share_text">Результат игры Association</string>
-    <string name="share_URI"><a href="https://natife.com">https://natife.com</a></string>
+    <string name="share_via">Поделиться через:</string>
+    <string name="share_text">Результат игры Воображариум</string>
+    <string name="share_URI"><a href="https://natife.com">natife.com</a></string>
 
     <string name="adUnitId">ca-app-pub-6629087046457001/8960702631</string>
     <string name="mobileAds">ca-app-pub-6629087046457001~7076775328</string>

@@ -45,6 +45,8 @@ interface InitGameContract {
 
         fun getCurrentPlayerList(): MutableList<Player>
 
+        fun restorePlayerListFromPrefer(list: List<Player>)
+
         fun startRefreshHowPlayScreen()
         fun getLifeData(): MutableLiveData<Boolean>
     }

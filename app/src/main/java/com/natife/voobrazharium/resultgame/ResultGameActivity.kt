@@ -3,17 +3,16 @@ package com.natife.voobrazharium.resultgame
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.media.AudioManager
 import android.net.Uri
+import android.os.*
 import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.os.Parcelable
-import android.os.StrictMode
+import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
-import android.view.View
 import android.view.View.inflate
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -24,13 +23,15 @@ import com.natife.voobrazharium.init_game.InitGameActivity
 import com.natife.voobrazharium.init_game.Player
 import java.util.ArrayList
 import android.support.v7.widget.Toolbar
-import android.view.Menu
-import android.view.MenuItem
-import android.view.Window
+import android.util.Log
+import android.view.*
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.natife.voobrazharium.utils.audio.AudioUtil
+import com.natife.voobrazharium.utils.restorePlayerList
+import com.natife.voobrazharium.utils.savePlayerList
+import kotlinx.android.synthetic.main.activity_result.view.*
 import java.io.File
 import java.io.FileOutputStream
 
@@ -43,7 +44,7 @@ class ResultGameActivity : AppCompatActivity() {
     private lateinit var layoutResult: LinearLayout
     private var dialog: Dialog? = null
     private lateinit var audio: AudioUtil
-    private lateinit var mAdView : AdView
+    private lateinit var mAdView: AdView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,11 +62,19 @@ class ResultGameActivity : AppCompatActivity() {
         volumeControlStream = AudioManager.STREAM_MUSIC//volume on the volumeButton
 
         timeGameFlag = intent.getBooleanExtra("timeGameFlag", false)
+
         playerList = mPresenter.getPlayerList()
+        if (playerList.isEmpty()){
+            playerList = restorePlayerList(this)
+            mPresenter.restorePlayerListOnRepository(playerList)
+        }else{
+            savePlayerList(playerList, this)
+        }
+
         localPayerList = ArrayList(playerList)
 
         val btnBack: ImageView = viewResult.findViewById(R.id.back)
-        btnBack.isSoundEffectsEnabled= false
+        btnBack.isSoundEffectsEnabled = false
         btnBack.setOnClickListener {
             audio.soundClickPlayer(this)
             setResult(RESULT_OK, intent.putExtra("flagNextPlayer", true))
@@ -74,10 +83,10 @@ class ResultGameActivity : AppCompatActivity() {
         btnBack.visibility = if (timeGameFlag) View.VISIBLE else View.INVISIBLE
 
         val buttonAgain: RelativeLayout = viewResult.findViewById(R.id.buttonAgain)
-        buttonAgain.isSoundEffectsEnabled= false
+        buttonAgain.isSoundEffectsEnabled = false
         buttonAgain.setOnClickListener {
             audio.soundClickPlayer(this)
-            android.support.v7.app.AlertDialog.Builder(this)
+            android.support.v7.app.AlertDialog.Builder(this, R.style.ColorDialogTheme)
                     .setMessage(R.string.you_are_sure)
                     .setNegativeButton(R.string.no) { dialog, _ ->
                         audio.soundClickPlayer(this)
@@ -122,9 +131,8 @@ class ResultGameActivity : AppCompatActivity() {
             totalPointsResult.text = localPayerList[i].countScore.toString()
             if (isWin && i == 0) {
                 image.visibility = View.VISIBLE
-                if (!timeGameFlag){
+                if (!timeGameFlag) {
                     audio.soundApplausePlayer(this)
-                    //audio.soundApplause(this)
                     dialog = Dialog(this)
                     dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
                     dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -137,7 +145,7 @@ class ResultGameActivity : AppCompatActivity() {
                 image.visibility = View.INVISIBLE
             layoutResult.addView(newItem)
 
-            if (!isWin && !timeGameFlag && i == 0){
+            if (!isWin && !timeGameFlag && i == 0) {
                 dialog = Dialog(this)
                 dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -178,11 +186,20 @@ class ResultGameActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_share -> {
                 audio.soundClickPlayer(this)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    layoutResult.background = resources.getDrawable(R.mipmap.gradient,theme)
+                }else{
+                    layoutResult.background = resources.getDrawable(R.mipmap.gradient)
+                }
+
                 val bitmap = mPresenter.getBitmapFromView(layoutResult)
+                layoutResult.background = null
+                System.gc()
                 val builder = StrictMode.VmPolicy.Builder()
                 StrictMode.setVmPolicy(builder.build())
                 startShare(bitmap)
@@ -193,7 +210,7 @@ class ResultGameActivity : AppCompatActivity() {
 
     private fun startShare(bitmap: Bitmap) {
         try {
-            val file = File(this.externalCacheDir, "logicchip.png")
+            val file = File(this.externalCacheDir, "rezult_game.png")
             val fOut = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
             fOut.flush()
@@ -206,7 +223,7 @@ class ResultGameActivity : AppCompatActivity() {
             intent.putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.share_URI))
             intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file))
             intent.type = "image/png"
-            startActivity(Intent.createChooser(intent, "Share image via"))
+            startActivity(Intent.createChooser(intent, resources.getString(R.string.share_via)))
         } catch (e: Exception) {
             e.printStackTrace()
         }

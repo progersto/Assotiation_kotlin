@@ -1,6 +1,5 @@
 package com.natife.voobrazharium.init_game
 
-import android.arch.lifecycle.LiveData
 import android.content.Context
 import com.natife.voobrazharium.R
 import com.natife.voobrazharium.utils.ListGenerator
@@ -60,6 +59,9 @@ class InitGameRepository : InitGameContract.Repository {
         return playerList
     }
 
+    override fun restorePlayerListFromPrefer(list: List<Player>){
+        playerList = list.toMutableList()
+    }
 
     override fun getCurrentPlayerList(): MutableList<Player> {
         return playerList

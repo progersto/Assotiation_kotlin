@@ -64,7 +64,7 @@ class GamePresenter(private val mView: GameContract.View) : GameContract.Present
                     mView.setCircularProgressbar(timeMove)
                 }
                 mView.setTextTimer(String.format(Locale.getDefault(), "%01d:%02d", 0, 0))
-                android.support.v7.app.AlertDialog.Builder(mView.contextActivity())
+                android.support.v7.app.AlertDialog.Builder(mView.contextActivity(), R.style.ColorDialogTheme)
                         .setTitle(mView.contextActivity().resources.getString(R.string.time_gone))
                         .setMessage(mView.contextActivity().resources.getString(R.string.word_is_guessed))
                         .setPositiveButton(mView.contextActivity().resources.getString(R.string.they_guessed)
@@ -76,6 +76,16 @@ class GamePresenter(private val mView: GameContract.View) : GameContract.Present
             }
         }
         mCountDownTimer!!.start()
+    }
+
+    override fun setLocaleRes(name: String?, res: String): String {
+        val lang = Locale.getDefault().language
+        val nameNew = name?.let { it.substring(0, 1).toUpperCase() + it.substring(1) }
+        return if (lang == "en") {
+            String.format("%s %s", nameNew, res)
+        } else {
+            String.format("%s %s", res, nameNew)
+        }
     }
 
     override fun stopCountDownTimer() {

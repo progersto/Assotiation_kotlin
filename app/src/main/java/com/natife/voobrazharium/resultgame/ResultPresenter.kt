@@ -3,13 +3,14 @@ package com.natife.voobrazharium.resultgame
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import com.natife.voobrazharium.init_game.InitGameContract
 import com.natife.voobrazharium.init_game.InitGameRepository
 import com.natife.voobrazharium.init_game.Player
 import java.util.ArrayList
 
-class ResultPresenter (): ResultContract.Presenter {
+class ResultPresenter: ResultContract.Presenter {
 
 
     private val mRepository: InitGameContract.Repository = InitGameRepository.getInstance()
@@ -56,4 +57,7 @@ class ResultPresenter (): ResultContract.Presenter {
         return returnedBitmap
     }
 
+    override fun restorePlayerListOnRepository(list: List<Player>){
+        mRepository.restorePlayerListFromPrefer(list)
+    }
 }

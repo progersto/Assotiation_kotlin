@@ -23,5 +23,6 @@ interface GameContract {
         fun stopCountDownTimer()
         fun getPlayerList(): MutableList<Player>
         fun gameActivityDestroyed()
+        fun setLocaleRes(name: String?, res: String): String
     }
 }

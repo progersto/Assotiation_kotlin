@@ -11,6 +11,7 @@ interface ResultContract {
         fun getPlayerList(): MutableList<Player>
         fun checkWin(): Boolean
         fun getBitmapFromView(view: android.view.View): Bitmap
+        fun restorePlayerListOnRepository(list: List<Player>)
     }
 
 }

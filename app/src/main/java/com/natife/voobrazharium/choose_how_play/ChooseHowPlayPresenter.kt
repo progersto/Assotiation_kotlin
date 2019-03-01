@@ -1,8 +1,6 @@
 package com.natife.voobrazharium.choose_how_play
 
-import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
-import android.content.Context
 import com.natife.voobrazharium.init_game.InitGameContract
 import com.natife.voobrazharium.init_game.InitGameRepository
 import com.natife.voobrazharium.init_game.Player
@@ -77,6 +75,15 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
         }
     }
 
+    override fun replaceWords(){
+        positionWord1 = getRandom(this.listWords.size)
+        positionWord2 = getRandom(this.listWords.size)
+        word1 = this.listWords[positionWord1]
+        word2 = this.listWords[positionWord2]
+        mView.showData(word1, word2)
+    }
+
+
     override fun removeSelectedWord(word: String) {
         this.listWords.remove(word)
     }
@@ -126,6 +133,10 @@ class ChooseHowPlayPresenter(private val mView: ChooseHowPlayContract.View) : Ch
 
     override fun getLifeData(): LiveData<Boolean> {
         return InitGameRepository.getInstance().getLifeData()
+    }
+
+    override fun restorePlayerListOnRepository(list: List<Player>){
+        mRepository.restorePlayerListFromPrefer(list)
     }
 
 }

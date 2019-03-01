@@ -28,7 +28,7 @@ class DialogRules : DialogFragment() {
 
         val text:TextView = viev.findViewById<TextView>(R.id.textRules)
         text.movementMethod = ScrollingMovementMethod()
-        text.text = Html.fromHtml(getString(R.string.rules_text))
+        text.text = getString(R.string.rules_text)
 
         viev.findViewById<View>(R.id.backRules).setOnClickListener{
             audio.soundClickPlayer(dialog.context)

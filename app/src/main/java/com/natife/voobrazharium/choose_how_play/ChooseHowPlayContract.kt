@@ -13,6 +13,8 @@ interface ChooseHowPlayContract {
 
         fun showData(name: String, color: Int, word1: String, word2: String, positionPlayer: Int)
 
+        fun showData(word1: String, word2: String)
+
         fun getContextActivity(): Context
 
         fun gameOver()
@@ -33,5 +35,9 @@ interface ChooseHowPlayContract {
         fun getLifeData(): LiveData<Boolean>
 
         fun removeSelectedWord(word: String)
+
+        fun replaceWords()
+
+        fun restorePlayerListOnRepository(list: List<Player>)
     }
 }

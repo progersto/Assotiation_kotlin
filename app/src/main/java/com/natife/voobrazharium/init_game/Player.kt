@@ -2,8 +2,9 @@ package com.natife.voobrazharium.init_game
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.Serializable
 
-class Player : Parcelable {
+class Player : Parcelable, Serializable {
     var name: String? = null
     var color: Int = 0
     var countWords: Int = 0

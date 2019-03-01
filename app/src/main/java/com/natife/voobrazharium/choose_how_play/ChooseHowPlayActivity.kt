@@ -8,19 +8,23 @@ import android.media.AudioManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.v4.app.ActivityCompat.startActivityForResult
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.ContextCompat.startActivity
+import android.util.Log
 import android.view.View
 import android.widget.*
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.natife.voobrazharium.R
-import java.util.ArrayList
 import com.natife.voobrazharium.init_game.Player
 import com.natife.voobrazharium.game.GameActivity
 import com.natife.voobrazharium.resultgame.ResultGameActivity
 import com.natife.voobrazharium.utils.*
 import com.natife.voobrazharium.utils.audio.AudioUtil
+import kotlinx.android.synthetic.main.activity_choose_how_play.*
+import java.util.*
 
 class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
 
@@ -83,7 +87,14 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         volumeControlStream = AudioManager.STREAM_MUSIC//volume on the volumeButton
 
         difficultLevel = intent.getIntExtra("difficultLevel", 0)
+
         playerList = mPresenter.getPlayerList()
+        if (playerList.isEmpty()){
+            playerList = restorePlayerList(this) as MutableList<Player>
+            mPresenter.restorePlayerListOnRepository(playerList)
+        }else{
+            savePlayerList(playerList, this)
+        }
 
         initViews()
 
@@ -145,12 +156,16 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         results.isSoundEffectsEnabled= false
         results.setOnClickListener {
             audio!!.soundClickPlayer(this)
-            showResultDialog();
+            showResultDialog()
+        }
+        replaceWordsBtn.setOnClickListener {
+            mPresenter.replaceWords()
         }
         frameShowWords.setOnClickListener {
             frameShowWords.visibility = (View.GONE)
             frameWord1.visibility = (View.VISIBLE)
             frameWord2.visibility = View.VISIBLE
+            replaceWordsBtn.visibility = View.VISIBLE
         }
         word1.isSoundEffectsEnabled= false
         word1.setOnClickListener {
@@ -164,7 +179,6 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             val gd = frameWord1.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
             audio!!.soundClickPlayer(this)
-            mPresenter.removeSelectedWord(word1.text.toString())
         }
         word2.isSoundEffectsEnabled= false
         word2.setOnClickListener {
@@ -178,7 +192,6 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             val gd = frameWord2.foreground as GradientDrawable
             gd.setStroke(3, ContextCompat.getColor(this, colorPlayer))
             audio!!.soundClickPlayer(this)
-            mPresenter.removeSelectedWord(word2.text.toString())
         }
         layoutShow.isSoundEffectsEnabled= false
         layoutShow.setOnClickListener {
@@ -269,13 +282,14 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         buttonGo.setOnClickListener {
             audio!!.soundClickPlayer(this)
             if (flagWord && flagAction) {
+                mPresenter.removeSelectedWord(word)
                 mPresenter.buttonGoPressed()
                 flagWord = false
                 flagAction = false
             } else if (!flagWord && flagAction || !flagWord && !flagAction) {
-                Toast.makeText(this, "Выберите слово", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.select_word, Toast.LENGTH_SHORT).show()
             } else
-                Toast.makeText(this, "Выберите действие", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,  R.string.select_action, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -300,8 +314,13 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         startActivityForResult(intent, 11111)
     }
 
+    override fun showData(word1: String, word2: String) {
+        this.word1.text = word1
+        this.word2.text = word2
+    }
+
     override fun showData(name: String, color: Int, word1: String, word2: String, positionPlayer: Int) {
-        whoseTurn.text = String.format("%s %s", resources.getString(R.string.turn), name)
+        whoseTurn.text = setLolale(name)
         whoseTurn.setTextColor(ContextCompat.getColor(this, color))
         this.word1.text = word1
         this.word2.text = word2
@@ -337,6 +356,15 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
             gd.alpha = 50
             iconDraw.alpha = 0.3F
             textDraw.alpha = 0.3F
+        }
+    }
+
+    private fun setLolale(name: String): String {
+        val lang = Locale.getDefault().language
+        if (lang == "en") {
+            return String.format("%s's %s",name,  resources.getString(R.string.turn))
+        } else {
+            return String.format("%s %s", resources.getString(R.string.turn), name)
         }
     }
 
@@ -403,6 +431,7 @@ class ChooseHowPlayActivity : AppCompatActivity(), ChooseHowPlayContract.View {
         super.onStop()
         mPresenter.stopTimerGame()
         audio = null
+        replaceWordsBtn.visibility = View.INVISIBLE
     }
 
     override fun onBackPressed() {}

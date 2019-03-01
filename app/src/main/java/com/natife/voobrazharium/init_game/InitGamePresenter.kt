@@ -1,6 +1,5 @@
 package com.natife.voobrazharium.init_game
 
-import android.util.Log
 import com.natife.voobrazharium.R
 import com.natife.voobrazharium.base.BasePresenterImpl
 
@@ -9,7 +8,6 @@ class InitGamePresenter : BasePresenterImpl<InitGameContract.View>(), InitGameCo
     private val mRepository: InitGameContract.Repository = InitGameRepository.getInstance()
     private var playerList = mutableListOf<Player>()
     private var flagStartGame = false
-    private var listWords = mutableListOf<String>()
 
 
     override fun initPlayerList(listWithName: MutableList<Player>?) {

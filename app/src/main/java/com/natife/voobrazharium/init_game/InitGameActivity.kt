@@ -5,8 +5,6 @@ import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Bundle
 import android.os.Parcelable
@@ -15,21 +13,17 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.*
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.natife.voobrazharium.R
-import com.natife.voobrazharium.R.layout.dialog_inform
 import com.natife.voobrazharium.choose_how_play.ChooseHowPlayActivity
 import com.natife.voobrazharium.utils.audio.AudioUtil
 import kotlinx.android.synthetic.main.activity_initgame.*
-import kotlinx.android.synthetic.main.dialog_inform.view.*
 import kotlinx.android.synthetic.main.select_difficulty_level.*
 import java.util.*
 
@@ -59,7 +53,7 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
         setContentView(R.layout.activity_initgame)
 
         audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        //Создаём Presenter и в аргументе передаём ему this - эта Activity расширяет интерфейс InitGameContract.View
+        //Создаём Presenter
         mPresenter = InitGamePresenter()
         mPresenter.viewAttach(this)
 
@@ -215,7 +209,7 @@ class InitGameActivity : AppCompatActivity(), InitGameContract.View {
     }
 
     override fun showAlert(message: Int) {
-        android.support.v7.app.AlertDialog.Builder(this)
+        android.support.v7.app.AlertDialog.Builder(this, R.style.ColorDialogTheme)
                 .setMessage(message)
                 .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
                 .show()

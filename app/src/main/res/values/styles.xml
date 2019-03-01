@@ -1,4 +1,5 @@
-<resources xmlns:android="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
@@ -59,6 +60,10 @@
         <item name="colorAccent">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
-
+    <style name="ColorDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@android:color/white</item>
+        <item name="android:textColor">@color/colorButton</item>
+        <!--<item name="android:textColorPrimary">#f3f3f3</item>-->
+    </style>
 
 </resources>

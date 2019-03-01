@@ -7,6 +7,7 @@ import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
+import java.util.*
 
 class ListGenerator {
 
@@ -18,10 +19,16 @@ class ListGenerator {
 
         fun createListSelectedLevel(context: Context, difficultLevel: Int): MutableList<String> {
             val am = context.assets
-            val `is`: InputStream?
+            var `is`: InputStream? = null
             var stringInGson = ""
             try {
-                `is` = am.open("words.txt")
+                val lang = Locale.getDefault().language
+                `is` = when (lang) {
+                    "ru" -> am.open("words.txt")
+                    "en" -> am.open("words_en.txt")
+                    "uk" -> am.open("words_ukr.txt")
+                    else -> am.open("words_en.txt")
+                }
                 stringInGson = convertStreamToString(`is`!!)
                 `is`.close()
             } catch (e: IOException) {
@@ -57,7 +64,7 @@ class ListGenerator {
 
                 for (i in 0 until messages.length()) {
                     var word = messages.getString(i)
-                    word = word.substring(0, 1).toUpperCase() + word.substring(1);
+                    word = word.substring(0, 1).toUpperCase() + word.substring(1)
                     list.add(word)
                 }
             } catch (e: JSONException) {
