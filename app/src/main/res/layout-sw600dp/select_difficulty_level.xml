@@ -18,9 +18,8 @@
             android:id="@+id/editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha="0.5"
             android:text="@string/easy_words"
-            android:textColor="@color/colorTextSelection"
+            android:textColor="@color/colorText"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,9 +52,8 @@
             android:id="@+id/editText1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha="0.5"
             android:text="@string/normal_words"
-            android:textColor="@color/colorTextSelection"
+            android:textColor="@color/colorText"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -87,9 +85,8 @@
             android:id="@+id/editText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha="0.5"
             android:text="@string/hard_words"
-            android:textColor="@color/colorTextSelection"
+            android:textColor="@color/colorText"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -125,9 +122,9 @@
             android:layout_weight="1"
             android:buttonTint="@color/colorTextSelection"
             android:checked="true"
-            android:theme="@style/RadioButtonStyle"
             android:gravity="top"
-            android:layoutDirection="rtl" />
+            android:layoutDirection="rtl"
+            android:theme="@style/RadioButtonStyle" />
 
         <RadioButton
             android:id="@+id/radio_normal"
@@ -137,8 +134,8 @@
             android:layout_weight="1"
             android:buttonTint="@color/colorTextSelection"
             android:gravity="top"
-            android:theme="@style/RadioButtonStyle"
-            android:layoutDirection="rtl" />
+            android:layoutDirection="rtl"
+            android:theme="@style/RadioButtonStyle" />
 
         <RadioButton
             android:id="@+id/radio_hard"
@@ -146,10 +143,10 @@
             android:layout_height="50dp"
             android:layout_marginTop="50dp"
             android:layout_weight="1"
-            android:theme="@style/RadioButtonStyle"
             android:buttonTint="@color/colorTextSelection"
             android:gravity="top"
-            android:layoutDirection="rtl" />
+            android:layoutDirection="rtl"
+            android:theme="@style/RadioButtonStyle" />
 
     </RadioGroup>
 
